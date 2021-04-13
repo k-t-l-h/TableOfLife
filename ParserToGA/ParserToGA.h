@@ -1,7 +1,3 @@
-//
-// Created by Иван Чернов on 13.04.2021.
-//
-
 #ifndef TABLEOFLIFE_PARSERTOGA_H
 #define TABLEOFLIFE_PARSERTOGA_H
 
