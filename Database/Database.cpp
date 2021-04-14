@@ -5,6 +5,11 @@
 #include "Database.h"
 
 Database::Database() {}
+
+Database::Database(sql *connect):connection(connect) {}
+
 Database::~Database() {}
-void Database::Insert() {}
+
+void Database::Insert(int id, int **arr) {}
+
 bool Database::Select(const char *options) {}

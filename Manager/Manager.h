@@ -14,7 +14,7 @@ public:
     ~Manager() = default;
 
     void Setup(std::shared_ptr<Queue> &tasq, std::shared_ptr<Queue> &resq);
-    void setBuilder(std::unique_ptr<builder> &builder);
+    void SetBuilder(std::unique_ptr<builder> &builder);
     void WorkCycle();
 
 private:

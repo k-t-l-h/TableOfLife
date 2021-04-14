@@ -6,10 +6,11 @@ class sql;
 class Database {
 public:
     Database();
+    Database(sql *connect);
     ~Database();
 
     bool Select(const char * options);
-    void Insert();
+    void Insert(int id, int **);
 
 private:
     sql *connection;
