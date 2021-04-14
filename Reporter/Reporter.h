@@ -17,6 +17,7 @@ public:
 
     void SetUp(std::shared_ptr<Queue<Result*>> &results, std::unique_ptr<Database> db, std::unique_ptr<ParserGAtoHuman> parser);
     void WorkCycle();
+
     Solution GetSolution(int);
 
 private:

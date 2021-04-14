@@ -6,6 +6,7 @@
 
 class GABuilder;
 class Queue;
+class Result;
 
 class Manager {
 public:
@@ -13,6 +14,7 @@ public:
     ~Manager() = default;
 
     void Setup(std::shared_ptr<Queue> &tasq, std::shared_ptr<Queue> &resq);
+    void setBuilder(std::unique_ptr<builder> &builder);
     void WorkCycle();
 
 private:
@@ -20,7 +22,7 @@ private:
     Manager& operator=() = delete;
     Manager(Manager &a) = delete;
 
-    void setBuilder(std::unique_ptr<builder> &builder);
+    const Result* work(const char* strategy);
 
     std::unique_ptr<GABuilder> builder;
     std::shared_ptr<Queue> tque;                            //t - task

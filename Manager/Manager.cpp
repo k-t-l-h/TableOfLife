@@ -7,3 +7,4 @@ void Manager::WorkCycle() {}
 
 void Manager::setBuilder(int &builder) {}
 
+const Result * Manager::work(const char *strategy) {}
