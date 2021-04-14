@@ -24,7 +24,6 @@ private:
 
     std::shared_ptr<Queue<Result*>> rque;
     std::shared_ptr<Database> db;
-    std::unique_ptr<ParserGAtoHuman> parser;
 };
 
 

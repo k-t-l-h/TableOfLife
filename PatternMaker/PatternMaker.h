@@ -7,6 +7,8 @@ class htmlFile;
 class PatternMaker {
 public:
     htmlFile *GeneratePage();
+    PatternMaker();
+    ~PatternMaker();
 private:
     json *ReadableData;
 };

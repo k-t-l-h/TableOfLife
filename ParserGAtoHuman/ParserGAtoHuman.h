@@ -1,18 +1,21 @@
 #ifndef TABLEOFLIFE_PARSERGATOHUMAN_H
 #define TABLEOFLIFE_PARSERGATOHUMAN_H
 
-
-class Result;
-class Solution;
+class json;
 
 class ParserGAtoHuman {
 public:
-    ParserGAtoHuman();
+    ParserGAtoHuman(int **);
     ~ParserGAtoHuman();
 
-    Solution* GetReadable();
+    json* GetReadable();
 private:
-    Result *unreadable;
+
+    ParserGAtoHuman() = delete;
+    ParserGAtoHuman(const ParserGAtoHuman &a) = delete;
+    ParserGAtoHuman& operator=(const ParserGAtoHuman &a) = delete;
+
+    int **unreadable;
 };
 
 
