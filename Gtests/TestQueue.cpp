@@ -22,7 +22,8 @@ TEST(TEST_QUEUE, pop) {
     mass.push_back(4);
     mass.push_back(89);
     queue.Push(&mass);
-    queue.Pop();
+    std::vector<std::vector<int>> newmass = queue.Pop();
+    ASSERT_EQ(newmass.size(), 1);
     bool isEmpty = queue.Empty();
     ASSERT_EQ(isEmpty, false);
 }
