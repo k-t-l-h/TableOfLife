@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
-#include "Creater/SimpleCreator.h"
-#include "Selector/Selector.h"
+#include "../Creater/SimpleCreator.h"
+#include "Selector.h"
 
 //при передаче nullptr не должно быть ошибок
 TEST(TEST_SELECTION, nullptr_test){

@@ -5,7 +5,7 @@ TEST(TEST_FITNESS, default_value) {
   //приспособленность по дефолту 0
   const std::size_t b_size = 0;
   Genome<b_size> g;
-  ASSERT_EQ(g.GetFitness(), 0);
+  ASSERT_FLOAT_EQ(g.GetFitness(), 0);
 }
 
 TEST(TEST_FITNESS, not_greater_than_one) {
@@ -13,7 +13,7 @@ TEST(TEST_FITNESS, not_greater_than_one) {
   const std::size_t b_size = 0;
   Genome<b_size> g;
   g.SetFitness(2);
-  ASSERT_EQ(g.GetFitness(), 1);
+  ASSERT_FLOAT_EQ(g.GetFitness(), 1);
 }
 
 TEST(TEST_FITNESS, all_good) {
@@ -22,7 +22,7 @@ TEST(TEST_FITNESS, all_good) {
   Genome<b_size> g;
   float fitness = 0.5;
   g.SetFitness(fitness);
-  ASSERT_EQ(g.GetFitness(), fitness);
+  ASSERT_FLOAT_EQ(g.GetFitness(), fitness);
 }
 
 TEST(TEST_GENES, default_value) {

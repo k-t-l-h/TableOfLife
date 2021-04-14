@@ -2,6 +2,7 @@
 #define TABLEOFLIFE_SIMPLEMUTATOR_H
 #include "IMutator.h"
 
+
 template <std::size_t N>
 class SimpleMutator : public IMutator<N> {
 public:
