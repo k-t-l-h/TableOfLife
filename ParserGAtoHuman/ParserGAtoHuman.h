@@ -3,7 +3,6 @@
 
 
 class Result;
-class json;                                     //wrapper
 class Solution;
 
 class ParserGAtoHuman {
@@ -11,8 +10,9 @@ public:
     ParserGAtoHuman();
     ~ParserGAtoHuman();
 
-private:
     Solution* GetReadable();
+private:
+    Result *unreadable;
 };
 
 

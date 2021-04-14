@@ -1,7 +1,7 @@
 #ifndef TABLEOFLIFE_SOLUTION_H
 #define TABLEOFLIFE_SOLUTION_H
 
-class json;
+class json;                             //wrapper
 
 struct Solution{
     int id;
