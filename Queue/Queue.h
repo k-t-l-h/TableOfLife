@@ -7,11 +7,10 @@
 template <typename T>
 class Queue {
 public:
-    Queue() : container(nullptr), size(0), realSize(0) {};
+    int size;
+
+    Queue() : container(nullptr), size(0) {};
     Queue(const Queue&) = delete;
-    ~Queue() {
-        delete[] container;
-    }
 
     std::vector <T> Pop();
 
@@ -19,13 +18,13 @@ public:
 
     bool Empty();
 
+    ~Queue() {
+        delete[] container;
+    }
+
 private:
     std::vector <T> * container;
-    int size;
-    int realSize;
     std::mutex state;
-
-    void resize();
 };
 
 #endif //TABLEOFLIFE_QUEUE_H
