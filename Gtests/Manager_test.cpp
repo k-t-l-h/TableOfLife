@@ -1,8 +1,12 @@
 #include <gtest/gtest.h>
 #include "../Manager/Manager.h"
 
+template<class T>
+class Queue<T>;
+
 class GABuilder;
 class Request;
+
 // обработать задачу из очереди, определить ее тип(стратегию)
 TEST(TEST_WORK, non_empty_queue){
     ASSERT_EQ(1,1);
