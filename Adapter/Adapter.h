@@ -10,7 +10,7 @@ public:
     Adapter(const std::shared_ptr<Database> &t_db);
     ~Adapter();
 
-    int ** GetResult(int) const;
+    const int ** GetResult(int) const;
 
 private:
     Adapter(const Adapter &a) = delete;

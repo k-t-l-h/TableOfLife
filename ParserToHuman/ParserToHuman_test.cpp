@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "ParserGAtoHuman.h"
+#include "ParserToHuman.h"
 
 TEST(TEST_PARSE, data1){
     ASSERT_EQ(1, 1);
