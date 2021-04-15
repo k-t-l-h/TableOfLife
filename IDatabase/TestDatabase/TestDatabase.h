@@ -4,6 +4,7 @@
 #include "../IDatabase.h"
 #include "../../Result/Result.h"
 class Result;
+class sql;
 
 class TestDatabase: public IDatabase {
 public:

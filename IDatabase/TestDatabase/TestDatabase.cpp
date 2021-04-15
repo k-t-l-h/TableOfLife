@@ -1,15 +1,12 @@
-//
-// Created by slava on 15.04.2021.
-//
 
 #include "TestDatabase.h"
 
-int TestDatabase::Database() {}
+int TestDatabase::TestDatabase() {}
 
-int TestDatabase::Database(int *connect) {}
+int TestDatabase::TestDatabase(int *connect) {}
 
 void TestDatabase::Insert(int id, int **) {}
 
-TestDatabase::~IDatabase() noexcept {}
+TestDatabase::~TestDatabase() noexcept {}
 
 int ** TestDatabase::Select(int id) {}
