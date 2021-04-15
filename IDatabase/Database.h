@@ -1,15 +1,16 @@
 #ifndef TABLEOFLIFE_DATABASE_H
 #define TABLEOFLIFE_DATABASE_H
 
+#include "IDarabase.h"
 class sql;
 
-class Database {
+class Database: public IDatabase {
 public:
     Database();
     Database(sql *connect);
     ~Database();
 
-    bool Select(const char * options);
+    int ** Select(int id);
     void Insert(int id, int **);
 
 private:

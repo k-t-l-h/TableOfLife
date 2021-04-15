@@ -3,6 +3,7 @@
 
 #include <memory>
 
+
 class GABuilder;
 class Database;
 class ParserGAtoHuman;
@@ -16,14 +17,16 @@ public:
     ~Reporter();
 
     void SetUp(std::shared_ptr<Queue<Result*>> &results, std::unique_ptr<Database> db);
-    void WorkCycle();
+
+    void WorkCycle(int);
 
 private:
+
     Reporter(const Reporter & a) = delete;
     Reporter& operator=(const Reporter & a) = delete;
 
     std::shared_ptr<Queue<Result*>> rque;
-    std::shared_ptr<Database> db;
+    std::shared_ptr<IDatabase> db;
 };
 
 
