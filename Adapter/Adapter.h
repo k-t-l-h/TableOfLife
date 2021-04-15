@@ -2,12 +2,12 @@
 #define TABLEOFLIFE_ADAPTER_H
 
 #include <memory>
-class Database;
+class IDatabase;
 
 class Adapter {
 public:
     Adapter();
-    Adapter(const std::shared_ptr<IDatabase> &t_db);
+    Adapter(std::shared_ptr<IDatabase> &t_db);
     ~Adapter();
 
     const int ** GetResult(int) const;

@@ -3,3 +3,13 @@
 //
 
 #include "TestDatabase.h"
+
+int TestDatabase::Database() {}
+
+int TestDatabase::Database(int *connect) {}
+
+void TestDatabase::Insert(int id, int **) {}
+
+TestDatabase::~IDatabase() noexcept {}
+
+int ** TestDatabase::Select(int id) {}

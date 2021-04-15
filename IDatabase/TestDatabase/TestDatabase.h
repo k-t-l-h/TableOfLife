@@ -15,7 +15,7 @@ public:
     void Insert(int id, int **);
 
 private:
-    vector<Result*> connection;
+    std::vector<Result*> connection;
 };
 
 

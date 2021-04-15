@@ -8,7 +8,7 @@
 
 class IDatabase {
 public:
-    virtual IDatabase();
+    IDatabase();
     virtual ~IDatabase();
 
     virtual int ** Select(int id);
