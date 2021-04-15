@@ -1,6 +1,6 @@
 #include "ParserToGA.h"
 #include "Queue.h"
-//#include "Request.h"
+#include "Request.h"
 
 void ParserToGA::Work(std::string * dataJson) {
     ParserToGA::setStatus();
@@ -29,18 +29,18 @@ void ParserToGA::makeRequest() {
     *requestReq = req;
 }
 
-bool ParserToGA::validateData(std::string requestStr) {
+bool ParserToGA::validateData(std::string request) {
     return false;
 }
 
-bool ParserToGA::validateField(std::string requestStr) {
+bool ParserToGA::validateField(std::string request) {
     return false;
 }
 
-bool ParserToGA::validateIterations(std::string requestStr) {
+bool ParserToGA::validateIterations(std::string request) {
     return false;
 }
 
-bool ParserToGA::validateStrategy(std::string requestStr) {
+bool ParserToGA::validateStrategy(std::string request) {
     return false;
 }

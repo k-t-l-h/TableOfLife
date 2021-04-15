@@ -9,8 +9,7 @@ class Server {
 public:
     std::string * returnBodyStr;
     std::string * DataJson;
-    uint16_t port;
-    std::string address;
+
     Server() : returnBodyStr(nullptr), DataJson(nullptr), status(true), port(8080) {};
     Server(const Server&) = delete;
 
@@ -22,7 +21,7 @@ public:
 
     int SendJson(int id);
 
-    void responseReporter(int id, std::vector<int>);
+    void responseReporter(int id);
 
     int SendAnswer();
 
@@ -30,6 +29,8 @@ public:
 
 private:
     bool status;
+    uint16_t port;
+    std::string address;
 
     std::string takeBody();
 };
