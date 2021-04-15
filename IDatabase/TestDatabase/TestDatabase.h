@@ -2,7 +2,8 @@
 #define TABLEOFLIFE_TESTDATABASE_H
 #include <vector>
 #include "../IDatabase.h"
-#include <../../Result/Result.h>
+#include "../../Result/Result.h"
+class Result;
 
 class TestDatabase: public IDatabase {
 public:
