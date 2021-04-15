@@ -10,7 +10,6 @@
   g.SetFitness(fitness);
   sm.Simulate(&g);
   ASSERT_FLOAT_EQ(g.GetFitness(), 0);
-  ASSERT_FLOAT_NE(g.GetFitness(), fitness);
  }
 
  //по дефолту функция окончания выставляет true
@@ -68,7 +67,7 @@ TEST(TEST_SELECTION, test_set_up_exit_null) {
 
 
 //с nullptr функция остановки выдает false
-TEST(TEST_SELECTION, test_set_up_exit_null) {
+TEST(TEST_SELECTION, test_set_up_exit_nullptr) {
   const std::size_t N = sizeof(int);
   Simulator<N> sm;
   ASSERT_EQ(sm.Exit(nullptr), false);

@@ -9,7 +9,7 @@ class ReverseMutator : public IMutator<N> {
 public:
   explicit ReverseMutator(float probability) : probability(probability){};
   ~ReverseMutator() = default;
-  Genome<N>* ReverseMutator(Genome<N>*) override;
+  Genome<N>* Mutate(Genome<N>*) override;
 
 private:
   float probability;

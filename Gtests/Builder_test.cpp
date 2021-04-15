@@ -20,7 +20,7 @@
 TEST(TEST_BUILDER, create) {
   const std::size_t N = sizeof(int);
   Builder<N> builder;
-  auto result = builder.GetResut();
+  auto result = builder.GetResult();
   ASSERT_NE(result, nullptr);
 }
 
@@ -28,7 +28,7 @@ TEST(TEST_BUILDER, create) {
 TEST(TEST_BUILDER, reset_test) {
   const std::size_t N = sizeof(int);
   Builder<N> builder;
-  auto result = builder.GetResut();
+  auto result = builder.GetResult();
   builder.Reset();
   auto result2 = builder.GetResult();
   ASSERT_NE(result, result2);
