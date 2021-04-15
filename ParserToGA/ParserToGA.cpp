@@ -2,8 +2,9 @@
 #include "Queue.h"
 //#include "Request.h"
 
-void ParserToGA::Work(std::string *dataJson) {
+void ParserToGA::Work(std::string * dataJson) {
     ParserToGA::setStatus();
+    requestStr = *dataJson;
 
     ParserToGA::makeRequest();
     ParserToGA::validateData(requestStr);

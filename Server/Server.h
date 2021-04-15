@@ -22,7 +22,7 @@ public:
 
     int SendJson(int id);
 
-    void responseReporter(int id);
+    void responseReporter(int id, std::vector<int>);
 
     int SendAnswer();
 

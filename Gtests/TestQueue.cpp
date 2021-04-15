@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
-#include "Queue.h"
+#include <vector>
+#include "../Queue/Queue.h"
 
 TEST(TEST_QUEUE, is_empty) {
     Queue<int> queue;

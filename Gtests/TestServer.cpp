@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
-#include "Server.h"
-#include "ParserToGA.h"
+#include "../Server/Server.cpp"
+#include "../ParserToGA/ParserToGA.cpp"
 #include <iostream>
 
 TEST(TEST_SERVER, test_set_up) {

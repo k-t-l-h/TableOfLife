@@ -1,5 +1,5 @@
 #include "Server.h"
-#include "ParserToGA.h"
+#include "../ParserToGA/ParserToGA.cpp"
 #include <iostream>
 
 int Server::SetUp() {
@@ -30,7 +30,8 @@ std::string Server::takeBody() {
 }
 
 int Server::SendAnswer() {
-    DataJson = Server::takeBody();
-    ParserToGA::Work(DataJson);
+    *DataJson = Server::takeBody();
+    ParserToGA parser;
+    parser.Work(DataJson);
     return 0;
 }
