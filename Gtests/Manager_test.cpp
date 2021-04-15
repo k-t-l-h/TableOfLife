@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "Manager.h"
+#include "../Manager/Manager.h"
 
 class GABuilder;
 class Request;

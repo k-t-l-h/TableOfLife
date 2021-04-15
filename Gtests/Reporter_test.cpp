@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "Reporter.h"
+#include "../Reporter/Reporter.h"
 
 #include <vector>
 #include <memory>

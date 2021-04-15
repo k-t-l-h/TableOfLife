@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "ParserToHuman.h"
+#include "../ParserToHuman/ParserToHuman.h"
 #include <string>
 
 

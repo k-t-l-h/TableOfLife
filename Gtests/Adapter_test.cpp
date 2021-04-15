@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <memory>
 
-#include "Adapter.h"
+#include "../Adapter/Adapter.h"
 #include "../Result/Result.h"
 #include "../IDatabase/TestDatabase/TestDatabase.h"
 
