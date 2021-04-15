@@ -1,7 +1,9 @@
 #include "Server.h"
+#include "ParserToGA.h"
 #include <iostream>
 
 int Server::SetUp() {
+    Server::Run();
     return 0;
 }
 
@@ -18,7 +20,7 @@ int Server::SendJson(int id) {
 }
 
 
-void Server::responseReporter(int id) {
+void Server::responseReporter(int id, std::vector<int>) {
     Server::SendJson(id);
 }
 
@@ -27,7 +29,8 @@ std::string Server::takeBody() {
     return *returnBodyStr;
 }
 
-void Server::SendAnswer() {
-    *DataJson = Server::takeBody()
-    ParseToGA::Work(DataJson);
+int Server::SendAnswer() {
+    DataJson = Server::takeBody();
+    ParserToGA::Work(DataJson);
+    return 0;
 }

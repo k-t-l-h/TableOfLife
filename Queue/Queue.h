@@ -14,7 +14,7 @@ public:
 
     std::vector <T> Pop();
 
-    void Push(T * Queue);
+    static void Push(T * Queue);
 
     bool Empty();
 
