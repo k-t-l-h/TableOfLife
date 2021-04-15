@@ -7,9 +7,9 @@ class Result;
 
 class TestDatabase: public IDatabase {
 public:
-    Database();
-    Database(sql *connect);
-    ~Database();
+    TestDatabase();
+    TestDatabase(sql *connect);
+    ~TestDatabase();
 
     int ** Select(int id);
     void Insert(int id, int **);
