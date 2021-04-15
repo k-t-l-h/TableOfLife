@@ -20,23 +20,20 @@ class Simulator: public ISimulator<N> {
     bool (*ExitF)(Genome<N>*);
 };
 
-template< std::size_t N >
-bool Simulator<N>::Exit(Genome<N>* g){
+template< std::size_t N> bool Simulator<N>::Exit(Genome<N>* g){
   return ExitF(g);
 }
-template <std::size_t N>
-void Simulator<N>::Simulate(Genome<N> *g){
+template <std::size_t N> void Simulator<N>::Simulate(Genome<N> *g){
   RuleF(g);
 }
-template <std::size_t N>
-void Simulator<N>::SetRule(void (*Rule)(Genome<N> *)){
+
+template <std::size_t N> void Simulator<N>::SetRule(void (*Rule)(Genome<N> *)){
   RuleF = Rule;
 }
-template <std::size_t N>
-void Simulator<N>::SetExit(bool (*Exit)(Genome<N> *)){
-    ExitF = Exit;
 
-};
+template <std::size_t N> void Simulator<N>::SetExit(bool (*Exit)(Genome<N> *)){
+    ExitF = Exit;
+}
 
 
 

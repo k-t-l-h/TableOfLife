@@ -94,5 +94,5 @@ TEST(TEST_GENE, get_correct_g) {
     size_t value = 5;
     Genome<b_size> g(max);
     g.SetGene(0, value);
-    ASSERT_EQ(g.GetGenes(0), value);
+    ASSERT_EQ(g.GetGene(0), value);
 }

@@ -32,7 +32,7 @@ TEST(TEST_MUTATOR, zero2) {
   Genome<N> g(1);
   auto answer = sm.Mutate(&g);
   ASSERT_NE(answer, nullptr);
-  ASSERT_EQ(answer.GetGene(0), g.GetGene(0));
+  ASSERT_EQ(answer->GetGene(0), g.GetGene(0));
 }
 
 TEST(TEST_MUTATOR, zero2_random) {
@@ -44,7 +44,7 @@ TEST(TEST_MUTATOR, zero2_random) {
   Genome<N> g(1);
   auto answer = rm.Mutate(&g);
   ASSERT_NE(answer, nullptr);
-  ASSERT_EQ(answer.GetGene(0), g.GetGene(0));
+  ASSERT_EQ(answer->GetGene(0), g.GetGene(0));
 }
 
 

@@ -17,6 +17,7 @@
 
 #include "../Simulator/Simulator.h"
 //по дефолту создается ГА
+
 TEST(TEST_BUILDER, create) {
   const std::size_t N = sizeof(int);
   Builder<N> builder;
@@ -46,7 +47,7 @@ TEST(TEST_BUILDER, set_up_creator) {
   const std::size_t N = sizeof(int);
   Builder<N> builder;
   builder.SetCreator();
-  SimpleCreator<N> m(0);
+  SimpleCreator<N> m;
   auto res = builder.GetResult();
   ASSERT_NE(res->Creator, nullptr);
   ASSERT_EQ(typeid(*(res->Creator)) == typeid(m), true);
@@ -56,7 +57,7 @@ TEST(TEST_BUILDER, set_up_random_creator) {
   const std::size_t N = sizeof(int);
   Builder<N> builder;
   builder.SetCreator();
-  RandomCreator<N> m(0);
+  RandomCreator<N> m;
   auto res = builder.GetResult();
   ASSERT_NE(res->Creator, nullptr);
   ASSERT_EQ(typeid(*(res->Creator)) == typeid(m), true);
@@ -130,7 +131,7 @@ TEST(TEST_BUILDER, set_up_select) {
   const std::size_t N = sizeof(int);
   Builder<N> builder;
   builder.SetSelection();
-  Selector<N> m(0);
+  Selector<N> m;
   auto res = builder.GetResult();
   ASSERT_NE(res->Selector, nullptr);
   ASSERT_EQ(typeid(*(res->Selector)) == typeid(m), true);
@@ -140,7 +141,7 @@ TEST(TEST_BUILDER, set_up_top_select) {
   const std::size_t N = sizeof(int);
   Builder<N> builder;
   builder.SetTopSelection();
-  TopSelector<N> m(0);
+  TopSelector<N> m;
   auto res = builder.GetResult();
   ASSERT_NE(res->Selector, nullptr);
   ASSERT_EQ(typeid(*(res->Selector)) == typeid(m), true);
@@ -157,7 +158,7 @@ TEST(TEST_BUILDER, set_up_sim_default) {
 TEST(TEST_BUILDER, set_up_sim) {
   const std::size_t N = sizeof(int);
   Builder<N> builder;
-  Simulator<N> sm = {};
+  Simulator<N> sm;
   builder.SetSimulator();
   auto res = builder.GetResult();
   ASSERT_NE(res->Simulator, nullptr);
