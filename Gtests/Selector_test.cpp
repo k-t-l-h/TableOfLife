@@ -1,7 +1,8 @@
 #include <gtest/gtest.h>
+
 #include "../Creater/SimpleCreator.h"
-#include "Selector.h"
-#include "TopSelector.h"
+#include "../Selector/Selector.h"
+#include "../Selector/TopSelector.h"
 
 //при передаче nullptr не должно быть ошибок
 TEST(TEST_SELECTION, nullptr_test){
@@ -128,10 +129,4 @@ TEST(TEST_SELECTION, all_test_top){
   auto g = s.Select(&v);
   ASSERT_EQ(g, eq);
   ASSERT_EQ(v.size(), 1);
-}
-
-
-int main(int argc, char** argv) {
-  ::testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
 }

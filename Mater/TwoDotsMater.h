@@ -1,6 +1,8 @@
 #ifndef TABLEOFLIFE_TWODOTSMATER_H
 #define TABLEOFLIFE_TWODOTSMATER_H
 
+#include "IMater.h"
+
 template< std::size_t N >
 class TwoPointsMater: public IMater<N> {
 public:

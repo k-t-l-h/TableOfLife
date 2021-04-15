@@ -1,8 +1,9 @@
 #ifndef TABLEOFLIFE_ISELECTOR_H
 #define TABLEOFLIFE_ISELECTOR_H
 
-#include "../Genome/Genome.h"
 #include <vector>
+#include "../Genome/Genome.h"
+
 
 template< std::size_t N >
 class ISelector{

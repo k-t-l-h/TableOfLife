@@ -1,8 +1,10 @@
 #include <gtest/gtest.h>
 #include <typeinfo>
-#include "Builder.h"
-#include "../Creator/SimpleCreator.h"
+
+
 #include "../Creator/RandomCreator.h"
+#include "../Creator/SimpleCreator.h"
+#include "../GABuilder/Builder.h"
 
 #include "../Mutator/ReverseMutator.h"
 #include "../Mutator/SimpleMutator.h"
@@ -162,8 +164,3 @@ TEST(TEST_BUILDER, set_up_sim) {
   ASSERT_EQ(typeid(*(res->Simulator)) == typeid(sm), true);
 }
 
-
-int main(int argc, char** argv) {
-  ::testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
-}

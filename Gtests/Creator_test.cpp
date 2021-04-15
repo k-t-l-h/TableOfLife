@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
-#include "SimpleCreator.h"
-#include "RandomCreator.h"
+
+#include "../Creator/RandomCreator.h"
+#include "../Creator/SimpleCreator.h"
 
 TEST(TEST_CREATOR, size_test) {
   //создает нужное количество особей
@@ -44,7 +45,7 @@ TEST(TEST_CREATOR, diff_test) {
   ASSERT_NE(v[0]->GetGene(0),v[1]->GetGene(0));
 }
 
-TEST(TEST_RANDOM_CREATOR, size_test) {
+TEST(TEST_RANDOM_CREATOR, size_test_r) {
   //создает нужное количество особей
   const std::size_t N = sizeof(int);
   std::size_t check = 5;
@@ -53,7 +54,7 @@ TEST(TEST_RANDOM_CREATOR, size_test) {
   ASSERT_EQ(v.size(), check);
 }
 
-TEST(TEST_RANDOM_CREATOR, nullptr_check) {
+TEST(TEST_RANDOM_CREATOR, nullptr_check_r) {
   //особи не пустые
   const std::size_t N = sizeof(int);
   std::size_t check = 10;
@@ -64,7 +65,7 @@ TEST(TEST_RANDOM_CREATOR, nullptr_check) {
   }
 }
 
-TEST(TEST_RANDOM_CREATOR, size_test_neg) {
+TEST(TEST_RANDOM_CREATOR, size_test_neg_r) {
   //создает нулевое количество особей в случае чего
   const std::size_t N = sizeof(int);
   std::size_t check = -1;
@@ -73,7 +74,3 @@ TEST(TEST_RANDOM_CREATOR, size_test_neg) {
   ASSERT_EQ(v.size(), 0);
 }
 
-int main(int argc, char** argv) {
-  ::testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
-}

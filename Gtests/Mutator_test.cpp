@@ -71,8 +71,3 @@ TEST(TEST_MUTATOR, for_sure_random) {
   auto answer = rm.Mutate(&g);
   ASSERT_NE(answer->GetGene(0), value);
 }
-
-int main(int argc, char** argv) {
-  ::testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
-}

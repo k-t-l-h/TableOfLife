@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
-#include "Genome.h"
+#include "../Genome/Genome.h"
+
 
 TEST(TEST_FITNESS, default_value) {
   //приспособленность по дефолту 0
@@ -25,7 +26,7 @@ TEST(TEST_FITNESS, all_good) {
   ASSERT_FLOAT_EQ(g.GetFitness(), fitness);
 }
 
-TEST(TEST_GENES, default_value) {
+TEST(TEST_GENES, default_value_g) {
   //дефолтный массив равен по длине максимальному размеру
   const std::size_t b_size = 0;
   Genome<b_size> g(b_size);
@@ -33,7 +34,7 @@ TEST(TEST_GENES, default_value) {
   ASSERT_EQ(v.size(), b_size);
 }
 
-TEST(TEST_GENES, default_value_2) {
+TEST(TEST_GENES, default_value_2_g) {
   //дефолтное значение гена - 0
   const std::size_t b_size = 1;
   Genome<b_size> g(b_size);
@@ -43,7 +44,7 @@ TEST(TEST_GENES, default_value_2) {
   }
 }
 
-TEST(TEST_GENES, test_size) {
+TEST(TEST_GENES, test_size_g) {
   //размер не должен превышать заданный при инициализации
   const std::size_t b_size = 0;
   Genome<b_size> g(b_size);
@@ -56,14 +57,14 @@ TEST(TEST_GENES, test_size) {
   ASSERT_NE(v_get.size(), v_set.size());
 }
 
-TEST(TEST_GENES, all_good) {
+TEST(TEST_GENES, all_good_g) {
   //хороший пример
   const std::size_t b_size = sizeof(int);
   const std::size_t max = 10;
   Genome<b_size> g(max);
 
   std::vector<std::bitset<b_size>> v = {};
-  for (int i = 0; i < max; ++i) {
+  for (size_t i = 0; i < max; ++i) {
     v.push_back(i);
   }
   g.SetGenes(v);
@@ -75,28 +76,23 @@ TEST(TEST_GENES, all_good) {
   }
 }
 
-TEST(TEST_GENE, set_correct) {
+TEST(TEST_GENE, set_correct_g) {
   //проверка того, что один ген устанавливается правильно
   const std::size_t b_size = sizeof(int);
   const std::size_t max = 1;
-  int value = 5;
+  size_t value = 5;
   Genome<b_size> g(max);
   g.SetGene(0, value);
   auto v = g.GetGenes();
-  ASSERT_EQ(static_cast<int>(v[0].to_ulong()), value);
+  ASSERT_EQ(v[0].to_ulong(), value);
 }
 
-TEST(TEST_GENE, get_correct) {
+TEST(TEST_GENE, get_correct_g) {
     //проверка того, что один ген возвращается правильно
     const std::size_t b_size = sizeof(int);
     const std::size_t max = 1;
-    int value = 5;
+    size_t value = 5;
     Genome<b_size> g(max);
     g.SetGene(0, value);
     ASSERT_EQ(g.GetGenes(0). value);
-}
-
-int main(int argc, char** argv) {
-  ::testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
 }

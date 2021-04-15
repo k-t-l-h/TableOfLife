@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
-#include "SimpleMater.h"
-#include "TwoDotsMater.h"
+
+#include "../Mater/SimpleMater.h"
+#include "../Mater/TwoDotsMater.h"
+
 
 TEST(TEST_MATER, all_nullptr){
   const std::size_t N = sizeof(int);
@@ -128,10 +130,4 @@ TEST(TEST_MATER, for_sure_2){
   ASSERT_EQ(second->GetGene(1), g.GetGene(0));
   ASSERT_EQ(second->GetGene(2), g2.GetGene(2));
 
-}
-
-
-int main(int argc, char** argv) {
-  ::testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
 }

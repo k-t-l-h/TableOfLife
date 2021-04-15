@@ -1,5 +1,6 @@
 #ifndef TABLEOFLIFE_IMUTATOR_H
 #define TABLEOFLIFE_IMUTATOR_H
+
 #include "../Genome/Genome.h"
 
 template< std::size_t N >

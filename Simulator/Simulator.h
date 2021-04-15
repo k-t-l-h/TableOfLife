@@ -1,7 +1,6 @@
 #ifndef TABLEOFLIFE_SIMULATOR_H
 #define TABLEOFLIFE_SIMULATOR_H
 
-
 #include "ISimulator.h"
 
 //класс симулятор просто берет один геном и считает для него новую

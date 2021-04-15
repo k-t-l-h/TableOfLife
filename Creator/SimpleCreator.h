@@ -1,5 +1,6 @@
 #ifndef TABLEOFLIFE_SIMPLECREATOR_H
 #define TABLEOFLIFE_SIMPLECREATOR_H
+
 #include "ICreator.h"
 #include "../Genome/Genome.h"
 

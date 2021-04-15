@@ -19,9 +19,9 @@ public:
   void SetFitness(float fitness); //установление
   float GetFitness();
   void SetGenes(std::vector< std::bitset<N>>);
-  void SetGene(size_t, int);
+  void SetGene(size_t, size_t);
   std::vector< std::bitset<N>> GetGenes();
-  int GetGene(size_t);
+  size_t GetGene(size_t);
 private:
   //N это число-количество вариантов занятий
   std::vector< std::bitset<N>> genes;
@@ -39,7 +39,7 @@ template <std::size_t N> void Genome<N>::SetGenes(std::vector<std::bitset<N>>) {
 template <std::size_t N> std::vector<std::bitset<N>> Genome<N>::GetGenes() {
   return genes;
 }
-template <std::size_t N> void Genome<N>::SetGene(size_t, int) {}
-template <std::size_t N> int Genome<N>::GetGene(size_t) { return 0; }
+template <std::size_t N> void Genome<N>::SetGene(size_t, size_t) {}
+template <std::size_t N> size_t Genome<N>::GetGene(size_t) { return 0; }
 
 #endif // TABLEOFLIFE_GENOME_H

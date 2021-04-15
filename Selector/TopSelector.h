@@ -1,6 +1,8 @@
 #ifndef TABLEOFLIFE_TOPSELECTOR_H
 #define TABLEOFLIFE_TOPSELECTOR_H
 
+#include "ISelector.h"
+
 template< std::size_t N >
 class TopSelector: public ISelector<N> {
 public:

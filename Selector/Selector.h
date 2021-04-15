@@ -2,7 +2,6 @@
 #define TABLEOFLIFE_SELECTOR_H
 
 #include "ISelector.h"
-#include "../Genome/Genome.h"
 
 template< std::size_t N >
 class Selector: public ISelector<N> {

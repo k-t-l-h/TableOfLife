@@ -1,5 +1,6 @@
 #ifndef TABLEOFLIFE_BUILDER_H
 #define TABLEOFLIFE_BUILDER_H
+
 #include "../Creator/ICreator.h"
 #include "../GenAlgo/GA.h"
 #include "../Mater/IMater.h"

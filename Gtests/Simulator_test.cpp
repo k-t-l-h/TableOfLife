@@ -1,8 +1,7 @@
 #include <gtest/gtest.h>
-#include "Simulator.h"
+#include "../Simulator/Simulator.h"
 
-
- //по дефолту функция приспособленности выставляет 0
+//по дефолту функция приспособленности выставляет 0
   TEST(TEST_SELECTION, test_constructor_simulate){
   const std::size_t N = sizeof(int);
   float fitness = 1;
@@ -72,10 +71,6 @@ TEST(TEST_SELECTION, test_set_up_exit_null) {
 TEST(TEST_SELECTION, test_set_up_exit_null) {
   const std::size_t N = sizeof(int);
   Simulator<N> sm;
-  ASSERT_EQ(sm.Exit(nullptr, false);
+  ASSERT_EQ(sm.Exit(nullptr), false);
 }
 
-int main(int argc, char** argv) {
-  ::testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
-}
