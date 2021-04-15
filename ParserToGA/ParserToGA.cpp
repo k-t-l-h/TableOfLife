@@ -2,15 +2,15 @@
 #include "../Queue/Queue.h"
 
 
-void ParserToGA::setStatus() {
+void ParserToGA::SetStatus() {
     *workStatus = false;
 }
 
-void ParserToGA::pushRequest() {
+void ParserToGA::PushRequest() {
     Queue<Request>::Push(requestReq);
 }
 
-void ParserToGA::makeRequest() {
+void ParserToGA::MakeRequest() {
     Request req;
     *requestReq = req;
 }
@@ -32,15 +32,15 @@ bool ParserToGA::validateStrategy(std::string request) {
 }
 
 void ParserToGA::WorkCycle(std::string * dataJson) {
-    ParserToGA::setStatus();
+    ParserToGA::SetStatus();
     requestStr = *dataJson;
 
-    ParserToGA::makeRequest();
+    ParserToGA::MakeRequest();
     ParserToGA::validateData(requestStr);
     ParserToGA::validateField(requestStr);
     ParserToGA::validateIterations(requestStr);
     ParserToGA::validateStrategy(requestStr);
-    ParserToGA::pushRequest();
+    ParserToGA::PushRequest();
 
-    ParserToGA::setStatus();
+    ParserToGA::SetStatus();
 }

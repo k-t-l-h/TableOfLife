@@ -4,7 +4,7 @@
 #ifndef TABLEOFLIFE_QUEUE_H
 #define TABLEOFLIFE_QUEUE_H
 
-template <typename T>
+template<typename T>
 class Queue {
 public:
     int size;

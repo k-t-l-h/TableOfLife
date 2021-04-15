@@ -5,7 +5,7 @@
 
 TEST(TEST_PARSERTOGA, test_set_status) {
     ParserToGA parse;
-    parse.setStatus();
+    parse.SetStatus();
     ASSERT_EQ((bool)parse.workStatus, true);
 }
 

@@ -12,11 +12,11 @@ public:
 
     void WorkCycle(std::string * dataJson);
 
-    void setStatus();
+    void SetStatus();
 
-    void pushRequest();
+    void PushRequest();
 
-    void makeRequest();
+    void MakeRequest();
 
     ~ParserToGA() = default;
 
@@ -24,13 +24,13 @@ private:
     Request * requestReq;
     std::string requestStr;
 
-    bool validateData(std::string request);
+    bool validateData(std::string requestStr);
 
-    bool validateField(std::string request);
+    bool validateField(std::string requestStr);
 
-    bool validateIterations(std::string request);
+    bool validateIterations(std::string requestStr);
 
-    bool validateStrategy(std::string request);
+    bool validateStrategy(std::string requestStr);
 };
 
 #endif //TABLEOFLIFE_PARSERTOGA_H

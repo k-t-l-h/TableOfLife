@@ -10,7 +10,7 @@ public:
     std::string * returnBodyStr;
     std::string * DataJson;
 
-    Server() : returnBodyStr(nullptr), DataJson(nullptr), status(true), port(8080) {};
+    Server() : returnBodyStr(nullptr), DataJson(nullptr), status(true), port(8080), address("127.0.0.1") {};
     Server(const Server&) = delete;
 
     int SetUp();
