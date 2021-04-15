@@ -8,8 +8,8 @@
 
 class IDatabase {
 public:
-    virtual Database();
-    virtual ~Database();
+    virtual IDatabase();
+    virtual ~IDatabase();
 
     virtual int ** Select(int id);
     virtual void Insert(int id, int **);

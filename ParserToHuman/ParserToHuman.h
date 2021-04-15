@@ -5,10 +5,10 @@ class json;
 
 class ParserToHuman {
 public:
-    ParserToHuman();
-    ~ParserToHuman();
+    ParserToHuman() = default;
+    ~ParserToHuman() = default;
 
-    std::string GetReadable(int **);
+    std::string& GetReadable(int **);
 private:
 
     ParserToHuman() = delete;

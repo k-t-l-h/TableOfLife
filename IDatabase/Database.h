@@ -1,7 +1,7 @@
 #ifndef TABLEOFLIFE_DATABASE_H
 #define TABLEOFLIFE_DATABASE_H
 
-#include "IDarabase.h"
+#include "IDatabase.h"
 class sql;
 
 class Database: public IDatabase {
