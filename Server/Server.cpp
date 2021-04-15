@@ -38,7 +38,7 @@ std::string Server::takeBody() {
 
 int Server::SendAnswer() {
     *DataJson = Server::takeBody();
-    ParserToGA parser;
+//    ParserToGA<int> parser;
 //    parser.Work(DataJson);
     return 0;
 }

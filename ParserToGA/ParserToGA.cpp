@@ -2,36 +2,36 @@
 #include "../Queue/Queue.h"
 
 
-void ParserToGA::SetStatus() {
-    *workStatus = false;
+template <typename T> void ParserToGA<T>::SetStatus() {
+    workStatus = false;
 }
 
-void ParserToGA::PushRequest() {
-    Queue<Request>::Push(requestReq);
+template <typename T> void ParserToGA<T>::PushRequest() {
+    que->Push(requestReq);
 }
 
-void ParserToGA::MakeRequest() {
+template <typename T> void ParserToGA<T>::MakeRequest() {
     Request req;
-    *requestReq = req;
+    requestReq = &req;
 }
 
-bool ParserToGA::validateData(std::string request) {
+template <typename T> bool ParserToGA<T>::validateData(std::string request) {
     return false;
 }
 
-bool ParserToGA::validateField(std::string request) {
+template <typename T> bool ParserToGA<T>::validateField(std::string request) {
     return false;
 }
 
-bool ParserToGA::validateIterations(std::string request) {
+template <typename T> bool ParserToGA<T>::validateIterations(std::string request) {
     return false;
 }
 
-bool ParserToGA::validateStrategy(std::string request) {
+template <typename T> bool ParserToGA<T>::validateStrategy(std::string request) {
     return false;
 }
 
-void ParserToGA::WorkCycle(std::string * dataJson) {
+template <typename T> void ParserToGA<T>::WorkCycle(std::string * dataJson) {
     ParserToGA::SetStatus();
     requestStr = *dataJson;
 

@@ -12,6 +12,7 @@ public:
 
     Server() : returnBodyStr(nullptr), DataJson(nullptr), status(true), port(8080), address("127.0.0.1") {};
     Server(const Server&) = delete;
+    ~Server() = default;
 
     int SetUp();
 
@@ -24,8 +25,6 @@ public:
     void responseReporter(int id);
 
     int SendAnswer();
-
-    ~Server() = default;
 
 private:
     bool status;

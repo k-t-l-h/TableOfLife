@@ -10,17 +10,19 @@ public:
     int size;
 
     Queue() : container(nullptr), size(0) {};
-    Queue(const Queue&) = delete;
+    Queue(const Queue& q){
+        container = q.container;
+        size = q.size;
+    };
+    ~Queue() {
+        delete[] container;
+    }
 
     std::vector <T> Pop();
 
     static void Push(T * Queue);
 
     bool Empty();
-
-    ~Queue() {
-        delete[] container;
-    }
 
 private:
     std::vector <T> * container;

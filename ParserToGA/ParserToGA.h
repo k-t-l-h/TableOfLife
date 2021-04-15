@@ -1,14 +1,16 @@
 #include <iostream>
 #include "../Request/Request.h"
+#include "../Queue/Queue.h"
 
 #ifndef TABLEOFLIFE_PARSERTOGA_H
 #define TABLEOFLIFE_PARSERTOGA_H
 
+template <typename T>
 class ParserToGA {
 public:
-    bool * workStatus;
-    ParserToGA() : workStatus(nullptr), requestReq(nullptr) {};
+    ParserToGA(Queue<T> que) : workStatus(true), requestReq(nullptr), que(que) {};
     ParserToGA(const ParserToGA&) = delete;
+    ~ParserToGA() = default;
 
     void WorkCycle(std::string * dataJson);
 
@@ -18,11 +20,13 @@ public:
 
     void MakeRequest();
 
-    ~ParserToGA() = default;
+
+    bool workStatus;
 
 private:
     Request * requestReq;
     std::string requestStr;
+    Queue<T> que;
 
     bool validateData(std::string requestStr);
 
