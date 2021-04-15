@@ -1,8 +1,9 @@
 #ifndef TABLEOFLIFE_GENOME_H
 #define TABLEOFLIFE_GENOME_H
 
-#include <vector>
 #include <bitset>
+#include <mutex>
+#include <vector>
 
 template< std::size_t N >
 class Genome {
@@ -27,6 +28,7 @@ private:
   std::vector< std::bitset<N>> genes;
   float fitness;
   std::size_t size;
+  std::mutex Safety;
 };
 
 template <std::size_t N> void Genome<N>::SetFitness(float fitness) {}

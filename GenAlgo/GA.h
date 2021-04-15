@@ -1,14 +1,15 @@
 #ifndef TABLEOFLIFE_GA_H
 #define TABLEOFLIFE_GA_H
 
+#include <mutex>
 #include <vector>
 
+#include "../Creator/ICreator.h"
 #include "../Genome/Genome.h"
+#include "../Mater/IMater.h"
+#include "../Mutator/IMutator.h"
 #include "../Selector/ISelector.h"
 #include "../Simulator/ISimulator.h"
-#include "../Mutator/IMutator.h"
-#include "../Mater/IMater.h"
-#include "../Creator/ICreator.h"
 
 template< std::size_t N >
 class GenAlgo {
@@ -18,7 +19,6 @@ public:
   void Run();
   std::vector<int> GetBest();
 
-  Genome<N>* best;
   ICreator<N>* Creator;
   ISelector<N>* Selector;
   IMater<N>* Mater;
@@ -29,6 +29,8 @@ private:
   std::vector<Genome<N>*> population;
   size_t populationSize;
   float totalFitness;
+  std::mutex Safety;
+  Genome<N>* best;
 
 };
 
