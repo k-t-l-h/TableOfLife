@@ -1,15 +1,16 @@
 #include <iostream>
-#include <Request.h>
+#include "../Request/Request.h"
 
 #ifndef TABLEOFLIFE_PARSERTOGA_H
 #define TABLEOFLIFE_PARSERTOGA_H
 
 class ParserToGA {
 public:
+    bool * workStatus;
     ParserToGA() : workStatus(nullptr), requestReq(nullptr) {};
     ParserToGA(const ParserToGA&) = delete;
 
-    void Work(std::string * dataJson);
+    void WorkCycle(std::string * dataJson);
 
     void setStatus();
 
@@ -20,7 +21,6 @@ public:
     ~ParserToGA() = default;
 
 private:
-    bool * workStatus;
     Request * requestReq;
     std::string requestStr;
 

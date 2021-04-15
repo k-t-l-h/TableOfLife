@@ -1,20 +1,19 @@
 #include <gtest/gtest.h>
-#include "ParserToGA.h"
-#include "Queue.h"
-#include "Request.h"
+#include "../ParserToGA/ParserToGA.h"
+#include "../Queue/Queue.h"
+
 
 TEST(TEST_PARSERTOGA, test_set_status) {
     ParserToGA parse;
-    int start = parse.setStatus();
-
-    ASSERT_EQ(start, 0);
+    parse.setStatus();
+    ASSERT_EQ((bool)parse.workStatus, true);
 }
 
 TEST(TEST_PARSERTOGA, test_work_validation_all) {
     ParserToGA parse;
     std::string str = "{\"id\": 34, \"field\": 0, \"iterations\": \"12:30\", \"strategy\" : \"sriiiing\", "
-                      "\"data\" : { \"profession\": \"mechanic\", \"profession\": \"mechanic\"}}"
-    parse.Work(str);
+                      "\"data\" : { \"profession\": \"mechanic\", \"profession\": \"mechanic\"}}";
+    parse.WorkCycle(&str);
     Queue<Request> queue;
     ASSERT_EQ(queue.Empty(), false);
 }
@@ -22,8 +21,8 @@ TEST(TEST_PARSERTOGA, test_work_validation_all) {
 TEST(TEST_PARSERTOGA, test_work_validation_data) {
     ParserToGA parse;
     std::string str = "{\"id\": 34, \"field\": 0, \"iterations\": \"12:30\", \"strategy\" : \"sriiiing\", "
-                        "\"data\" : { ion\": \"mechanic\", \"profession\": \"mechanic\"}}"
-    parse.Work(str);
+                        "\"data\" : { ion\": \"mechanic\", \"profession\": \"mechanic\"}}";
+    parse.WorkCycle(&str);
     Queue<Request> queue;
     ASSERT_EQ(queue.Empty(), true);
 }
@@ -31,8 +30,8 @@ TEST(TEST_PARSERTOGA, test_work_validation_data) {
 TEST(TEST_PARSERTOGA, test_work_validation_field) {
     ParserToGA parse;
     std::string str = "{\"id\": 34, \"field\": text, \"iterations\": \"12:30\", \"strategy\" : \"sriiiing\", "
-                      "\"data\" : { \"profession\": \"mechanic\", \"profession\": \"mechanic\"}}"
-    parse.Work(str);
+                      "\"data\" : { \"profession\": \"mechanic\", \"profession\": \"mechanic\"}}";
+    parse.WorkCycle(&str);
     Queue<Request> queue;
     ASSERT_EQ(queue.Empty(), true);
 }
@@ -40,8 +39,8 @@ TEST(TEST_PARSERTOGA, test_work_validation_field) {
 TEST(TEST_PARSERTOGA, test_work_validation_iterations) {
     ParserToGA parse;
     std::string str = "{\"id\": 34, \"field\": 0, \"iterations\": \"ceewwwef0\", \"strategy\" : \"sriiiing\", "
-                      "\"data\" : { \"profession\": \"mechanic\", \"profession\": \"mechanic\"}}"
-    parse.Work(str);
+                      "\"data\" : { \"profession\": \"mechanic\", \"profession\": \"mechanic\"}}";
+    parse.WorkCycle(&str);
     Queue<Request> queue;
     ASSERT_EQ(queue.Empty(), true);
 }
@@ -49,17 +48,8 @@ TEST(TEST_PARSERTOGA, test_work_validation_iterations) {
 TEST(TEST_PARSERTOGA, test_work_validation_strategy) {
     ParserToGA parse;
     std::string str = "{\"id\": 34, \"field\": 0, \"iterations\": \"12:30\", \"strategy\" : \"\", "
-                      "\"data\" : { \"profession\": \"mechanic\", \"profession\": \"mechanic\"}}"
-    parse.Work(str);
-    Queue<Request> queue;
-    ASSERT_EQ(queue.Empty(), true);
-}
-
-TEST(TEST_PARSERTOGA, test_work_validation_strategy) {
-    ParserToGA parse;
-    std::string str = "{\"id\": 34, \"field\": 0, \"iterations\": \"12:30\", \"strategy\" : \"\", "
-                      "\"data\" : { \"profession\": \"mechanic\", \"profession\": \"mechanic\"}}"
-    parse.Work(str);
+                      "\"data\" : { \"profession\": \"mechanic\", \"profession\": \"mechanic\"}}";
+    parse.WorkCycle(&str);
     Queue<Request> queue;
     ASSERT_EQ(queue.Empty(), true);
 }

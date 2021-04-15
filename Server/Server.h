@@ -1,5 +1,5 @@
 #include <vector>
-#include "ParserToGA.h"
+#include "../ParserToGA/ParserToGA.h"
 
 #ifndef TABLEOFLIFE_SERVER_H
 #define TABLEOFLIFE_SERVER_H

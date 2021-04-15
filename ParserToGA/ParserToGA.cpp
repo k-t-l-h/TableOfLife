@@ -1,20 +1,6 @@
-#include "ParserToGA.h"
-#include "Queue.h"
-#include "Request.h"
+#include "../ParserToGA/ParserToGA.h"
+#include "../Queue/Queue.h"
 
-void ParserToGA::Work(std::string * dataJson) {
-    ParserToGA::setStatus();
-    requestStr = *dataJson;
-
-    ParserToGA::makeRequest();
-    ParserToGA::validateData(requestStr);
-    ParserToGA::validateField(requestStr);
-    ParserToGA::validateIterations(requestStr);
-    ParserToGA::validateStrategy(requestStr);
-    ParserToGA::pushRequest();
-
-    ParserToGA::setStatus();
-}
 
 void ParserToGA::setStatus() {
     *workStatus = false;
@@ -43,4 +29,18 @@ bool ParserToGA::validateIterations(std::string request) {
 
 bool ParserToGA::validateStrategy(std::string request) {
     return false;
+}
+
+void ParserToGA::WorkCycle(std::string * dataJson) {
+    ParserToGA::setStatus();
+    requestStr = *dataJson;
+
+    ParserToGA::makeRequest();
+    ParserToGA::validateData(requestStr);
+    ParserToGA::validateField(requestStr);
+    ParserToGA::validateIterations(requestStr);
+    ParserToGA::validateStrategy(requestStr);
+    ParserToGA::pushRequest();
+
+    ParserToGA::setStatus();
 }
