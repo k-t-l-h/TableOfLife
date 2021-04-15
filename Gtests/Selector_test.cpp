@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include "../Creater/SimpleCreator.h"
+#include "../Creator/SimpleCreator.h"
 #include "../Selector/Selector.h"
 #include "../Selector/TopSelector.h"
 

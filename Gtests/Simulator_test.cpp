@@ -40,7 +40,7 @@ TEST(TEST_SELECTION, test_set_up_exit){
   Simulator<N> sm;
   Genome<N> g;
   //сетап функции возврающей false
-  sm.SetRule([](Genome<N>* g){g->SetFitness(fitness);});
+  sm.SetRule([](Genome<N>* g){g->SetFitness(1);});
   //проверка того, что теперь вернется false
   ASSERT_FLOAT_EQ(g.GetFitness(), fitness);
 }
