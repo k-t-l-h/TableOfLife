@@ -31,17 +31,32 @@ private:
   std::mutex Safety;
 };
 
-template <std::size_t N> void Genome<N>::SetFitness(float fitness) {}
+template <std::size_t N> void Genome<N>::SetFitness(float ft) {
+    std::lock_guard<std::mutex> lockGuard(Safety);
+    if (0 <= ft && ft <= 1) {
+        fitness = ft;
+    } else if (ft < 0) {
+        fitness = 0;
+    } else {
+        fitness = 1;
+    }
+}
 
-template <std::size_t N> float Genome<N>::GetFitness() { return 0; }
+template <std::size_t N> float Genome<N>::GetFitness() { return fitness; }
 
-template <std::size_t N> void Genome<N>::SetGenes(std::vector<std::bitset<N>>) {
+template <std::size_t N> void Genome<N>::SetGenes(std::vector<std::bitset<N>> g) {
+    std::lock_guard<std::mutex> lockGuard(Safety);
+    genes = g;
 }
 
 template <std::size_t N> std::vector<std::bitset<N>> Genome<N>::GetGenes() {
   return genes;
 }
-template <std::size_t N> void Genome<N>::SetGene(size_t, size_t) {}
-template <std::size_t N> size_t Genome<N>::GetGene(size_t) { return 0; }
+template <std::size_t N> void Genome<N>::SetGene(size_t index, size_t value) {
+    std::lock_guard<std::mutex> lockGuard(Safety);
+    genes[index] = std::bitset<N>(value);
+}
+
+template <std::size_t N> size_t Genome<N>::GetGene(size_t index) { return 0; }
 
 #endif // TABLEOFLIFE_GENOME_H
