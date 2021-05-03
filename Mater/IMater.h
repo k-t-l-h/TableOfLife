@@ -2,10 +2,11 @@
 #define TABLEOFLIFE_IMATER_H
 
 #include "../Genome/Genome.h"
+#include <tuple>
 
-template< std::size_t N >
-class IMater{
+template <std::size_t N>
+class IMater {
 public:
-  virtual std::vector<Genome<N>*> Mate(Genome<N>*, Genome<N>*) =0;
+    virtual std::vector<Genome<N>*> Mate(Genome<N>*, Genome<N>*) = 0;
 };
-#endif // TABLEOFLIFE_IMATER_H
+#endif  // TABLEOFLIFE_IMATER_H
