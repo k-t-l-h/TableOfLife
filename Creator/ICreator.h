@@ -5,7 +5,7 @@
 template< std::size_t N >
 class ICreator{
 public:
-  virtual std::vector<Genome<N>*> Create(size_t, size_t) =0;
+  virtual std::vector<Genome<N>*> Create(size_t all, size_t length, size_t vars) =0;
 };
 
 #endif // TABLEOFLIFE_ICREATOR_H
