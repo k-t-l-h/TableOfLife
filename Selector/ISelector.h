@@ -4,9 +4,10 @@
 #include <vector>
 #include "../Genome/Genome.h"
 
-
-template< std::size_t N >
-class ISelector{
-  virtual Genome<N>* Select(std::vector<Genome<N>*>*) =0;
+//селектор это некоторый класс, который выбирает двух особей
+//для последующего скрещивания
+template <std::size_t N>
+class ISelector {
+    virtual Genome<N>* Select(std::vector<Genome<N>*>*) = 0;
 };
-#endif // TABLEOFLIFE_ISELECTOR_H
+#endif  // TABLEOFLIFE_ISELECTOR_H

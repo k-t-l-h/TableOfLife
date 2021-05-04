@@ -3,16 +3,21 @@
 
 #include "ISelector.h"
 
-template< std::size_t N >
-class Selector: public ISelector<N> {
+template <std::size_t N>
+class Selector : public ISelector<N> {
 public:
-  explicit Selector() = default;;
-  Genome<N>* Select(std::vector<Genome<N>*>*) override;
+    explicit Selector() = default;
+    ~Selector() = default;
+    Genome<N>* Select(std::vector<Genome<N>*>*) override;
 };
 
 template <std::size_t N>
-Genome<N>* Selector<N>::Select(std::vector<Genome<N> *>*) {
-  return nullptr;
+Genome<N>* Selector<N>::Select(std::vector<Genome<N>*>* genomes) {
+    if (genomes == nullptr) {
+        return nullptr;
+    }
+    int value = rand() % genomes->size();
+    return genomes[value];
 }
 
-#endif // TABLEOFLIFE_SELECTOR_H
+#endif  // TABLEOFLIFE_SELECTOR_H
