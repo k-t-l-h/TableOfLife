@@ -1,6 +1,6 @@
 #include "Adapter.h"
 
-const int ** Adapter::GetResult(int) const {}
+const std::vector<int>& Adapter::GetResult(int) const {}
 
 Adapter::Adapter() {}
 

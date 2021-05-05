@@ -52,7 +52,6 @@ TEST(TEST_SETUP, default_reporter_setup){
     Reporter reporter;
     EXPECT_EQ(1,1);
 }
-// задание определенных настроек
-TEST(TEST_SETUP, defined_reporter_setup){
-    ASSERT_EQ(1,1);
-}
+
+
+

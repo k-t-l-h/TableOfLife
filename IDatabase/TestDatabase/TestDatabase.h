@@ -1,19 +1,21 @@
 #ifndef TABLEOFLIFE_TESTDATABASE_H
 #define TABLEOFLIFE_TESTDATABASE_H
+
 #include <vector>
 #include "../IDatabase.h"
 #include "../../Result/Result.h"
+
 class Result;
-class sql;
+
 
 class TestDatabase: public IDatabase {
 public:
     TestDatabase();
-    TestDatabase(sql *connect);
-    ~TestDatabase();
+    TestDatabase(vector<int> &connect);
+    ~TestDatabase() override;
 
-    int ** Select(int id);
-    void Insert(int id, int **);
+    const std::vector<int>& Select(int id) override;
+    void Insert(int id, const std::vector<int>&) override;
 
 private:
     std::vector<Result*> connection;

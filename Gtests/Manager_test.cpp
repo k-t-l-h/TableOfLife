@@ -1,11 +1,12 @@
 #include <gtest/gtest.h>
 #include "../Manager/Manager.h"
 
-template<class T>
-class Queue<T>;
+
+
 
 class GABuilder;
 class Request;
+template<class T> class Queue;
 
 // обработать задачу из очереди, определить ее тип(стратегию)
 TEST(TEST_WORK, non_empty_queue){
@@ -31,10 +32,5 @@ TEST(TEST_WORK, non_empty_queue){
 
 // не задаем билдер, проверяем поведение билдера по умолчанию
 TEST(TEST_SET_BUILDER, default_builder){
-    ASSERT_EQ(1,1);
-}
-
-// задаем определенный билдер, проверяем поведение
-TEST(TEST_SET_BUILDER, defined_builder){
     ASSERT_EQ(1,1);
 }

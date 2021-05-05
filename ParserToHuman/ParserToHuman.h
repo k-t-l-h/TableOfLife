@@ -8,7 +8,7 @@ public:
     ParserToHuman() = default;
     ~ParserToHuman() = default;
 
-    std::string& GetReadable(int **);
+    std::string& GetReadable(const std::vector<int>&);
 private:
 
     ParserToHuman() = delete;

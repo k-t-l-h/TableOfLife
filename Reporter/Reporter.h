@@ -7,7 +7,7 @@
 class GABuilder;
 class Database;
 class ParserGAtoHuman;
-class Queue;
+template<class T> class Queue;
 struct Solution;
 
 class Reporter {

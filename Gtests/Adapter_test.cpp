@@ -4,6 +4,7 @@
 #include "../Adapter/Adapter.h"
 #include "../Result/Result.h"
 #include "../IDatabase/TestDatabase/TestDatabase.h"
+#include <vector>
 
 
 // данный id должен присутствовать
@@ -44,4 +45,5 @@ TEST(TEST_RESULT, id_is_null){
 TEST(TEST_DB_LIVE, db_do_not_answer){
     ASSERT_EQ(1,1);
 }
+
 

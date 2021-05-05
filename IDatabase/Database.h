@@ -8,10 +8,10 @@ class Database: public IDatabase {
 public:
     Database();
     Database(sql *connect);
-    ~Database();
+    ~Database() override;
 
-    int ** Select(int id);
-    void Insert(int id, int **);
+    const std::vector<int> Select(int id) override;
+    void Insert(int id, const std::vector<int>&) override;
 
 private:
     sql *connection;

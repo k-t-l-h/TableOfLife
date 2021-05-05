@@ -1,12 +1,11 @@
-
 #include "TestDatabase.h"
 
 int TestDatabase::TestDatabase() {}
 
-int TestDatabase::TestDatabase(int *connect) {}
+TestDatabase::TestDatabase(const std::vector<int> &connect) {}
 
-void TestDatabase::Insert(int id, int **) {}
+void TestDatabase::Insert(int id, const std::vector<int>&) {}
 
-TestDatabase::~TestDatabase() noexcept {}
+TestDatabase::~TestDatabase() override {}
 
-int ** TestDatabase::Select(int id) {}
+const vecor<int>& TestDatabase::Select(int id) {}

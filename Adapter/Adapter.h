@@ -2,6 +2,8 @@
 #define TABLEOFLIFE_ADAPTER_H
 
 #include <memory>
+#include <vector>
+
 class IDatabase;
 
 class Adapter {
@@ -10,7 +12,7 @@ public:
     Adapter(std::shared_ptr<IDatabase> &t_db);
     ~Adapter();
 
-    const int ** GetResult(int) const;
+    const std::vector<int>& GetResult(int) const;
 
 private:
     Adapter(const Adapter &a) = delete;

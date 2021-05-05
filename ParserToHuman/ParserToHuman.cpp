@@ -1,6 +1,6 @@
 #include "ParserToHuman.h"
 
-string ParserToHuman::GetReadable(int **) {}
+string ParserToHuman::GetReadable(const std::vector<int> &res) {}
 
 ParserToHuman::~ParserToHuman() {}
 

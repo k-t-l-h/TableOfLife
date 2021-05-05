@@ -8,11 +8,11 @@
 
 class IDatabase {
 public:
-    IDatabase();
-    virtual ~IDatabase();
 
-    virtual int ** Select(int id);
-    virtual void Insert(int id, int **);
+    virtual ~IDatabase() = 0 ;
+
+    virtual const std::vector<int>& Select(int id) = 0;
+    virtual void Insert(int id, const vector<int>&) = 0;
 
 };
 

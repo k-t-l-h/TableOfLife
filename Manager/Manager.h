@@ -5,15 +5,17 @@
 
 
 class GABuilder;
-class Queue;
 class Result;
+class Request;
+
+template<class T> class Queue;
 
 class Manager {
 public:
     Manager() = default;
     ~Manager() = default;
 
-    void Setup(std::shared_ptr<Queue> &tasq, std::shared_ptr<Queue> &resq);
+    void Setup(std::shared_ptr<Queue<Request*>> &tasq, std::shared_ptr<Queue<Result*>> &resq);
     void SetBuilder(std::unique_ptr<GABuilder> &builder);
     void WorkCycle();
 
@@ -22,11 +24,11 @@ private:
     Manager& operator=() = delete;
     Manager(Manager &a) = delete;
 
-    const Result* work(const char* strategy);
+    const Result* work(std::string, std::string, std::string, std::string);
 
     std::unique_ptr<GABuilder> builder;
-    std::shared_ptr<Queue> tque;                            //t - task
-    std::shared_ptr<Queue> rque;                            //r - result
+    std::shared_ptr<Queue<Request*>> tque;                            //t - task
+    std::shared_ptr<Queue<Result*>> rque;                            //r - result
 };
 
 
