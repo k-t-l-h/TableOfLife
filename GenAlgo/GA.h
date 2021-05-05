@@ -11,37 +11,111 @@
 #include "../Selector/ISelector.h"
 #include "../Simulator/ISimulator.h"
 
-template< std::size_t N >
+template <std::size_t N>
 class GenAlgo {
 public:
-  GenAlgo()= default;;
-  ~GenAlgo() =default;
-  void Run();
-  std::vector<int> GetBest();
+    GenAlgo(size_t pt, size_t vars, size_t max)
+            : populationSize(pt), variants(vars), maxIterations(max){};
+    ~GenAlgo() = default;
+    void Run();
+    std::vector<int> GetBest();
 
-  ICreator<N>* Creator;
-  ISelector<N>* Selector;
-  IMater<N>* Mater;
-  IMutator<N>* Mutator;
-  ISimulator<N>* Simulator;
+    ICreator<N>* Creator;
+    ISelector<N>* Selector;
+    IMater<N>* Mater;
+    IMutator<N>* Mutator;
+    ISimulator<N>* Simulator;
+
 private:
-  void RunParallel(std::vector<Genome<N>*>*, size_t start, size_t end);
-  std::vector<Genome<N>*> population;
-  size_t populationSize;
-  float totalFitness;
-  std::mutex Safety;
-  Genome<N>* best;
-
+    void RunParallel(std::vector<Genome<N>*>*, size_t start, size_t end);
+    std::vector<Genome<N>*> population;
+    size_t populationSize;
+    size_t variants;
+    // size_t people;
+    size_t maxIterations;
+    std::mutex Safety;
+    Genome<N>* best;
 };
 
 template <std::size_t N>
 std::vector<int> GenAlgo<N>::GetBest() {
-  return std::vector<int>(1);
+    if (best == nullptr) {
+        return std::vector<int>(1);
+    }
+
+    std::vector<int> result;
+
+    for (int i = 0; i < 2; ++i) {
+        result.push_back(best->GetGene(i));
+    }
+    return result;
 }
-template <std::size_t N> void GenAlgo<N>::Run() {}
+template <std::size_t N>
+void GenAlgo<N>::Run() {
+    //создается начальная популяция
+    population = Creator->Create(populationSize, 2, variants);
+    best = population[0];
+
+    //начальная популяция оценивается
+    for (int i = 0; i < population.size(); ++i) {
+        Simulator->Simulate(population[i]);
+        if (Simulator->Exit(population[i])) {
+        }
+        Safety.lock();
+        Genome<N>* value = population[i];
+        if (value->GetFitness() > best->GetFitness()) {
+            best = population.at(i);
+        }
+        Safety.unlock();
+    }
+
+    //запускаем эволюцию
+    bool status = true;
+    size_t iteration = 0;
+    while (status && iteration++ < maxIterations) {
+        std::vector<Genome<N>*> new_population;
+        //скрещиваем всех особей, по две штуки за раз
+        for (int i = 0; i < populationSize; i++) {
+            Genome<N>* left = Selector->Select(population);
+            Genome<N>* right = Selector->Select(population);
+            auto child = Mater->Mate(left, right);
+            Genome<N>* lmutant = Mutator->Mutate(left);
+            Genome<N>* rmutant = Mutator->Mutate(right);
+            new_population.push_back(child[0]);
+            new_population.push_back(child[1]);
+            new_population.push_back(lmutant);
+            new_population.push_back(rmutant);
+        }
+
+        //теперь переоцениваем всех
+        for (int i = 0; i < new_population.size(); ++i) {
+            //оцениваем каждую особь
+            Simulator->Simulate(new_population[i]);
+            if (Simulator->Exit(new_population[i])) {
+                //не выходим сразу, т.к. может быть решение получше
+                status = false;
+            }
+            Safety.lock();
+            Genome<N>* value = new_population[i];
+            if (value->GetFitness() > best->GetFitness()) {
+                best = new_population[i];
+            }
+            Safety.unlock();
+        }
+
+        if (status) {
+            //не забываем сохранить лучшую копию
+            population.clear();
+            population.push_back(best);
+            for (int i = 0; i < populationSize - 1; ++i) {
+                population.push_back(Selector->Select(new_population));
+            }
+        }
+    }
+}
 
 template <std::size_t N>
-void GenAlgo<N>::RunParallel(std::vector<Genome<N> *> *, size_t start,
+void GenAlgo<N>::RunParallel(std::vector<Genome<N>*>*, size_t start,
                              size_t end) {}
 
-#endif // TABLEOFLIFE_GA_H
+#endif  // TABLEOFLIFE_GA_H
