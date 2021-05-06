@@ -75,7 +75,7 @@ TEST(TEST_BUILDER, set_up_mutator_default) {
 TEST(TEST_BUILDER, set_up_mutator) {
   const std::size_t N = sizeof(int);
   Builder<N> builder;
-  builder.SetMutator();
+  builder.SetMutator(1);
   SimpleMutator<N> m(0);
   auto res = builder.GetResult();
   ASSERT_NE(res->Mutator, nullptr);
@@ -85,7 +85,7 @@ TEST(TEST_BUILDER, set_up_mutator) {
 TEST(TEST_BUILDER, set_up_reverse_mutator) {
   const std::size_t N = sizeof(int);
   Builder<N> builder;
-  builder.SetCreator();
+  builder.SetReverseMutator(1);
   ReverseMutator<N> m(0);
   auto res = builder.GetResult();
   ASSERT_NE(res->Mutator, nullptr);
@@ -103,7 +103,7 @@ TEST(TEST_BUILDER, set_up_mater_default) {
 TEST(TEST_BUILDER, set_up_mater) {
   const std::size_t N = sizeof(int);
   Builder<N> builder;
-  builder.SetMater();
+  builder.SetMater(1);
   Mater<N> m(0);
   auto res = builder.GetResult();
   ASSERT_NE(res->Mutator, nullptr);
@@ -113,7 +113,7 @@ TEST(TEST_BUILDER, set_up_mater) {
 TEST(TEST_BUILDER, set_up_mater_2) {
   const std::size_t N = sizeof(int);
   Builder<N> builder;
-  builder.Set2PointsMater();
+  builder.Set2PointsMater(1);
   TwoPointsMater<N> m(0);
   auto res = builder.GetResult();
   ASSERT_NE(res->Mutator, nullptr);

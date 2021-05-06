@@ -25,18 +25,23 @@
 template <std::size_t N>
 class Builder {
 public:
-    explicit Builder() : GA(nullptr), variants(0){};
-    ~Builder() = default;
+    explicit Builder() : variants(0){
+       GenAlgo<N>* tmp = new GenAlgo<N>(1, 1, 1);
+       GA = tmp;
+    };
 
+    ~Builder() {
+            delete GA;
+    };
     void Reset(std::size_t);  //создание нового ГА
 
-    void SetMutator();         //как происходят  мутации
-    void SetReverseMutator();  //чтобы оправдать выбор
+    void SetMutator(float);         //как происходят  мутации
+    void SetReverseMutator(float);  //чтобы оправдать выбор
 
     //как происходит отбор
-    void SetMater(float probability);
+    void SetMater(float);
 
-    void Set2PointsMater(float probability);
+    void Set2PointsMater(float);
 
     void SetSelection();  //как происходит селекция
     void SetTopSelection();
@@ -60,73 +65,74 @@ void Builder<N>::Reset(std::size_t variants) {
     //чтобы каждый ген встретился хотя бы один раз
 
     // TODO: просчитать вероятность
-    std::size_t population = variants * *2;
+    std::size_t population = variants*2;
 
-    GenAlgo<N> tmp = new GenAlgo<N>(population, variants, 10);
+    GenAlgo<N>* tmp = new GenAlgo<N>(population, variants, 10);
     delete GA;
     GA = tmp;
 }
 
 template <std::size_t N>
 void Builder<N>::SetMutator(float probability) {
-    SimpleMutator<N> sm = new SimpleMutator<N>(probability, variants);
+    SimpleMutator<N>* sm = new SimpleMutator<N>(probability, variants);
     delete GA->Mutator;
     GA->Mutator = sm;
 }
 
 template <std::size_t N>
 void Builder<N>::SetReverseMutator(float probability) {
-    ReverseMutator<N> sm = new ReverseMutator<N>(probability, variants);
+    ReverseMutator<N>* sm = new ReverseMutator<N>(probability, variants);
     delete GA->Mutator;
     GA->Mutator = sm;
 }
 
 template <std::size_t N>
 void Builder<N>::SetMater(float probability) {
-    Mater<N> mate = new Mater<N>(probability);
+    Mater<N>* mate = new Mater<N>(probability);
     delete GA->Mater;
     GA->Mater = mate;
 }
 
 template <std::size_t N>
 void Builder<N>::Set2PointsMater(float probability) {
-    TwoPointsMater<N> mate = new TwoPointsMater<N>(probability);
+    TwoPointsMater<N>* mate = new TwoPointsMater<N>(probability);
     delete GA->Mater;
     GA->Mater = mate;
 }
 
 template <std::size_t N>
 void Builder<N>::SetSelection() {
-    Selector<N> sl = new Selector<N>();
+    Selector<N>* sl = new Selector<N>();
     delete GA->Selector;
     GA->Selector = sl;
 }
 
 template <std::size_t N>
 void Builder<N>::SetTopSelection() {
-    TopSelector<N> sl = new TopSelector<N>();
+    TopSelector<N>* sl = new TopSelector<N>();
     delete GA->Selector;
     GA->Selector = sl;
 }
 
 template <std::size_t N>
 void Builder<N>::SetSimulator() {
-    Simulator<N> sm = new Simulator<N>();
+    Simulator<N>* sm = new Simulator<N>();
     delete GA->Simulator;
     GA->Simulator = sm;
 }
 
 template <std::size_t N>
 void Builder<N>::SetCreator() {
-    SimpleCreator<N> cr = new SimpleCreator<N>();
+    SimpleCreator<N>* cr = new SimpleCreator<N>();
     delete GA->Creator;
-    GA->Creator cr;
+    GA->Creator = cr;
 }
+
 template <std::size_t N>
 void Builder<N>::SetRandomCreator() {
-    RandomCreator<N> cr = new RandomCreator<N>();
+    RandomCreator<N>* cr = new RandomCreator<N>();
     delete GA->Creator;
-    GA->Creator cr;
+    GA->Creator = cr;
 }
 
 template <std::size_t N>

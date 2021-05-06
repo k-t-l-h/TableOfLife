@@ -15,7 +15,12 @@ template <std::size_t N>
 class GenAlgo {
 public:
     GenAlgo(size_t pt, size_t vars, size_t max)
-            : populationSize(pt), variants(vars), maxIterations(max){};
+            : populationSize(pt), variants(vars), maxIterations(max),
+          Creator(nullptr),
+          Selector(nullptr),
+          Mater(nullptr),
+          Mutator(nullptr),
+          Simulator(nullptr){};
     ~GenAlgo() = default;
     void Run();
     std::vector<int> GetBest();
