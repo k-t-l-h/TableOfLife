@@ -8,15 +8,12 @@ class Selector : public ISelector<N> {
 public:
     explicit Selector() = default;
     ~Selector() = default;
-    Genome<N>* Select(std::vector<Genome<N>*>*) override;
+    Genome<N>* Select(std::vector<Genome<N>*>) override;
 };
 
 template <std::size_t N>
-Genome<N>* Selector<N>::Select(std::vector<Genome<N>*>* genomes) {
-    if (genomes == nullptr) {
-        return nullptr;
-    }
-    int value = rand() % genomes->size();
+Genome<N>* Selector<N>::Select(std::vector<Genome<N>*> genomes) {
+    int value = rand() % genomes.size();
     return genomes[value];
 }
 

@@ -23,7 +23,7 @@ std::vector<Genome<N> *> SimpleCreator<N>::Create(std::size_t all,
     for (std::size_t i = 0; i < all; ++i) {
         auto genome = new Genome<N>(length);
         for (std::size_t j = 0; j < length; ++j) {
-            auto value = static_cast<std::size_t>((i + j) % vars + 1);
+            auto value = static_cast<std::size_t>((i + j) % vars);
             genome->SetGene(j, value);
         }
         generation->push_back(genome);

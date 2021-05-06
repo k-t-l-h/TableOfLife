@@ -29,7 +29,7 @@ TEST(TEST_SELECTION, empty_test){
 
   Selector<N> s;
   SimpleCreator<N> sc;
-  auto v = sc.Create(max, max);
+  auto v = sc.Create(max, max, max);
   ASSERT_NO_THROW(s.Select(&v));
 }
 
@@ -40,7 +40,7 @@ TEST(TEST_SELECTION, empty_test_top){
 
   TopSelector<N> ts;
   SimpleCreator<N> sc;
-  auto v = sc.Create(max, max);
+  auto v = sc.Create(max, max, max);
   ASSERT_NO_THROW(ts.Select(&v));
 }
 
@@ -51,7 +51,7 @@ TEST(TEST_SELECTION, empty_test_2){
 
   Selector<N> s;
   SimpleCreator<N> sc;
-  auto v = sc.Create(max, max);
+  auto v = sc.Create(max, max, max);
   auto g = s.Select(&v);
   ASSERT_EQ(g, nullptr);
 
@@ -64,7 +64,7 @@ TEST(TEST_SELECTION, empty_test_2_top){
 
   TopSelector<N> s;
   SimpleCreator<N> sc;
-  auto v = sc.Create(max, max);
+  auto v = sc.Create(max, max, max);
   auto g = s.Select(&v);
   ASSERT_EQ(g, nullptr);
 }
@@ -77,7 +77,7 @@ TEST(TEST_SELECTION, one_test){
 
   Selector<N> s;
   SimpleCreator<N> sc;
-  auto v = sc.Create(max, max);
+  auto v = sc.Create(max, max, max);
   auto eq = v[0];
   auto g = s.Select(&v);
   ASSERT_EQ(g, eq);
@@ -93,7 +93,7 @@ TEST(TEST_SELECTION, one_test_top){
 
   TopSelector<N> s;
   SimpleCreator<N> sc;
-  auto v = sc.Create(max, max);
+  auto v = sc.Create(max, max, max);
   auto eq = v[0];
   auto g = s.Select(&v);
   ASSERT_EQ(g, eq);
@@ -109,7 +109,7 @@ TEST(TEST_SELECTION, all_test){
 
   Selector<N> s;
   SimpleCreator<N> sc;
-  auto v = sc.Create(max, max);
+  auto v = sc.Create(max, max, max);
   auto eq = v[1];
   v[1]->SetFitness(1);
   auto g = s.Select(&v);
@@ -123,7 +123,7 @@ TEST(TEST_SELECTION, all_test_top){
 
   TopSelector<N> s;
   SimpleCreator<N> sc;
-  auto v = sc.Create(max, max);
+  auto v = sc.Create(max, max, max);
   auto eq = v[1];
   v[1]->SetFitness(1);
   auto g = s.Select(&v);

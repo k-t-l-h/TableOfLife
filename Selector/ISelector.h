@@ -8,6 +8,7 @@
 //для последующего скрещивания
 template <std::size_t N>
 class ISelector {
-    virtual Genome<N>* Select(std::vector<Genome<N>*>*) = 0;
+public:
+    virtual Genome<N>* Select(std::vector<Genome<N>*>) = 0;
 };
 #endif  // TABLEOFLIFE_ISELECTOR_H

@@ -8,7 +8,7 @@ TEST(TEST_CREATOR, size_test) {
   const std::size_t N = sizeof(int);
   std::size_t check = 5;
   SimpleCreator<N> sc;
-  auto v = sc.Create(check, check);
+  auto v = sc.Create(check, check, check);
   ASSERT_EQ(v.size(), check);
 }
 
@@ -17,7 +17,7 @@ TEST(TEST_CREATOR, nullptr_check) {
   const std::size_t N = sizeof(int);
   std::size_t check = 10;
   SimpleCreator<N> sc;
-  auto v = sc.Create(check, check);
+  auto v = sc.Create(check, check, check);
   for (size_t i = 0; i < check; i++) {
     ASSERT_NE(v[i], nullptr);
   }
@@ -28,7 +28,7 @@ TEST(TEST_CREATOR, size_test_neg) {
   const std::size_t N = sizeof(int);
   std::size_t check = -1;
   SimpleCreator<N> sc;
-  auto v = sc.Create(check, check);
+  auto v = sc.Create(check, check, check);
   ASSERT_EQ(v.size(), 0);
 }
 
@@ -38,7 +38,7 @@ TEST(TEST_CREATOR, diff_test) {
   const std::size_t N = sizeof(int);
   std::size_t check = 2;
   SimpleCreator<N> sc;
-  auto v = sc.Create(check, check);
+  auto v = sc.Create(check, check, check);
   //два предмета по порядку
   ASSERT_EQ(v.size(), check);
   //не должны совпадать
@@ -50,7 +50,7 @@ TEST(TEST_RANDOM_CREATOR, size_test_r) {
   const std::size_t N = sizeof(int);
   std::size_t check = 5;
   RandomCreator<N> rc;
-  auto v = rc.Create(check, check);
+  auto v = rc.Create(check, check, check);
   ASSERT_EQ(v.size(), check);
 }
 
@@ -59,7 +59,7 @@ TEST(TEST_RANDOM_CREATOR, nullptr_check_r) {
   const std::size_t N = sizeof(int);
   std::size_t check = 10;
   RandomCreator<N> rc;
-  auto v = rc.Create(check, check);
+  auto v = rc.Create(check, check, check);
   for (size_t i = 0; i < check; i++) {
     ASSERT_NE(v[i], nullptr);
   }
@@ -70,7 +70,7 @@ TEST(TEST_RANDOM_CREATOR, size_test_neg_r) {
   const std::size_t N = sizeof(int);
   std::size_t check = -1;
   RandomCreator<N> rc;
-  auto v = rc.Create(check, check);
+  auto v = rc.Create(check, check, check);
   ASSERT_EQ(v.size(), 0);
 }
 

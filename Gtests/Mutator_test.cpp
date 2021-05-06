@@ -15,7 +15,7 @@ TEST(TEST_MUTATOR, zero) {
 
 TEST(TEST_MUTATOR, zero_random) {
   const std::size_t N = sizeof(int);
-  ReverseMutator<N> m(0);
+  ReverseMutator<N> m(0, 0);
   //нет так нет
   ASSERT_NO_THROW(m.Mutate(nullptr));
   auto answer = m.Mutate(nullptr);
@@ -39,7 +39,7 @@ TEST(TEST_MUTATOR, zero2_random) {
   const std::size_t N = sizeof(int);
   float probability = 0;
   //при вероятности мутации в 0 мутации не должно быть
-  ReverseMutator<N> rm(probability);
+  ReverseMutator<N> m(probability, 0);
 
   Genome<N> g(1);
   auto answer = rm.Mutate(&g);
@@ -64,7 +64,7 @@ TEST(TEST_MUTATOR, for_sure_random) {
   float probability = 1;
   int value = 5;
   //при вероятности мутации в 1 мутация обязана произойти
-  ReverseMutator<N> rm(probability);
+  ReverseMutator<N> m(probability, value);
   Genome<N> g(1);
   g.SetGene(0, value);
   //мутация возвращает копию или новый объект

@@ -7,7 +7,7 @@
 template <std::size_t N>
 class Mater : public IMater<N> {
 public:
-    explicit Mater(float pr) : probability(pr){ srand(time(nullptr)); };
+    explicit Mater(float pr) : probability(pr) { srand(time(nullptr)); };
     ~Mater() = default;
     std::vector<Genome<N>*> Mate(Genome<N>*, Genome<N>*) override;
 
@@ -32,8 +32,9 @@ std::vector<Genome<N>*> Mater<N>::Mate(Genome<N>* left, Genome<N>* right) {
     std::size_t rights = rg.size();
 
     Genome<N>* lchild = new Genome<N>(lefts);
+    lchild->SetGenes(left->GetGenes());
     Genome<N>* rchild = new Genome<N>(rights);
-
+    rchild->SetGenes(right->GetGenes());
     for (std::size_t i = 0; i < lefts && i < rights; ++i) {
         auto value = rand();
         float rand = float(value) / (float)RAND_MAX;
