@@ -18,7 +18,7 @@ public:
     Manager(std::shared_ptr<std::queue<Request*>> &tasq, std::shared_ptr<std::queue<Result*>> &resq);
     ~Manager() = default;
 
-    void SetBuilder(std::unique_ptr<GABuilder> &builder);
+    void SetBuilder();
     void WorkCycle();
 
 private:
@@ -26,11 +26,11 @@ private:
     Manager() = delete;
     Manager(Manager &a) = delete;
 
-    const Result* work(std::string, std::string, std::string, std::string);
+    void work(std::unique_ptr<Request> task);
 
     std::unique_ptr<GABuilder> builder;
-    std::shared_ptr<std::queue<Request*>> &tque;                            //t - task
-    std::shared_ptr<std::queue<Result*>> &rque;                            //r - result
+    std::shared_ptr<std::queue<Request*>> tque;                            //t - task
+    std::shared_ptr<std::queue<Result*>> rque;                            //r - result
 };
 
 
