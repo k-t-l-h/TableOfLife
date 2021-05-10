@@ -29,6 +29,6 @@ std::vector<Genome<N> *> RandomCreator<N>::Create(std::size_t all,
         generation->push_back(genome);
     }
     return *generation;
-};
+}
 
 #endif  // TABLEOFLIFE_RANDOMCREATOR_H
