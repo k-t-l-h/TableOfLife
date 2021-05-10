@@ -5,7 +5,7 @@
 #include "../Genome/Genome.h"
 
 template <std::size_t N>
-class SimpleCreator : public ICreator<N> {
+class SimpleCreator final : public ICreator<N> {
 public:
     SimpleCreator() = default;
     ~SimpleCreator() = default;
@@ -29,6 +29,6 @@ std::vector<Genome<N> *> SimpleCreator<N>::Create(std::size_t all,
         generation->push_back(genome);
     }
     return *generation;
-};
+}
 
 #endif  // TABLEOFLIFE_SIMPLECREATOR_H

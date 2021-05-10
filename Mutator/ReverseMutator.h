@@ -5,7 +5,7 @@
 
 //реверсит все биты
 template <std::size_t N>
-class ReverseMutator : public IMutator<N> {
+class ReverseMutator final: public IMutator<N> {
 public:
     explicit ReverseMutator(float probability, std::size_t variants)
             : probability(probability), variants(variants){};

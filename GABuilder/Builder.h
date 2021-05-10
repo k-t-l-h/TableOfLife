@@ -117,14 +117,14 @@ void Builder<N>::SetTopSelection() {
 template <std::size_t N>
 void Builder<N>::SetSimulator() {
     Simulator<N>* sm = new Simulator<N>();
-    delete GA->Simulator;
+    //delete GA->Simulator;
     GA->Simulator = sm;
 }
 
 template <std::size_t N>
 void Builder<N>::SetCreator() {
     SimpleCreator<N>* cr = new SimpleCreator<N>();
-    delete GA->Creator;
+    //delete GA->Creator;
     GA->Creator = cr;
 }
 
