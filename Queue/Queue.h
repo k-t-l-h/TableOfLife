@@ -7,23 +7,20 @@
 template <typename T>
 class Queue {
 public:
-    int size;
-
-    Queue() : container(nullptr), size(0) {};
+    Queue() : container(0) {};
     Queue(const Queue&) = delete;
 
-    std::vector <T> Pop();
+    T Pop();
 
-    static void Push(T * Queue);
+    void Push(T q);
 
     bool Empty();
+    int Size();
 
-    ~Queue() {
-        delete[] container;
-    }
+    ~Queue() = default;
 
 private:
-    std::vector <T> * container;
+    std::vector <T> container;
     std::mutex state;
 };
 

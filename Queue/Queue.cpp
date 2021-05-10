@@ -1,16 +1,27 @@
 #include "Queue.h"
+#include <vector>
 
-template <typename T>
-std::vector<T> Queue<T>::Pop() {
-    return std::vector<T>();
+template<typename T>
+T Queue<T>::Pop() {
+    std::lock_guard<std::mutex> guard(state);
+    T end = container.front();
+    container.erase(container.begin());
+    return end;
 }
 
-template <typename T>
-void Queue<T>::Push(T * Queue) {
-    *Queue = *Queue;
+template<typename T>
+void Queue<T>::Push(T requestResult) {
+    std::lock_guard<std::mutex> guard(state);
+    container.push_back(requestResult);
 }
 
-template <typename T>
+template<typename T>
 bool Queue<T>::Empty() {
-    return false;
+    std::lock_guard<std::mutex> guard(state);
+    return container.empty();
+}
+
+template<typename T>
+int Queue<T>::Size() {
+    return container.size();
 }
