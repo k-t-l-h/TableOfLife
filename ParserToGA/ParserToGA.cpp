@@ -1,45 +1,46 @@
-#include "ParserToGA.h"
-#include "Queue.h"
-//#include "Request.h"
+#include "../ParserToGA/ParserToGA.h"
+#include "../Queue/Queue.h"
 
-void ParserToGA::Work(std::string *dataJson) {
-    ParserToGA::setStatus();
 
-    ParserToGA::makeRequest();
+template <typename T> void ParserToGA<T>::SetStatus() {
+    workStatus = false;
+}
+
+template <typename T> void ParserToGA<T>::PushRequest() {
+    que->Push(requestReq);
+}
+
+template <typename T> void ParserToGA<T>::MakeRequest() {
+    Request req;
+    requestReq = &req;
+}
+
+template <typename T> bool ParserToGA<T>::validateData(std::string request) {
+    return false;
+}
+
+template <typename T> bool ParserToGA<T>::validateField(std::string request) {
+    return false;
+}
+
+template <typename T> bool ParserToGA<T>::validateIterations(std::string request) {
+    return false;
+}
+
+template <typename T> bool ParserToGA<T>::validateStrategy(std::string request) {
+    return false;
+}
+
+template <typename T> void ParserToGA<T>::WorkCycle(std::string * dataJson) {
+    ParserToGA::SetStatus();
+    requestStr = *dataJson;
+
+    ParserToGA::MakeRequest();
     ParserToGA::validateData(requestStr);
     ParserToGA::validateField(requestStr);
     ParserToGA::validateIterations(requestStr);
     ParserToGA::validateStrategy(requestStr);
-    ParserToGA::pushRequest();
+    ParserToGA::PushRequest();
 
-    ParserToGA::setStatus();
-}
-
-void ParserToGA::setStatus() {
-    *workStatus = false;
-}
-
-void ParserToGA::pushRequest() {
-    Queue<Request>::Push(requestReq);
-}
-
-void ParserToGA::makeRequest() {
-    Request req;
-    *requestReq = req;
-}
-
-bool ParserToGA::validateData(std::string requestStr) {
-    return false;
-}
-
-bool ParserToGA::validateField(std::string requestStr) {
-    return false;
-}
-
-bool ParserToGA::validateIterations(std::string requestStr) {
-    return false;
-}
-
-bool ParserToGA::validateStrategy(std::string requestStr) {
-    return false;
+    ParserToGA::SetStatus();
 }

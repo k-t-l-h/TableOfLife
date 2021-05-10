@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
-#include "Server.h"
-#include "ParserToGA.h"
+#include "../Server/Server.h"
+#include "../ParserToGA/ParserToGA.h"
 #include <iostream>
 
 TEST(TEST_SERVER, test_set_up) {
@@ -21,10 +21,13 @@ TEST(TEST_SERVER, test_run) {
     ASSERT_EQ(run, 0);
 }
 
-//TEST(TEST_SERVER, response_reporter) {
-//    Server server;
-//    ASSERT_EQ(server.responseReporter(40), 0);
-//}
+TEST(TEST_SERVER, response_reporter) {
+    Server server;
+    server.SetUp();
+    server.responseReporter(40);
+    ASSERT_EQ(0, 0);
+    server.ShutDown();
+}
 
 TEST(TEST_SERVER, test_send_answer) {
     Server server;
@@ -36,9 +39,4 @@ TEST(TEST_SERVER, test_send_json) {
     Server server;
     int status = server.SendJson(40);
     ASSERT_EQ(status, 0);
-}
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
 }

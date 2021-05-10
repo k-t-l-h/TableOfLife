@@ -1,5 +1,5 @@
 #include <vector>
-#include "ParserToGA.h"
+#include "../ParserToGA/ParserToGA.h"
 
 #ifndef TABLEOFLIFE_SERVER_H
 #define TABLEOFLIFE_SERVER_H
@@ -9,10 +9,10 @@ class Server {
 public:
     std::string * returnBodyStr;
     std::string * DataJson;
-    uint16_t port;
-    std::string address;
-    Server() : returnBodyStr(nullptr), DataJson(nullptr), status(true), port(8080) {};
+
+    Server() : returnBodyStr(nullptr), DataJson(nullptr), status(true), port(8080), address("127.0.0.1") {};
     Server(const Server&) = delete;
+    ~Server() = default;
 
     int SetUp();
 
@@ -26,10 +26,10 @@ public:
 
     int SendAnswer();
 
-    ~Server() = default;
-
 private:
     bool status;
+    uint16_t port;
+    std::string address;
 
     std::string takeBody();
 };

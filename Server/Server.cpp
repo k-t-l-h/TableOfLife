@@ -1,5 +1,7 @@
 #include "Server.h"
-#include "ParserToGA.h"
+//#include "../Adapter/Adapter.cpp"
+#include "../ParserToGA/ParserToGA.cpp"
+//#include "../ParserToHuman/ParserToHuman.cpp"
 #include <iostream>
 
 int Server::SetUp() {
@@ -20,7 +22,12 @@ int Server::SendJson(int id) {
 }
 
 
-void Server::responseReporter(int id, std::vector<int>) {
+void Server::responseReporter(int id) {
+    std::vector<int> mass;
+    std::string json;
+//    mass = Adapter::GetResult(id);
+//    json = ParserToHuman::GetReadeble(mass);
+
     Server::SendJson(id);
 }
 
@@ -30,7 +37,8 @@ std::string Server::takeBody() {
 }
 
 int Server::SendAnswer() {
-    DataJson = Server::takeBody();
-    ParserToGA::Work(DataJson);
+    *DataJson = Server::takeBody();
+//    ParserToGA<int> parser;
+//    parser.Work(DataJson);
     return 0;
 }
