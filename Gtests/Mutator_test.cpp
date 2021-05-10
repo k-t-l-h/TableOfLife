@@ -5,7 +5,7 @@
 //что будет если передать null
 TEST(TEST_MUTATOR, zero) {
   const std::size_t N = sizeof(int);
-  SimpleMutator<N> sm(0);
+  SimpleMutator<N> sm(0, 0);
   //нет так нет
   ASSERT_NO_THROW(sm.Mutate(nullptr));
   auto answer = sm.Mutate(nullptr);
@@ -27,7 +27,7 @@ TEST(TEST_MUTATOR, zero2) {
   const std::size_t N = sizeof(int);
   float probability = 0;
   //при вероятности мутации в 0 мутации не должно быть
-  SimpleMutator<N> sm(probability);
+  SimpleMutator<N> sm(probability, 5);
 
   Genome<N> g(1);
   auto answer = sm.Mutate(&g);
@@ -39,7 +39,7 @@ TEST(TEST_MUTATOR, zero2_random) {
   const std::size_t N = sizeof(int);
   float probability = 0;
   //при вероятности мутации в 0 мутации не должно быть
-  ReverseMutator<N> m(probability, 0);
+  ReverseMutator<N> m(probability, 5);
 
   Genome<N> g(1);
   auto answer = rm.Mutate(&g);
@@ -52,7 +52,7 @@ TEST(TEST_MUTATOR, for_sure) {
   const std::size_t N = sizeof(int);
   float probability = 1;
   //при вероятности мутации в 1 мутация обязана произойти
-  SimpleMutator<N> sm(probability);
+  SimpleMutator<N> sm(probability, 5);
   Genome<N> g(1);
   //мутация возвращает копию или новый объект
   auto answer = sm.Mutate(&g);
