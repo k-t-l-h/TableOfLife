@@ -1,8 +1,11 @@
 #include "Manager.h"
 #include <thread>
 #include <memory>
-#include <atomic>      // condition variables
+#include <atomic>      // condition variables mb in pushing to queue
 #include <mutex>
+
+
+//TODO i need an interface of custom queue and builder
 
 class GABuilder{
 public:
@@ -29,7 +32,7 @@ void Manager::WorkCycle() {
     while(true){
         auto current_task = std::make_unique<Request>( *tque->front() );
         tque->pop();
-        std::thread t(&Manager::work,std::move(current_task));
+        std::thread t(&Manager::work, this,std::move(current_task));
         t.detach();
     }
 }

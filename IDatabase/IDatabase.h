@@ -4,7 +4,9 @@
 
 #ifndef TABLEOFLIFE_IDATABASE_H
 #define TABLEOFLIFE_IDATABASE_H
+#include <vector>
 
+struct Result;
 
 class IDatabase {
 public:
@@ -12,7 +14,8 @@ public:
     virtual ~IDatabase() = 0 ;
 
     virtual const std::vector<int>& Select(int id) = 0;
-    virtual void Insert(int id, const vector<int>&) = 0;
+    virtual void Insert(int id, const std::vector<int>&) = 0;
+    virtual void Insert(Result*) = 0;
 
 };
 
