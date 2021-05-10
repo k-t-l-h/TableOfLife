@@ -23,10 +23,10 @@ TEST(TEST_WORK, non_empty_queue){
     tque->push(&request);
 
     GABuilder simpleBuilder;
-    Manager manager(tque,rque);
-    manager.SetBuilder();
+//    Manager manager(tque,rque);
+//    manager.SetBuilder();
 
-    manager.WorkCycle();
+ //   manager.WorkCycle();
 
     //ASSERT_EQ(*rque->front(),1);
 }

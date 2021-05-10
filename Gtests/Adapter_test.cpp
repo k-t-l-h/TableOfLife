@@ -16,7 +16,7 @@ TEST(TEST_RESULT, correct_id){
     std::shared_ptr<IDatabase> test_db = std::static_pointer_cast<IDatabase>(pt);
     test_db->Insert(res.id, res.result);
 
-    Adapter adapt(std::ref(test_db));
+//    Adapter adapt(test_db);
 
     //EXPECT_EQ(adapt.GetResult(3), nullptr);
 }
@@ -28,7 +28,7 @@ TEST(TEST_RESULT, incorrect_id){
     auto test_db = std::shared_ptr<IDatabase>();
     test_db->Insert(res.id, res.result);
 
-    Adapter adapt(test_db);
+//    Adapter adapt(test_db);
 
     //EXPECT_EQ(adapt.GetResult(8), nullptr);
 }
@@ -40,7 +40,7 @@ TEST(TEST_RESULT, id_is_null){
     auto test_db = std::shared_ptr<IDatabase>();
     test_db->Insert(res.id, res.result);
 
-    Adapter adapt(test_db);
+//    Adapter adapt(test_db);
 
     //EXPECT_EQ(adapt.GetResult(0),nullptr);
 }

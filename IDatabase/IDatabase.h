@@ -10,12 +10,13 @@ struct Result;
 
 class IDatabase {
 public:
-    IDatabase(){};
-    ~IDatabase(){};
-    virtual const std::vector<int>& Select(int id) = 0;
-    virtual void Insert(int id, const std::vector<int>&) = 0;
+    ~IDatabase(){}
+     virtual const std::vector<int>& Select(int id) =0;
+     virtual void Insert(int id, const std::vector<int>&)=0;
 
 };
+
+
 
 
 #endif //TABLEOFLIFE_IDATABASE_H

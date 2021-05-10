@@ -8,15 +8,15 @@
 
 class TestDatabase final : public IDatabase {
 public:
-    TestDatabase(){};
+
    // TestDatabase(std::vector<int> &connect) {};
-    ~TestDatabase(){};
+
+    ~TestDatabase() = default;
+
 
     const std::vector<int>& Select(int id) override;
     void Insert(int id, const std::vector<int>&) override;
 
-private:
-    std::vector<Result*> connection;
 };
 
 

@@ -5,4 +5,4 @@ struct Result;
 
 void TestDatabase::Insert(int id, const std::vector<int>&) {}
 
-const vecor<int>& TestDatabase::Select(int id) {}
+const std::vector<int>& TestDatabase::Select(int id) {}
