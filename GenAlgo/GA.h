@@ -34,10 +34,10 @@ public:
 private:
     void RunParallel(std::vector<Genome<N>*>*, size_t start, size_t end);
     std::vector<Genome<N>*> population;
-    size_t populationSize;
-    size_t variants;
+    std::size_t populationSize;
+    std::size_t variants;
     // size_t people;
-    size_t maxIterations;
+    std::size_t maxIterations;
     std::mutex Safety;
     Genome<N>* best;
 };

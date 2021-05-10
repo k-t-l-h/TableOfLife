@@ -34,13 +34,13 @@ private:
     std::vector<std::bitset<N>> genes;
     float fitness;
     std::size_t size;
-    std::shared_mutex Safety;
+    std::shared_timed_mutex Safety;
 };
 
 template <std::size_t N>
 void Genome<N>::SetFitness(float ft) {
     //только один поток может владеть этим мьютексом
-    std::unique_lock<std::shared_mutex> lock(Safety, std::defer_lock);
+    std::unique_lock<std::shared_timed_mutex> lock(Safety, std::defer_lock);
     lock.lock(); //должен вызываться тут
     if (0 <= ft && ft <= 1) {
         fitness = ft;
@@ -54,7 +54,7 @@ void Genome<N>::SetFitness(float ft) {
 template <std::size_t N>
 float Genome<N>::GetFitness() {
     //читать может много потоков
-    std::shared_lock<std::shared_mutex> lock(Safety, std::defer_lock);
+    std::shared_lock<std::shared_timed_mutex> lock(Safety, std::defer_lock);
     lock.lock();
     return fitness;
 }
@@ -62,14 +62,14 @@ float Genome<N>::GetFitness() {
 template <std::size_t N>
 void Genome<N>::SetGenes(std::vector<std::bitset<N>> g) {
     //всё то же самое
-    std::unique_lock<std::shared_mutex> lock(Safety, std::defer_lock);
+    std::unique_lock<std::shared_timed_mutex> lock(Safety, std::defer_lock);
     lock.lock();
     genes = g;
 }
 
 template <std::size_t N>
 std::vector<std::bitset<N>> Genome<N>::GetGenes() {
-    std::shared_lock<std::shared_mutex> lock(Safety, std::defer_lock);
+    std::shared_lock<std::shared_timed_mutex> lock(Safety, std::defer_lock);
     lock.lock();
     return genes;
 }
@@ -77,14 +77,14 @@ std::vector<std::bitset<N>> Genome<N>::GetGenes() {
 template <std::size_t N>
 void Genome<N>::SetGene(std::size_t index, std::size_t value) {
     //эта функция нужна для мутаций
-    std::unique_lock<std::shared_mutex> lock(Safety, std::defer_lock);
+    std::unique_lock<std::shared_timed_mutex> lock(Safety, std::defer_lock);
     lock.lock();
     genes[index] = std::bitset<N>(value);
 }
 
 template <std::size_t N>
 std::size_t Genome<N>::GetGene(std::size_t index) {
-    std::shared_lock<std::shared_mutex> lock(Safety, std::defer_lock);
+    std::shared_lock<std::shared_timed_mutex> lock(Safety, std::defer_lock);
     lock.lock();
     std::bitset<N> gene = genes[index];
     auto value = gene.to_ulong();

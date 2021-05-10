@@ -4,7 +4,7 @@
 #include "IMater.h"
 
 template <std::size_t N>
-class TwoPointsMater : public IMater<N> {
+class TwoPointsMater final: public IMater<N> {
 public:
     explicit TwoPointsMater(float pr) : probability(pr){ srand(time(0)); };
     ~TwoPointsMater() = default;

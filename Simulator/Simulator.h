@@ -8,7 +8,7 @@
 //правило задается через SetRule()
 //функция остановки задается через SetExit()
 template <std::size_t N>
-class Simulator final : public ISimulator<N> {
+class Simulator final: public ISimulator<N> {
 public:
     explicit Simulator() = default;
     ~Simulator() = default;

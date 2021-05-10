@@ -3,7 +3,7 @@
 #include "IMutator.h"
 
 template <std::size_t N>
-class SimpleMutator : public IMutator<N> {
+class SimpleMutator final: public IMutator<N> {
  public:
   explicit SimpleMutator(float probability, std::size_t variants)
       : probability(probability), variants(variants){};

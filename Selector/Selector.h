@@ -4,7 +4,7 @@
 #include "ISelector.h"
 
 template <std::size_t N>
-class Selector : public ISelector<N> {
+class Selector final: public ISelector<N> {
 public:
     explicit Selector() = default;
     ~Selector() = default;

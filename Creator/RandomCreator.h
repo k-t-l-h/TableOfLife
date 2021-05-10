@@ -6,7 +6,7 @@
 
 //Рандомно создает гены
 template <std::size_t N>
-class RandomCreator : public ICreator<N> {
+class RandomCreator final: public ICreator<N> {
 public:
     RandomCreator() { srand(time(0)); };
     ~RandomCreator() = default;

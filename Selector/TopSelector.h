@@ -5,7 +5,7 @@
 
 //рулетка
 template <std::size_t N>
-class TopSelector : public ISelector<N> {
+class TopSelector final: public ISelector<N> {
 public:
     explicit TopSelector() = default;
     Genome<N>* Select(std::vector<Genome<N>*>) override;

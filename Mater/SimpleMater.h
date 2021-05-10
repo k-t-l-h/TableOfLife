@@ -5,7 +5,7 @@
 
 // One Point Mater
 template <std::size_t N>
-class Mater : public IMater<N> {
+class Mater final: public IMater<N> {
 public:
     explicit Mater(float pr) : probability(pr) { srand(time(nullptr)); };
     ~Mater() = default;
