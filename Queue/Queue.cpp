@@ -1,5 +1,4 @@
 #include "Queue.h"
-#include <vector>
 
 template<typename T>
 T Queue<T>::Pop() {
