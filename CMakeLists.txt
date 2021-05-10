@@ -1,3 +1,4 @@
+
 cmake_minimum_required(VERSION 3.10)
 project(TableOfLife)
 set(CMAKE_CXX_STANDARD 17)
@@ -10,14 +11,30 @@ include_directories(Mater)
 include_directories(Mutator)
 include_directories(Selector)
 include_directories(Simulator)
+include_directories(Adapter)
+include_directories(IDatabase)
+include_directories(Manager)
+include_directories(ParserToHuman)
+include_directories(PatternMaker)
+include_directories(Reporter)
+include_directories(Result)
+
+SET(CMAKE_CXX_COMPILER /usr/bin/c++)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -std=c++0x -Wall -Werror -Wpedantic")
+
 
 file(
         GLOB Project_SRC
         "${PROJECT_SOURCE_DIR}/Gtests/*"
-
 )
-
 add_executable(TableOfLife ${Project_SRC})
+
+add_library(reporter STATIC ./Reporter/Reporter.cpp ./Manager/Manager.cpp ./Adapter/Adapter.cpp )
+
+
 
 enable_testing()
 find_package(GTest REQUIRED)
