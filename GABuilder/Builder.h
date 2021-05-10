@@ -26,7 +26,7 @@ template <std::size_t N>
 class Builder {
 public:
     explicit Builder() : variants(0){
-       GenAlgo<N>* tmp = new GenAlgo<N>(1, 1, 1);
+       auto tmp = new GenAlgo<N>(1, 1, 1);
        GA = tmp;
     };
 
