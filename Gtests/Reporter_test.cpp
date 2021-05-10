@@ -6,6 +6,7 @@
 
 #include "../Result/Result.h"
 #include "../IDatabase/TestDatabase/TestDatabase.h"
+/*
 
 template<class T>
 class Queue<T>;
@@ -52,6 +53,7 @@ TEST(TEST_SETUP, default_reporter_setup){
     Reporter reporter;
     EXPECT_EQ(1,1);
 }
+*/
 
 
 

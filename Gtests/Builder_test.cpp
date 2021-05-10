@@ -76,7 +76,7 @@ TEST(TEST_BUILDER, set_up_mutator) {
   const std::size_t N = sizeof(int);
   Builder<N> builder;
   builder.SetMutator(1);
-  SimpleMutator<N> m(0);
+  SimpleMutator<N> m(0, 5);
   auto res = builder.GetResult();
   ASSERT_NE(res->Mutator, nullptr);
   ASSERT_EQ(typeid(*(res->Mutator)) == typeid(m), true);
@@ -86,7 +86,7 @@ TEST(TEST_BUILDER, set_up_reverse_mutator) {
   const std::size_t N = sizeof(int);
   Builder<N> builder;
   builder.SetReverseMutator(1);
-  ReverseMutator<N> m(0);
+  ReverseMutator<N> m(0, 0);
   auto res = builder.GetResult();
   ASSERT_NE(res->Mutator, nullptr);
   ASSERT_EQ(typeid(*(res->Mutator)) == typeid(m), true);

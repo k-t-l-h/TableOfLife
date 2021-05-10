@@ -18,7 +18,7 @@ void Reporter::WorkCycle(int t) {
     Result * res = (rque->front());
     rque->pop();
     db.Insert(res);
-    res.delete()//TODO !!!!!!!!!!!!!!
+    //res.delete() //TODO !!!!!!!!!!!!!!
 }
 
 //void Reporter::SetUp(std::shared_ptr<std::queue<Result*>> &results, std::shared_ptr<IDatabase> &db) {}

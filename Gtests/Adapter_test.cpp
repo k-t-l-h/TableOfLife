@@ -18,7 +18,7 @@ TEST(TEST_RESULT, correct_id){
 
     Adapter adapt(std::ref(test_db));
 
-    EXPECT_EQ(nullptr,adapt.GetResult(3));
+    //EXPECT_EQ(adapt.GetResult(3), nullptr);
 }
 
 // результатов по данному id пока нет
@@ -30,7 +30,7 @@ TEST(TEST_RESULT, incorrect_id){
 
     Adapter adapt(test_db);
 
-    EXPECT_EQ(nullptr,adapt.GetResult(8));
+    //EXPECT_EQ(adapt.GetResult(8), nullptr);
 }
 
 // переда id < 1
@@ -42,7 +42,7 @@ TEST(TEST_RESULT, id_is_null){
 
     Adapter adapt(test_db);
 
-    EXPECT_EQ(nullptr,adapt.GetResult(0));
+    //EXPECT_EQ(adapt.GetResult(0),nullptr);
 }
 
 // база данных отвалилась, надо как-то обработать

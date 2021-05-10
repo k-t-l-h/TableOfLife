@@ -11,7 +11,6 @@ public:
     std::string& GetReadable(const std::vector<int>&);
 private:
 
-    ParserToHuman() = delete;
     ParserToHuman(const ParserToHuman &a) = delete;
     ParserToHuman& operator=(const ParserToHuman &a) = delete;
 
