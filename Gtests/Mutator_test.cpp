@@ -42,7 +42,7 @@ TEST(TEST_MUTATOR, zero2_random) {
   ReverseMutator<N> m(probability, 5);
 
   Genome<N> g(1);
-  auto answer = rm.Mutate(&g);
+  auto answer = m.Mutate(&g);
   ASSERT_NE(answer, nullptr);
   ASSERT_EQ(answer->GetGene(0), g.GetGene(0));
 }
@@ -68,6 +68,6 @@ TEST(TEST_MUTATOR, for_sure_random) {
   Genome<N> g(1);
   g.SetGene(0, value);
   //мутация возвращает копию или новый объект
-  auto answer = rm.Mutate(&g);
+  auto answer = m.Mutate(&g);
   ASSERT_NE(answer->GetGene(0), value);
 }
