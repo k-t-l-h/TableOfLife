@@ -17,7 +17,7 @@ void Reporter::WorkCycle(int t) {
     const std::lock_guard<std::mutex> lock(rque_mutex);
     Result * res = (rque->front());
     rque->pop();
-    db.Insert(res);
+    //db.Insert(res);
     //res.delete() //TODO !!!!!!!!!!!!!!
 }
 
