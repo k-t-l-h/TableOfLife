@@ -5,14 +5,12 @@
 #include "../IDatabase.h"
 #include "../../Result/Result.h"
 
-class Result;
 
-
-class TestDatabase: public IDatabase {
+class TestDatabase final : public IDatabase {
 public:
-    TestDatabase();
-    TestDatabase(vector<int> &connect);
-    ~TestDatabase() override;
+    TestDatabase(){};
+   // TestDatabase(std::vector<int> &connect) {};
+    ~TestDatabase(){};
 
     const std::vector<int>& Select(int id) override;
     void Insert(int id, const std::vector<int>&) override;

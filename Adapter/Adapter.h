@@ -12,7 +12,7 @@ public:
     Adapter(std::shared_ptr<IDatabase> &t_db);
     ~Adapter();
 
-    const std::vector<int>& GetResult(int) const;
+    std::vector<int> GetResult(int) const;
 
 private:
     Adapter(const Adapter &a) = delete;

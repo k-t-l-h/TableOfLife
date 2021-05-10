@@ -3,7 +3,7 @@
 
 TEST(TEST_GA, test_ok_run) {
     const std::size_t N = sizeof(int);
-    GenAlgo<N> genAlgo;
+    GenAlgo<N> genAlgo(0, 0,0);
     ASSERT_NO_THROW(genAlgo.Run());
 }
 

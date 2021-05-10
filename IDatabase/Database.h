@@ -8,9 +8,9 @@ class Database: public IDatabase {
 public:
     Database();
     Database(sql *connect);
-    ~Database() override;
+    ~Database() = default;
 
-    const std::vector<int> Select(int id) override;
+    const std::vector<int>& Select(int id) override;
     void Insert(int id, const std::vector<int>&) override;
 
 private:

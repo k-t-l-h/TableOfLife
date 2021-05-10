@@ -10,12 +10,10 @@ struct Result;
 
 class IDatabase {
 public:
-
-    virtual ~IDatabase() = 0 ;
-
+    IDatabase(){};
+    ~IDatabase(){};
     virtual const std::vector<int>& Select(int id) = 0;
     virtual void Insert(int id, const std::vector<int>&) = 0;
-    virtual void Insert(Result*) = 0;
 
 };
 
