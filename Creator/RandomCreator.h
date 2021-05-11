@@ -3,6 +3,7 @@
 
 #include "../Genome/Genome.h"
 #include "ICreator.h"
+#include <cmath>
 #include <thread>
 
 //Рандомно создает гены
@@ -48,15 +49,18 @@ std::vector<Genome<N> *> RandomCreator<N>::Create(std::size_t all,
     //смотрим сколько можем создать тредов
     auto nthreads = std::thread::hardware_concurrency();
 
-    //TODO: здесь обнаружилась ошибка с числом тредов
-    //TODO: нужно её использовать
-    std::size_t  parts = all / nthreads;
+    //увеличиваем число до максимума
+    auto  parts = static_cast<std::size_t>(ceil(double(all) / nthreads));
+    //если число тредов больше числа частей
     nthreads = parts == 0 ? all : nthreads;
+    //этот же случай
     parts = parts > 0 ? parts: 1;
     std::vector<std::thread> threads;
 
-    for (int i = 0; i < nthreads; ++i) {
 
+    for (int i = 0; i < nthreads; ++i) {
+        parts = parts > all ? all: parts;
+        all -= parts;
         std::thread t(GenerateInThread, std::ref(generation),
                       parts,vars, length);
         threads.push_back(std::move(t));
