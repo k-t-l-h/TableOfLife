@@ -14,16 +14,29 @@
 template <std::size_t N>
 class GenAlgo {
 public:
+    //TODO: добавить количество людей
     GenAlgo(size_t pt, size_t vars, size_t max)
             : populationSize(pt), variants(vars), maxIterations(max),
           Creator(nullptr),
           Selector(nullptr),
           Mater(nullptr),
           Mutator(nullptr),
-          Simulator(nullptr){};
+          Simulator(nullptr),
+          people(0),
+          maxThreads(0){};
+
+    GenAlgo(size_t pt, size_t vars, size_t max, int threads)
+            : populationSize(pt), variants(vars), maxIterations(max),
+              Creator(nullptr),
+              Selector(nullptr),
+              Mater(nullptr),
+              Mutator(nullptr),
+              Simulator(nullptr),
+              people(0),
+              maxThreads(threads){};
     ~GenAlgo() = default;
     void Run();
-    std::vector<int> GetBest();
+    std::vector<size_t> GetBest();
 
     ICreator<N>* Creator;
     ISelector<N>* Selector;
@@ -36,21 +49,23 @@ private:
     std::vector<Genome<N>*> population;
     std::size_t populationSize;
     std::size_t variants;
-    // size_t people;
+    std::size_t people; //количество людей
     std::size_t maxIterations;
     std::mutex Safety;
     Genome<N>* best;
+
+    int maxThreads;
 };
 
 template <std::size_t N>
-std::vector<int> GenAlgo<N>::GetBest() {
+std::vector<std::size_t> GenAlgo<N>::GetBest() {
     if (best == nullptr) {
-        return std::vector<int>(1);
+        return std::vector<size_t>(people);
     }
 
-    std::vector<int> result;
+    std::vector<std::size_t> result;
 
-    for (int i = 0; i < 2; ++i) {
+    for (int i = 0; i < people; ++i) {
         result.push_back(best->GetGene(i));
     }
     return result;
@@ -58,7 +73,7 @@ std::vector<int> GenAlgo<N>::GetBest() {
 template <std::size_t N>
 void GenAlgo<N>::Run() {
     //создается начальная популяция
-    population = Creator->Create(populationSize, 2, variants);
+    population = Creator->Create(populationSize, people, variants);
     best = population[0];
 
     //начальная популяция оценивается
