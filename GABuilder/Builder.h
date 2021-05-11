@@ -33,7 +33,7 @@ public:
     ~Builder() {
             delete GA;
     };
-    void Reset(std::size_t);  //создание нового ГА
+    void Reset(std::size_t, std::size_t);  //создание нового ГА
 
     void SetMutator(float);         //как происходят  мутации
     void SetReverseMutator(float);  //чтобы оправдать выбор
@@ -59,15 +59,16 @@ private:
 
 //при ресете необходимо указывать новое количество вариантов
 template <std::size_t N>
-void Builder<N>::Reset(std::size_t variants) {
+void Builder<N>::Reset(std::size_t vr, std::size_t people) {
     //подсчет начальной популяции идет в зависимости от вариантов
     //т.к. необходимо убедиться, что достаточно вариантов,
     //чтобы каждый ген встретился хотя бы один раз
+    variants = vr;
 
     // TODO: просчитать вероятность
-    std::size_t population = variants*2;
+    std::size_t population = variants*100;
 
-    GenAlgo<N>* tmp = new GenAlgo<N>(population, variants, 10);
+    GenAlgo<N>* tmp = new GenAlgo<N>(population, variants, people);
     delete GA;
     GA = tmp;
 }
