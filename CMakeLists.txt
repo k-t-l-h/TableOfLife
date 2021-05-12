@@ -28,7 +28,7 @@ file(
         "${PROJECT_SOURCE_DIR}/Gtests/*"
 )
 
-add_library(reporter STATIC ./Reporter/Reporter.cpp ./Manager/Manager.cpp ./Adapter/Adapter.cpp )
+add_library(reporter STATIC ./Reporter/Reporter.cpp ./Manager/Manager.cpp ./Adapter/Adapter.cpp ./IDatabase/TestDatabase/TestDatabase.cpp)
 
 
 add_executable(TableOfLife ${Project_SRC})
