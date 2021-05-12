@@ -1,57 +1,62 @@
 #include <gtest/gtest.h>
-#include "../ParserToGA/ParserToGA.h"
+#include "../ParserToGA/ParserToGA.cpp"
 #include "../Queue/Queue.h"
+#include <string>
 
 
-TEST(TEST_PARSERTOGA, test_set_status) {
-    Queue<Request> q{};
-    ParserToGA<Request> parse(q);
-    parse.SetStatus();
-    ASSERT_EQ((bool)parse.workStatus, true);
+TEST(TEST_PARSERTOGA, work_parse_all) {
+    ParserToGA<Request> parse;
+    std::string request = "{\"id\": 0,\"classes\":[{\"id_groups\": 1,\"name\": \"WEB\",\"teacher\": \"Dinar\",\"count_students\": 21},{\"id_groups\":"
+                          " 2,\"name\": \"C++\",\"teacher\":\"Uliana\",\"count_students\": 21},{\"id_groups\": 1,\"name\": \"ALGORITHM\",\"teacher\": "
+                          "\"Krimov\",\"count_students\": 21}],\"classesNumber\": 0,\"students\": [ [1, 0, 1],[1, 0, 1],[1, 0, 1],[1, 0, 1]],\"iterations\": 5,"
+                          "\"params\": {\"crossover\": \"default\",\"mutation\": \"default\",\"selector\": \"default\",\"creator\": \"default\"}}";
+    ASSERT_NE(nullptr, parse.WorkCycle(&request));
+    ASSERT_EQ(parse.SetStatus(), true);
 }
 
-TEST(TEST_PARSERTOGA, test_work_validation_all) {
-    Queue<Request> queue;
-    ParserToGA parse(queue);
-    std::string str = "{\"id\": 34, \"field\": 0, \"iterations\": \"12:30\", \"strategy\" : \"sriiiing\", "
-                      "\"data\" : { \"profession\": \"mechanic\", \"profession\": \"mechanic\"}}";
-    parse.WorkCycle(&str);
-
-    ASSERT_EQ(queue.Empty(), false);
+// сломается если ключ не валидный
+TEST(TEST_PARSERTOGA, validation_key) {
+    ParserToGA<Request> parse;
+    std::string request = "{\"idwev\": 0,\"classes\":[{\"id_groups\": 1,\"name\": \"WEB\",\"teacher\": \"Dinar\",\"count_students\": 21},{\"id_groups\":"
+                          " 2,\"name\": \"C++\",\"teacher\":\"Uliana\",\"count_students\": 21},{\"id_groups\": 1,\"name\": \"ALGORITHM\",\"teacher\": "
+                          "\"Krimov\",\"count_students\": 21}],\"classesNumber\": 0,\"students\": [ [1, 0, 1],[1, 0, 1],[1, 0, 1],[1, 0, 1]],\"iterations\": 5,"
+                          "\"params\": {\"crossover\": \"default\",\"mutation\": \"default\",\"selector\": \"default\",\"creator\": \"default\"}}";
+    ASSERT_EQ(nullptr, parse.WorkCycle(&request));
+    ASSERT_EQ(parse.SetStatus(), false);
 }
 
-TEST(TEST_PARSERTOGA, test_work_validation_data) {
-    Queue<Request> queue;
-    ParserToGA<Request> parse(queue);
-    std::string str = "{\"id\": 34, \"field\": 0, \"iterations\": \"12:30\", \"strategy\" : \"sriiiing\", "
-                        "\"data\" : { ion\": \"mechanic\", \"profession\": \"mechanic\"}}";
-    parse.WorkCycle(&str);
-    ASSERT_EQ(queue.Empty(), true);
+// проверка на отриц числа в id
+TEST(TEST_PARSERTOGA, validation_negative_num) {
+    ParserToGA<Request> parse;
+    std::string request = "{\"id\": -1321,\"classes\":[{\"id_groups\": 1,\"name\": \"WEB\",\"teacher\": \"Dinar\",\"count_students\": 21},{\"id_groups\":"
+                          " 2,\"name\": \"C++\",\"teacher\":\"Uliana\",\"count_students\": 21},{\"id_groups\": 1,\"name\": \"ALGORITHM\",\"teacher\": "
+                          "\"Krimov\",\"count_students\": 21}],\"classesNumber\": 0,\"students\": [ [1, 0, 1],[1, 0, 1],[1, 0, 1],[1, 0, 1]],\"iterations\": 5,"
+                          "\"params\": {\"crossover\": \"default\",\"mutation\": \"default\",\"selector\": \"default\",\"creator\": \"default\"}}";
+    ASSERT_EQ(nullptr, parse.WorkCycle(&request));
+    ASSERT_EQ(parse.SetStatus(), false);
 }
 
-TEST(TEST_PARSERTOGA, test_work_validation_field) {
-    Queue<Request> queue;
-    ParserToGA<Request> parse(queue);
-    std::string str = "{\"id\": 34, \"field\": text, \"iterations\": \"12:30\", \"strategy\" : \"sriiiing\", "
-                      "\"data\" : { \"profession\": \"mechanic\", \"profession\": \"mechanic\"}}";
-    parse.WorkCycle(&str);
-    ASSERT_EQ(queue.Empty(), true);
+// соблюдаем правило: количество занятий и параметры учеников, сколько занятий столько и размер каждого массива в students
+TEST(TEST_PARSERTOGA, validation_students) {
+    ParserToGA<Request> parse;
+    std::string request = "{\"id\": 34,\"classes\":[{\"id_groups\": 1,\"name\": \"WEB\",\"teacher\": \"Dinar\",\"count_students\": 21},{\"id_groups\":"
+                          " 2,\"name\": \"C++\",\"teacher\":\"Uliana\",\"count_students\": 21},{\"id_groups\": 1,\"name\": \"ALGORITHM\",\"teacher\": "
+                          "\"Krimov\",\"count_students\": 21}],\"classesNumber\": 0,\"students\": [ [1, 0, 1],[1, 1],[1, 0, 1],[1, 0, 1]],\"iterations\": 5,"
+                          "\"params\": {\"crossover\": \"default\",\"mutation\": \"default\",\"selector\": \"default\",\"creator\": \"default\"}}";
+    ASSERT_EQ(nullptr, parse.WorkCycle(&request));
+    ASSERT_EQ(parse.SetStatus(), false);
 }
 
-TEST(TEST_PARSERTOGA, test_work_validation_iterations) {
-    Queue<Request> queue;
-    ParserToGA<Request> parse(queue);
-    std::string str = "{\"id\": 34, \"field\": 0, \"iterations\": \"ceewwwef0\", \"strategy\" : \"sriiiing\", "
-                      "\"data\" : { \"profession\": \"mechanic\", \"profession\": \"mechanic\"}}";
-    parse.WorkCycle(&str);
-    ASSERT_EQ(queue.Empty(), true);
+// не валидный json
+TEST(TEST_PARSERTOGA, validation_json) {
+    ParserToGA<Request> parse;
+    std::string request = R"("id": 34,"classes":[{"id_groups})";
+    ASSERT_EQ(nullptr, parse.WorkCycle(&request));
+    ASSERT_EQ(parse.SetStatus(), false);
 }
 
-TEST(TEST_PARSERTOGA, test_work_validation_strategy) {
-    Queue<Request> queue;
-    ParserToGA<Request> parse(queue);
-    std::string str = "{\"id\": 34, \"field\": 0, \"iterations\": \"12:30\", \"strategy\" : \"\", "
-                      "\"data\" : { \"profession\": \"mechanic\", \"profession\": \"mechanic\"}}";
-    parse.WorkCycle(&str);
-    ASSERT_EQ(queue.Empty(), true);
+
+int main(int argc, char** argv) {
+    ::testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
 }

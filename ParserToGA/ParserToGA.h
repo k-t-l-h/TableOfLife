@@ -1,40 +1,41 @@
 #include <iostream>
 #include "../Request/Request.h"
 #include "../Queue/Queue.h"
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/json_parser.hpp>
+#include <mutex>
 
 #ifndef TABLEOFLIFE_PARSERTOGA_H
 #define TABLEOFLIFE_PARSERTOGA_H
 
+namespace pt = boost::property_tree;
+
 template <typename T>
 class ParserToGA {
 public:
-    ParserToGA(Queue<T> que) : workStatus(true), requestReq(nullptr), que(que) {};
+    ParserToGA() : req(new Request) {};
     ParserToGA(const ParserToGA&) = delete;
-    ~ParserToGA() = default;
+    ~ParserToGA() {
+        delete req;
+    };
 
-    void WorkCycle(std::string * dataJson);
+    Request * WorkCycle(std::string * dataJson); // вызывается с сервера и кладется стринга json-а типа string
 
-    void SetStatus();
-
-    void PushRequest();
-
-    void MakeRequest();
-
-
-    bool workStatus;
+    bool SetStatus();
 
 private:
-    Request * requestReq;
+    Request * req;
     std::string requestStr;
-    Queue<T> que;
+    std::mutex status_work;
+    bool status_validation;
 
-    bool validateData(std::string requestStr);
+    void ParserToRequest(); // преобразование в тип Request
 
-    bool validateField(std::string requestStr);
+    void ParserValidate();
 
-    bool validateIterations(std::string requestStr);
+    bool validateClasses();
 
-    bool validateStrategy(std::string requestStr);
+    bool validateStudents();
 };
 
 #endif //TABLEOFLIFE_PARSERTOGA_H

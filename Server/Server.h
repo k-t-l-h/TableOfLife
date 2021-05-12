@@ -27,6 +27,7 @@ public:
     int SendAnswer();
 
 private:
+
     bool status;
     uint16_t port;
     std::string address;
