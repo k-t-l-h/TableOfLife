@@ -14,13 +14,25 @@ include_directories(Mutator)
 include_directories(Selector)
 include_directories(Simulator)
 
+
+include_directories(Adapter)
+include_directories(IDatabase)
+include_directories(Manager)
+include_directories(ParserToHuman)
+include_directories(PatternMaker)
+include_directories(Reporter)
+include_directories(Result)
+
 file(
         GLOB Project_SRC
         "${PROJECT_SOURCE_DIR}/Gtests/*"
-
 )
 
-add_executable(TableOfLife ${Project_SRC})
+add_library(reporter STATIC ./Reporter/Reporter.cpp ./Manager/Manager.cpp ./Adapter/Adapter.cpp )
+
+
+add_executable(TableOfLife ./../Gtests/main.cpp)
+target_link_libraries(TableOfLife reporter)
 
 enable_testing()
 find_package(GTest REQUIRED)
@@ -28,5 +40,6 @@ include_directories(${GTEST_INCLUDE_DIRS})
 
 target_link_libraries(TableOfLife ${GTEST_LIBRARIES})
 target_link_libraries(TableOfLife pthread)
+
 
 add_test(TableOfLife TableOfLife)
