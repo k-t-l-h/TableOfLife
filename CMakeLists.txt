@@ -21,11 +21,13 @@ file(
         "${PROJECT_SOURCE_DIR}/Gtests/*"
 )
 
-add_library(reporter STATIC ./Reporter/Reporter.cpp ./Manager/Manager.cpp ./Adapter/Adapter.cpp ./IDatabase/TestDatabase/TestDatabase.cpp)
 
+
+
+add_library(slava STATIC ./Reporter/Reporter.cpp ./Manager/Manager.cpp ./Adapter/Adapter.cpp ./IDatabase/TestDatabase/TestDatabase.cpp ./IDatabase/Database.cpp)
 
 add_executable(TableOfLife ./../Gtests/main.cpp)
-target_link_libraries(TableOfLife reporter)
+target_link_libraries(TableOfLife slava)
 
 enable_testing()
 find_package(GTest REQUIRED)
@@ -35,4 +37,6 @@ target_link_libraries(TableOfLife ${GTEST_LIBRARIES})
 target_link_libraries(TableOfLife pthread)
 
 add_test(TableOfLife TableOfLife)
+
+
 
