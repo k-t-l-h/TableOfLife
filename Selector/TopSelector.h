@@ -22,6 +22,7 @@ Genome<N>* TopSelector<N>::Select(std::vector<Genome<N>*> genomes) {
             total += gene->GetFitness();
         }
     }
+
     if (total == 0) {
         int rands = rand() % genomes.size();
         return genomes.at(rands);

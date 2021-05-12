@@ -26,6 +26,7 @@ std::vector<Genome<N>*> TwoPointsMater<N>::Mate(Genome<N>* left,
         return children;
     }
 
+    //TODO: randomness
     auto value = rand();
     float rands = float(value) / (float)RAND_MAX;
 
@@ -47,8 +48,8 @@ std::vector<Genome<N>*> TwoPointsMater<N>::Mate(Genome<N>* left,
         std::swap(fisrtp, secondp);
     }
 
-    Genome<N>* lchild = new Genome<N>(lefts);
-    Genome<N>* rchild = new Genome<N>(rights);
+    Genome<N>* lchild = new Genome<N>(left);
+    Genome<N>* rchild = new Genome<N>(right);
 
     if (rands < probability) {
         for (std::size_t i = 0; i < general; ++i) {

@@ -14,27 +14,40 @@
 template <std::size_t N>
 class GenAlgo {
 public:
-    //TODO: добавить количество людей
-    GenAlgo(size_t pt, size_t vars, size_t max)
+    GenAlgo(size_t pt, size_t vars, size_t max, size_t people)
             : populationSize(pt), variants(vars), maxIterations(max),
           Creator(nullptr),
           Selector(nullptr),
           Mater(nullptr),
           Mutator(nullptr),
           Simulator(nullptr),
-          people(0),
+          people(people),
           maxThreads(0){};
 
-    GenAlgo(size_t pt, size_t vars, size_t max, int threads)
+    GenAlgo(size_t pt, size_t vars, size_t max, size_t people, int threads)
             : populationSize(pt), variants(vars), maxIterations(max),
               Creator(nullptr),
               Selector(nullptr),
               Mater(nullptr),
               Mutator(nullptr),
               Simulator(nullptr),
-              people(0),
+              people(people),
               maxThreads(threads){};
-    ~GenAlgo() = default;
+
+
+    ~GenAlgo() {
+        for(auto &p: population) {
+            delete p;
+        }
+        /*
+        delete Creator;
+        delete Mater;
+        delete Mutator;
+        delete Selector;
+        delete Simulator;
+         */
+    }
+
     void Run();
     std::vector<size_t> GetBest();
 
@@ -45,15 +58,16 @@ public:
     ISimulator<N>* Simulator;
 
 private:
-    void RunParallel(std::vector<Genome<N>*>*, size_t start, size_t end);
+    void FitnessParallel(std::vector<Genome<N>*>&, size_t start, size_t end);
+    void CrossoverParallel(std::vector<Genome<N>*>&, size_t);
+    void MutateParallel(std::vector<Genome<N>*>&, size_t);
     std::vector<Genome<N>*> population;
     std::size_t populationSize;
     std::size_t variants;
-    std::size_t people; //количество людей
+    std::size_t people;
     std::size_t maxIterations;
     std::mutex Safety;
     Genome<N>* best;
-
     int maxThreads;
 };
 
@@ -73,57 +87,99 @@ std::vector<std::size_t> GenAlgo<N>::GetBest() {
 template <std::size_t N>
 void GenAlgo<N>::Run() {
     //создается начальная популяция
+    if (Creator == nullptr || Simulator == nullptr) {
+        return;
+    }
+
     population = Creator->Create(populationSize, people, variants);
     best = population[0];
 
+
+    //сколько тредов мы можем создать
+    auto nthreads = maxThreads == 0 ? std::thread::hardware_concurrency(): maxThreads;
+    nthreads = nthreads > std::thread::hardware_concurrency()? std::thread::hardware_concurrency(): nthreads;
+    //сколько частей в начальной популяции
+    auto  parts = static_cast<std::size_t>(ceil(double(populationSize) / nthreads));
+    //если число тредов больше числа частей
+    nthreads = parts == 0 ? populationSize : nthreads;
+    //этот же случай
+    parts = parts > 0 ? parts: 1;
+    std::vector<std::thread> threads;
+
+
     //начальная популяция оценивается
-    for (int i = 0; i < population.size(); ++i) {
-        Simulator->Simulate(population[i]);
-        if (Simulator->Exit(population[i])) {
-        }
-        Safety.lock();
-        Genome<N>* value = population[i];
-        if (value->GetFitness() > best->GetFitness()) {
-            best = population.at(i);
-        }
-        Safety.unlock();
+    for (int i = 0; i < nthreads; ) {
+        size_t end = (++i)*parts;
+        end = end > populationSize ? populationSize: end;
+        std::thread t(&GenAlgo<N>::FitnessParallel,
+                      this, std::ref(population), i*parts, end);
+        threads.push_back(std::move(t));
     }
 
+    for (std::thread & th : threads)
+    {
+        if (th.joinable())
+            th.join();
+    }
+    //очищаем и переиспользуем
+    threads.clear();
+
     //запускаем эволюцию
-    bool status = true;
     size_t iteration = 0;
-    while (status && iteration++ < maxIterations) {
+    while (!Simulator->Exit(best) && iteration++ < maxIterations) {
         std::vector<Genome<N>*> new_population;
-        //скрещиваем всех особей, по две штуки за раз
-        for (int i = 0; i < populationSize; i++) {
-            Genome<N>* left = Selector->Select(population);
-            Genome<N>* right = Selector->Select(population);
-            auto child = Mater->Mate(left, right);
-            Genome<N>* lmutant = Mutator->Mutate(left);
-            Genome<N>* rmutant = Mutator->Mutate(right);
-            new_population.push_back(child[0]);
-            new_population.push_back(child[1]);
-            new_population.push_back(lmutant);
-            new_population.push_back(rmutant);
+        //скрещиваем всех особей
+
+        parts  = static_cast<std::size_t>(ceil(double(populationSize) / nthreads));
+        for (int i = 0; i < nthreads; i++) {
+            int count = i*parts > populationSize? populationSize: i*parts;
+            std::thread t(&GenAlgo<N>::CrossoverParallel,
+                          this, std::ref(new_population), count);
+            threads.push_back(std::move(t));
         }
+
+        for (std::thread & th : threads)
+        {
+            if (th.joinable())
+                th.join();
+        }
+
+        threads.clear();
+        parts  = static_cast<std::size_t>(ceil(double(populationSize) / nthreads));
+        for (int i = 0; i < nthreads; i++) {
+            int count = i*parts > populationSize? populationSize: i*parts;
+            std::thread t(&GenAlgo<N>::MutateParallel,
+                          this, std::ref(new_population), count);
+            threads.push_back(std::move(t));
+        }
+
+        for (std::thread & th : threads)
+        {
+            if (th.joinable())
+                th.join();
+        }
+        threads.clear();
 
         //теперь переоцениваем всех
-        for (int i = 0; i < new_population.size(); ++i) {
-            //оцениваем каждую особь
-            Simulator->Simulate(new_population[i]);
-            if (Simulator->Exit(new_population[i])) {
-                //не выходим сразу, т.к. может быть решение получше
-                status = false;
-            }
-            Safety.lock();
-            Genome<N>* value = new_population[i];
-            if (value->GetFitness() > best->GetFitness()) {
-                best = new_population[i];
-            }
-            Safety.unlock();
+        parts = static_cast<std::size_t>(ceil(double(new_population.size()) / nthreads));
+        parts = parts > 0 ? parts: 1;
+        for (int i = 0; i < maxThreads; ) {
+            size_t end = (++i)*parts;
+            end = end > new_population.size() ? new_population.size(): end;
+            std::thread t(&GenAlgo<N>::FitnessParallel,
+                          this, std::ref(new_population), i*parts, end);
+            threads.push_back(std::move(t));
         }
 
-        if (status) {
+        for (std::thread & th : threads)
+        {
+            if (th.joinable())
+                th.join();
+        }
+        threads.clear();
+
+
+        if (!Simulator->Exit(best)) {
             //не забываем сохранить лучшую копию
             population.clear();
             population.push_back(best);
@@ -132,10 +188,61 @@ void GenAlgo<N>::Run() {
             }
         }
     }
+
 }
 
-template <std::size_t N>
-void GenAlgo<N>::RunParallel(std::vector<Genome<N>*>*, size_t start,
-                             size_t end) {}
+template<std::size_t N>
+void GenAlgo<N>::FitnessParallel(std::vector<Genome<N> *> &pp, size_t start, size_t end) {
+
+    if (Simulator == nullptr ) {
+        return;
+    }
+
+    for (int i = start; i < end; ++i) {
+        Simulator->Simulate(pp[i]);
+        if (Simulator->Exit(pp[i])) {
+        }
+        Safety.lock();
+        Genome<N>* value = pp[i];
+        if (value != nullptr && value->GetFitness() > best->GetFitness()) {
+            best = pp.at(i);
+        }
+        Safety.unlock();
+    }
+}
+
+template<std::size_t N>
+void GenAlgo<N>::CrossoverParallel(std::vector<Genome<N> *> &pp, size_t count) {
+
+    if (Selector == nullptr || Mater == nullptr) {
+        return;
+    }
+    //здесь логика заковыристее
+    //т.к. передается массив, куда засовываются потомки
+    for (int i = 0; i < count; ++i) {
+        Genome<N>* left = Selector->Select(population);
+        Genome<N>* right = Selector->Select(population);
+        auto child = Mater->Mate(left, right);
+
+        for(auto &ch: child){
+            pp.push_back(ch);
+        }
+    }
+}
+
+template<std::size_t N>
+void GenAlgo<N>::MutateParallel(std::vector<Genome<N> *> &pp, size_t count) {
+    if (Selector == nullptr || Mutator == nullptr) {
+        return;
+    }
+    //здесь логика заковыристее
+    //т.к. передается массив, куда засовываются потомки
+    for (int i = 0; i < count; ++i) {
+        Genome<N>* mom = Selector->Select(population);
+        Genome<N>* mutant = Mutator->Mutate(mom);
+        pp.push_back(mutant);
+    }
+}
+
 
 #endif  // TABLEOFLIFE_GA_H
