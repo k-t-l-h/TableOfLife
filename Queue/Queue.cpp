@@ -3,6 +3,10 @@
 template<typename T>
 T Queue<T>::Pop() {
     std::lock_guard<std::mutex> guard(state);
+    if(container.empty()) {
+        T nullReq;
+        return nullReq;
+    }
     T end = container.front();
     container.erase(container.begin());
     return end;
@@ -21,6 +25,6 @@ bool Queue<T>::Empty() {
 }
 
 template<typename T>
-int Queue<T>::Size() {
+int Queue<T>::Size() { // ф созданная для тестов в основном
     return container.size();
 }

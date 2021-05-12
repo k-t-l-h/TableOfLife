@@ -12,15 +12,15 @@
 //};
 
 struct Params {
-    std::string crossover = "";
-    std::string mutation = "";
-    std::string selector = "";
-    std::string creator = "";
+    std::string crossover;
+    std::string mutation;
+    std::string selector;
+    std::string creator;
 };
 
 struct Classes {
-    std::string name = "";// название занятия
-    std::string teacher = ""; // имя преподавателя
+    std::string name;// название занятия
+    std::string teacher; // имя преподавателя
     int id_groups = 0; // хранит id группы (Group)
 };
 
@@ -28,7 +28,6 @@ class Request {
 public:
     Request(): ClassesNumber(0), id(0), Iterations(0), students(0), classes(0) { } ;
     ~Request() = default;
-    Request(const Request&) =delete;
 
     int id; // Генерируем на сервере uuid и отдаем пользователю
     std::vector<Classes> classes; // все занятия, а вних id группы

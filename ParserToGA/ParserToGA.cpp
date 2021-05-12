@@ -5,8 +5,7 @@
 
 
 template <typename T> bool ParserToGA<T>::validateClasses() {
-
-    return (req->classes.size() > 0) ? true : status_validation = false;
+    return (!req->classes.empty()) || (status_validation = false);
 }
 
 template <typename T> bool ParserToGA<T>::validateStudents() {
@@ -83,7 +82,7 @@ void ParserToGA<T>::ParserToRequest() {
 
 }
 
-template<typename T>
+template<typename T> // для тестов
 bool ParserToGA<T>::SetStatus() {
     if (!status_validation)
         return false;
