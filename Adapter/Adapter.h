@@ -19,7 +19,7 @@ private:
     Adapter(const Adapter &a) = delete;
     Adapter& operator=(const Adapter &a) = delete;
 
-    mutable std::shared_mutex mtx;
+    //mutable std::shared_mutex mtx;
     std::shared_ptr<IDatabase> db;
 };
 
