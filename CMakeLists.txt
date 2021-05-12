@@ -31,7 +31,7 @@ file(
 add_library(reporter STATIC ./Reporter/Reporter.cpp ./Manager/Manager.cpp ./Adapter/Adapter.cpp )
 
 
-add_executable(TableOfLife ./../Gtests/main.cpp)
+add_executable(TableOfLife ${Project_SRC})
 target_link_libraries(TableOfLife reporter)
 
 enable_testing()
