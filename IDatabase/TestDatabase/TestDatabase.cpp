@@ -1,11 +1,20 @@
 #include "TestDatabase.h"
 
-int TestDatabase::TestDatabase() {}
+//int TestDatabase::TestDatabase() {}
 
-TestDatabase::TestDatabase(const std::vector<int> &connect) {}
+bool TestDatabase::Insert(int u_id, const std::vector<int>& t_vec) {
 
-void TestDatabase::Insert(int id, const std::vector<int>&) {}
+    if ( this->id == u_id ) return false;
 
-TestDatabase::~TestDatabase() override {}
+    data = t_vec;
+    this->id = u_id;
+    return true;
+}
 
-const vecor<int>& TestDatabase::Select(int id) {}
+TestDatabase::~TestDatabase() {}
+
+std::vector<int> TestDatabase::Select(int u_id) {
+    if ( this->id != u_id ) return std::vector<int>();
+
+    return this->data;
+}

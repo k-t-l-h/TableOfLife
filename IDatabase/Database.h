@@ -10,8 +10,8 @@ public:
     Database(sql *connect);
     ~Database() override;
 
-    const std::vector<int> Select(int id) override;
-    void Insert(int id, const std::vector<int>&) override;
+    std::vector<int> Select(int id) override;
+    bool Insert(int id, const std::vector<int>&) override;
 
 private:
     sql *connection;

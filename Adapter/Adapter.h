@@ -3,21 +3,23 @@
 
 #include <memory>
 #include <vector>
+#include <shared_mutex>
 
 class IDatabase;
 
 class Adapter {
 public:
     Adapter();
-    Adapter(std::shared_ptr<IDatabase> &t_db);
+    explicit Adapter(std::shared_ptr<IDatabase> t_db);
     ~Adapter();
 
-    std::vector<int> GetResult(int) const;
+    const std::vector<int> GetResult(int) const;
 
 private:
     Adapter(const Adapter &a) = delete;
     Adapter& operator=(const Adapter &a) = delete;
 
+    mutable std::shared_mutex mtx;
     std::shared_ptr<IDatabase> db;
 };
 

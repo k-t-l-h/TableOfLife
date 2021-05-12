@@ -5,20 +5,17 @@
 #include "../IDatabase.h"
 #include "../../Result/Result.h"
 
-class Result;
-
-
 class TestDatabase: public IDatabase {
 public:
-    TestDatabase();
-    TestDatabase(vector<int> &connect);
+    TestDatabase() = default;
     ~TestDatabase() override;
 
-    const std::vector<int>& Select(int id) override;
-    void Insert(int id, const std::vector<int>&) override;
+    std::vector<int> Select(int id) override;
+    bool Insert(int id, const std::vector<int>&) override;
 
 private:
-    std::vector<Result*> connection;
+    std::vector<int> data = std::vector<int>();
+    int id = 0;
 };
 
 
