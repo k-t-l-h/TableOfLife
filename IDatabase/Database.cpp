@@ -8,8 +8,12 @@ Database::Database() {}
 
 Database::Database(sql *connect):connection(connect) {}
 
-Database::~Database() override {}
+Database::~Database()  {}
 
-bool Database::Insert(int id, const std::vector<int> &res) override {}
+bool Database::Insert(int id, const std::vector<int> &res)  {
+    return true;
+}
 
-std::vector<int> Select(int id) override {}
+std::vector<int> Select(int id) {
+    return std::vector<int> ();
+}

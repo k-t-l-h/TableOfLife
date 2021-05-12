@@ -2,6 +2,7 @@
 #define TABLEOFLIFE_DATABASE_H
 
 #include "IDatabase.h"
+
 class sql;
 
 class Database: public IDatabase {
