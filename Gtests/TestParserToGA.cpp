@@ -54,9 +54,9 @@ TEST(TEST_PARSERTOGA, validation_json) {
     ASSERT_EQ(nullptr, parse.WorkCycle(&request));
     ASSERT_EQ(parse.SetStatus(), false);
 }
-
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+//
+//
+//int main(int argc, char** argv) {
+//    ::testing::InitGoogleTest(&argc, argv);
+//    return RUN_ALL_TESTS();
+//}
