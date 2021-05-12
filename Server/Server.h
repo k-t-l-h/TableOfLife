@@ -1,5 +1,6 @@
 #include <vector>
 #include "../ParserToGA/ParserToGA.h"
+#include "../Request/Request.h"
 
 #ifndef TABLEOFLIFE_SERVER_H
 #define TABLEOFLIFE_SERVER_H
@@ -7,24 +8,28 @@
 
 class Server {
 public:
-    std::string * returnBodyStr;
+    std::string returnBodyStr;
     std::string * DataJson;
+    std::shared_ptr<Queue<Request>> ReQueue;
+//    std::shared_ptr<Queue<Result>> ResQueue;
 
-    Server() : returnBodyStr(nullptr), DataJson(nullptr), status(true), port(8080), address("127.0.0.1") {};
+    Server() : DataJson(nullptr), status(true), port(8080), address("127.0.0.1") {};
     Server(const Server&) = delete;
     ~Server() = default;
 
-    int SetUp();
+    int SetUp(); // всем рассылаю shared_ptr
 
     int ShutDown();
 
-    int Run();
+    int Run(); // слушает реквесты
 
-    int SendJson(int id);
+    int SendStrParser(int id); // отправка json пользователю
 
-    void responseReporter(int id);
+    void TakeAdapter(int id); //
 
     int SendAnswer();
+
+    void PackReqParser();
 
 private:
 
@@ -32,7 +37,6 @@ private:
     uint16_t port;
     std::string address;
 
-    std::string takeBody();
 };
 
 #endif //TABLEOFLIFE_SERVER_H
