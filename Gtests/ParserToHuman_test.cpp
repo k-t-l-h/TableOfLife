@@ -2,6 +2,7 @@
 #include "../ParserToHuman/ParserToHuman.h"
 #include <string>
 
+/*
 
 TEST(TEST_PARSE, data1){
     int **arr = nullptr;
@@ -12,5 +13,6 @@ TEST(TEST_PARSE, data1){
 TEST(TEST_PARSE, data2){
     ASSERT_EQ(1, 1);
 }
+*/
 
 

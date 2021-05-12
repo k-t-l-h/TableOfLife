@@ -9,13 +9,12 @@
 class GABuilder;
 struct Result;
 struct Request;
-
-template<class T> class Queue;
+template <typename T> class Queue;
 
 class Manager {
 public:
 
-    Manager(std::shared_ptr<std::queue<Request*>> &tasq, std::shared_ptr<std::queue<Result*>> &resq);
+    Manager(std::shared_ptr<Queue<Request*>> tasq, std::shared_ptr<Queue<Result*>> resq);
     ~Manager() = default;
 
     void SetBuilder();
@@ -29,8 +28,8 @@ private:
     void work(std::unique_ptr<Request> task);
 
     std::unique_ptr<GABuilder> builder;
-    std::shared_ptr<std::queue<Request*>> tque;                            //t - task
-    std::shared_ptr<std::queue<Result*>> rque;                            //r - result
+    std::shared_ptr<Queue<Request*>> tque;                            //t - task
+    std::shared_ptr<Queue<Result*>> rque;                            //r - result
 };
 
 
