@@ -1,6 +1,8 @@
 #ifndef TABLEOFLIFE_BUILDER_H
 #define TABLEOFLIFE_BUILDER_H
 
+#include <climits>
+
 #include "../Creator/ICreator.h"
 #include "../Creator/SimpleCreator.h"
 #include "../Creator/RandomCreator.h"
@@ -25,14 +27,12 @@
 template <std::size_t N>
 class Builder {
 public:
-    explicit Builder() : variants(0){
-       auto tmp = new GenAlgo<N>(1, 1, 1);
-       GA = tmp;
+    explicit Builder() : variants(0) {
+        auto tmp = new GenAlgo<N>(1, 1, 0, 1);
+        GA = tmp;
     };
 
-    ~Builder() {
-            delete GA;
-    };
+    ~Builder() { delete GA; };
     void Reset(std::size_t, std::size_t);  //создание нового ГА
 
     void SetMutator(float);         //как происходят  мутации
@@ -66,7 +66,7 @@ void Builder<N>::Reset(std::size_t vr, std::size_t people) {
     variants = vr;
 
     // TODO: просчитать вероятность
-    std::size_t population = variants*100;
+    std::size_t population = variants * 100;
 
     auto* tmp = new GenAlgo<N>(population, variants, INT_MAX, people);
     delete GA;
@@ -118,14 +118,14 @@ void Builder<N>::SetTopSelection() {
 template <std::size_t N>
 void Builder<N>::SetSimulator() {
     auto* sm = new Simulator<N>();
-    //delete GA->Simulator;
+    // delete GA->Simulator;
     GA->Simulator = sm;
 }
 
 template <std::size_t N>
 void Builder<N>::SetCreator() {
     auto* cr = new SimpleCreator<N>();
-    //delete GA->Creator;
+    // delete GA->Creator;
     GA->Creator = cr;
 }
 
