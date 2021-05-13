@@ -2,7 +2,6 @@
 #define TABLEOFLIFE_IMATER_H
 
 #include "../Genome/Genome.h"
-#include <tuple>
 
 template <std::size_t N>
 class IMater {

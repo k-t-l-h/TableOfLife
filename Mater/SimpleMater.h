@@ -5,9 +5,9 @@
 
 // One Point Mater
 template <std::size_t N>
-class Mater final: public IMater<N> {
+class Mater final : public IMater<N> {
 public:
-    explicit Mater(float pr) : probability(pr) { srand(time(nullptr)); };
+    explicit Mater(float pr) : probability(pr) { srand(time(0)); };
     ~Mater() = default;
     std::vector<Genome<N>*> Mate(Genome<N>*, Genome<N>*) override;
 
@@ -31,35 +31,18 @@ std::vector<Genome<N>*> Mater<N>::Mate(Genome<N>* left, Genome<N>* right) {
     std::vector<std::bitset<N>> rg = right->GetGenes();
     std::size_t rights = rg.size();
 
-    Genome<N>* lchild = new Genome<N>(left);
-    Genome<N>* rchild = new Genome<N>(right);
-
+    auto* lchild = new Genome<N>(*left);
+    auto* rchild = new Genome<N>(*right);
 
     for (std::size_t i = 0; i < lefts && i < rights; ++i) {
-        //TODO: randomness!!!
         auto value = rand();
         float rand = float(value) / (float)RAND_MAX;
         if (rand < probability) {
-            lchild->SetGene(i, left->GetGene(i));
             rchild->SetGene(i, left->GetGene(i));
         } else {
             lchild->SetGene(i, right->GetGene(i));
-            rchild->SetGene(i, right->GetGene(i));
         }
     }
-
-    //TODO: добавить тесты?
-    //заполняем кусочки оставшиеся
-    //заполняем правого ребенка
-    for (std::size_t i = lefts; i < rights; ++i) {
-        rchild->SetGene(i, right->GetGene(i));
-    }
-
-    //заполняем левого ребенка
-    for (std::size_t i = rights; i < lefts; ++i) {
-        lchild->SetGene(i, lchild->GetGene(i));
-    }
-
     children.push_back(rchild);
     children.push_back(lchild);
 

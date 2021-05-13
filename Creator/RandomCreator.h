@@ -8,24 +8,29 @@
 
 //Рандомно создает гены
 template <std::size_t N>
-class RandomCreator final: public ICreator<N> {
+class RandomCreator final : public ICreator<N> {
 public:
-    RandomCreator() { srand(time(0)); };
+    RandomCreator() { srand(1); };
     ~RandomCreator() = default;
     std::vector<Genome<N> *> Create(std::size_t all, std::size_t length,
                                     std::size_t vars) override;
 
 private:
-    static void GenerateInThread(std::vector<Genome<N>*> *generation,
-                          std::size_t num, std::size_t vars, std::size_t length);
+    static void GenerateInThread(std::vector<Genome<N> *> *generation,
+                                 std::size_t num, std::size_t vars,
+                                 std::size_t length);
 };
 
-
 template <std::size_t N>
-void RandomCreator<N>::GenerateInThread(std::vector<Genome<N>*> *generation,
-                                        std::size_t num, std::size_t vars, std::size_t length){
+void RandomCreator<N>::GenerateInThread(std::vector<Genome<N> *> *generation,
+                                        std::size_t num, std::size_t vars,
+                                        std::size_t length) {
+    //вдруг нет
+    if (generation == nullptr) {
+        return;
+    }
 
-    for (size_t i = 0; i < num; ++i) {
+    for (std::size_t i = 0; i < num; ++i) {
         auto genome = new Genome<N>(length);
 
         for (std::size_t j = 0; j < length; ++j) {
@@ -40,9 +45,8 @@ template <std::size_t N>
 std::vector<Genome<N> *> RandomCreator<N>::Create(std::size_t all,
                                                   std::size_t length,
                                                   std::size_t vars) {
-
     //создаем вектор геномов
-    auto *generation = new std::vector<Genome<N> *>();
+    auto generation = new std::vector<Genome<N> *>();
     //выделяем ему фиксированное количество элементов
     generation->reserve(all);
 
@@ -50,27 +54,22 @@ std::vector<Genome<N> *> RandomCreator<N>::Create(std::size_t all,
     auto nthreads = std::thread::hardware_concurrency();
 
     //увеличиваем число до максимума
-    auto  parts = static_cast<std::size_t>(ceil(double(all) / nthreads));
+    auto parts = static_cast<std::size_t>(ceil(double(all) / nthreads));
     //если число тредов больше числа частей
     nthreads = parts == 0 ? all : nthreads;
     //этот же случай
-    parts = parts > 0 ? parts: 1;
+    parts = parts > 0 ? parts : 1;
     std::vector<std::thread> threads;
 
-
     for (int i = 0; i < nthreads; ++i) {
-        parts = parts > all ? all: parts;
+        parts = parts > all ? all : parts;
         all -= parts;
-        std::thread t(GenerateInThread, std::ref(generation),
-                      parts,vars, length);
+        std::thread t(GenerateInThread, std::ref(generation), parts, vars, length);
         threads.push_back(std::move(t));
     }
 
-
-    for (std::thread & th : threads)
-    {
-        if (th.joinable())
-            th.join();
+    for (std::thread &th : threads) {
+        if (th.joinable()) th.join();
     }
 
     return *generation;
