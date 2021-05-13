@@ -1,8 +1,8 @@
 #include <gtest/gtest.h>
 #include <vector>
-#include "Queue.cpp"
-#include "Request.h"
-#include "ParserToGA.cpp"
+#include "../Queue/Queue.cpp"
+#include "../Request/Request.h"
+#include "../ParserToGA/ParserToGA.h"
 
 class TestQueue : public ::testing::Test {
 public:
@@ -88,8 +88,8 @@ TEST_F(TestQueue, lilo) {
     req_in_que = queue.Pop();
     ASSERT_EQ(req_in_que.id, 12); // последний вошел и последний вышел
 }
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+//
+//int main(int argc, char** argv) {
+//    ::testing::InitGoogleTest(&argc, argv);
+//    return RUN_ALL_TESTS();
+//}
