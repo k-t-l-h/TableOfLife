@@ -4,9 +4,9 @@
 #include "IMater.h"
 
 template <std::size_t N>
-class TwoPointsMater final: public IMater<N> {
+class TwoPointsMater final : public IMater<N> {
 public:
-    explicit TwoPointsMater(float pr) : probability(pr){ srand(time(0)); };
+    explicit TwoPointsMater(float pr) : probability(pr) { srand(time(0)); };
     ~TwoPointsMater() = default;
     std::vector<Genome<N>*> Mate(Genome<N>*, Genome<N>*) override;
 
@@ -26,7 +26,7 @@ std::vector<Genome<N>*> TwoPointsMater<N>::Mate(Genome<N>* left,
         return children;
     }
 
-    //TODO: randomness
+    // TODO: randomness
     auto value = rand();
     float rands = float(value) / (float)RAND_MAX;
 
@@ -48,39 +48,20 @@ std::vector<Genome<N>*> TwoPointsMater<N>::Mate(Genome<N>* left,
         std::swap(fisrtp, secondp);
     }
 
-    Genome<N>* lchild = new Genome<N>(left);
-    Genome<N>* rchild = new Genome<N>(right);
+    Genome<N>* lchild = new Genome<N>(*left);
+    Genome<N>* rchild = new Genome<N>(*right);
 
     if (rands < probability) {
-        for (std::size_t i = 0; i < general; ++i) {
-            lchild->SetGene(i, left->GetGene(i));
-            rchild->SetGene(i, right->GetGene(i));
-        }
-    } else {
-        for (std::size_t i = 0; i < fisrtp; ++i) {
-            lchild->SetGene(i, left->GetGene(i));
-            rchild->SetGene(i, right->GetGene(i));
-        }
+        //возвращаем копию родителей
+        children.push_back(rchild);
+        children.push_back(lchild);
 
-        for (std::size_t i = fisrtp; i < secondp; ++i) {
-            lchild->SetGene(i, right->GetGene(i));
-            rchild->SetGene(i, left->GetGene(i));
-        }
-
-        for (std::size_t i = secondp; i < general; ++i) {
-            lchild->SetGene(i, left->GetGene(i));
-            rchild->SetGene(i, right->GetGene(i));
-        }
+        return children;
     }
-    //заполняем кусочки оставшиеся
-    //заполняем правого ребенка
-    for (std::size_t i = general; i < rights; ++i) {
-        rchild->SetGene(i, right->GetGene(i));
-    }
-
-    //заполняем левого ребенка
-    for (std::size_t i = general; i < lefts; ++i) {
-        lchild->SetGene(i, lchild->GetGene(i));
+    //уменьшаем число изменений
+    for (std::size_t i = fisrtp; i < secondp; ++i) {
+        lchild->SetGene(i, right->GetGene(i));
+        rchild->SetGene(i, left->GetGene(i));
     }
 
     children.push_back(rchild);
