@@ -10,7 +10,7 @@
 template <std::size_t N>
 class RandomCreator final : public ICreator<N> {
 public:
-    RandomCreator() { srand(time(0)); };
+    RandomCreator() { srand(1); };
     ~RandomCreator() = default;
     std::vector<Genome<N> *> Create(std::size_t all, std::size_t length,
                                     std::size_t vars) override;

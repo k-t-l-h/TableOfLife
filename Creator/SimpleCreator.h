@@ -3,6 +3,8 @@
 
 #include "ICreator.h"
 #include "../Genome/Genome.h"
+#include <thread>
+#include <cmath>
 
 template <std::size_t N>
 class SimpleCreator final : public ICreator<N> {
