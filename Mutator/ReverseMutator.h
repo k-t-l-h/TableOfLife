@@ -29,7 +29,7 @@ Genome<N>* ReverseMutator<N>::Mutate(Genome<N>* genome) {
     auto check = rand();
     float rands = float(check) / (float)RAND_MAX;
     if (rands < probability) {
-        for (int i = 0; i < value; ++i) {
+        for (std::size_t i = 0; i < value; ++i) {
             mutant->SetGene(i, (mutant->GetGene(i) xor rand()) % variants);
         }
     }
