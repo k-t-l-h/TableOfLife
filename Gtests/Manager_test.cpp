@@ -1,34 +1,28 @@
 #include <gtest/gtest.h>
-#include "../Manager/Manager.h"
 #include <thread>
 
-class GABuilder{
-public:
+#include "../Manager/Manager.h"
+#include "../Result/Result.h"
+#include "../Request/Request.h"
+#include "../Queue/Queue.h"
 
-};
-
-struct Request{
-    int id;
-    std::string type;
-
-};
 
 // обработать задачу из очереди, определить ее тип(стратегию)
 // black box strategy
 TEST(TEST_WORK, non_empty_queue){
-   /* auto tque = std::shared_ptr<std::queue<Request*>>(new std::queue <Request*>);
-    auto rque = std::shared_ptr<std::queue<Result*>>(new std::queue <Result*>);
+    auto tque = std::make_shared<Queue<Request>>();
+    auto rque = std::make_shared<Queue<Result>>();
 
-    Request request = {1, "A"};
-    tque->push(&request);
+    Request request;
+    tque->Push(request);
 
-    GABuilder simpleBuilder;
+    //GABuilder simpleBuilder;
     Manager manager(tque,rque);
-    manager.SetBuilder();
+    //manager.SetBuilder();
 
     manager.WorkCycle();
 
-    ASSERT_EQ(rque->front(),1);*/
+    ASSERT_EQ(rque->Pop().id,0);
 }
 
 /*
