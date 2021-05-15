@@ -2,6 +2,7 @@
 #define TABLEOFLIFE_DATABASE_H
 
 #include "IDatabase.h"
+#include "../Result/Result.h"
 
 class sql;
 
@@ -13,6 +14,7 @@ public:
 
     std::vector<int> Select(int id) override;
     bool Insert(int id, const std::vector<int>&) override;
+    bool Insert(Result a);
 
 private:
     sql *connection;

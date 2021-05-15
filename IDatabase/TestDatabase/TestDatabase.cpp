@@ -11,6 +11,16 @@ bool TestDatabase::Insert(int u_id, const std::vector<int>& t_vec) {
     return true;
 }
 
+bool TestDatabase::Insert( Result a) {
+
+    if ( this->id == a.id ) return false;
+
+    data = a.result;
+    this->id = a.id;
+    return true;
+}
+
+
 TestDatabase::~TestDatabase() {}
 
 std::vector<int> TestDatabase::Select(int u_id) {

@@ -2,7 +2,7 @@
 #define TABLEOFLIFE_IDATABASE_H
 #include <vector>
 
-struct Result;
+#include "../Result/Result.h"
 
 class IDatabase {
 public:
@@ -11,7 +11,7 @@ public:
 
     virtual std::vector<int> Select(int id) = 0;
     virtual bool Insert(int id, const std::vector<int>&) = 0;
-
+    virtual bool Insert(Result a) = 0;
 };
 
 

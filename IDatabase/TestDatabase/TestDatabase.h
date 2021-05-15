@@ -12,6 +12,7 @@ public:
 
     std::vector<int> Select(int id) override;
     bool Insert(int id, const std::vector<int>&) override;
+    bool Insert(Result a) override;
 
 private:
     std::vector<int> data = std::vector<int>();
