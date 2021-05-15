@@ -4,21 +4,21 @@
 #include <thread>
 #include <memory>
 
-std::mutex rque_mutex;
+#include "../Result/Result.h"
+#include "../IDatabase/IDatabase.h"
+#include "../Queue/Queue.h"
 
-
-Reporter::Reporter(std::shared_ptr<std::queue<Result*>> &results, std::shared_ptr<IDatabase> &datab)
+Reporter::Reporter(std::shared_ptr<Queue<Result>> &results, std::shared_ptr<IDatabase> &datab)
         : rque(results),db(datab)
 {}
 
 Reporter::~Reporter() {}
 
-void Reporter::WorkCycle(int t) {
-    /*const std::lock_guard<std::mutex> lock(rque_mutex);
-    Result * res = (rque->front());
-    rque->pop();
-    db->Insert();
-    res.delete()//TODO !!!!!!!!!!!!!!*/
+void Reporter::WorkCycle() {
+    while(active){
+        Result res = rque->Pop();
+        db->Insert(res);
+    }
 }
 
 //void Reporter::SetUp(std::shared_ptr<std::queue<Result*>> &results, std::shared_ptr<IDatabase> &db) {}
