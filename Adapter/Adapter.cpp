@@ -1,7 +1,7 @@
 #include "Adapter.h"
 #include "IDatabase.h"
 
-const std::vector<int> Adapter::GetResult(int id) const {
+const std::vector<size_t> Adapter::GetResult(int id) const {
     return db->Select(id);
 }
 
