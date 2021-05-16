@@ -3,6 +3,7 @@
 #include <mutex>
 #include <thread>
 #include <memory>
+#include <chrono>
 
 #include "../Result/Result.h"
 #include "../IDatabase/IDatabase.h"
@@ -16,9 +17,13 @@ Reporter::~Reporter() {}
 
 void Reporter::WorkCycle() {
     while(active){
-        Result res = rque->Pop();
-        db->Insert(res);
+
+        if ( !rque->Empty() ){
+            Result res = rque->Pop();
+            db->Insert(res);
+        } else {
+            std::this_thread::sleep_for(std::chrono::milliseconds(300));
+        }
+
     }
 }
-
-//void Reporter::SetUp(std::shared_ptr<std::queue<Result*>> &results, std::shared_ptr<IDatabase> &db) {}

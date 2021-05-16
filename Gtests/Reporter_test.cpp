@@ -7,8 +7,8 @@
 #include "../Result/Result.h"
 #include "../IDatabase/TestDatabase/TestDatabase.h"
 #include "../Queue/Queue.h"
-
-
+#include <thread>
+#include <chrono>
 
 
 
@@ -20,10 +20,13 @@ TEST(TEST_WORK_CYCLE, non_empty_result_queue){
 
     Reporter reporter(rque, test_db);
 
-    Result result = {3, std::vector<int>()};
+    Result result = {3, std::vector<size_t>()};
     rque->Push(result);
 
-    reporter.WorkCycle();
+    std::thread t(&Reporter::WorkCycle, &reporter);
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    reporter.activate();
+    t.join();
 
     EXPECT_EQ(result.result, test_db->Select(result.id));
 
