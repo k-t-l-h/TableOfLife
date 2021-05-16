@@ -5,7 +5,7 @@
 
 struct Result {
     int id;
-    std::vector<int> result;
+    std::vector<size_t> result;
 };
 
 
