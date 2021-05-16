@@ -10,12 +10,12 @@ public:
     TestDatabase() = default;
     ~TestDatabase() override;
 
-    std::vector<int> Select(int id) override;
-    bool Insert(int id, const std::vector<int>&) override;
+    std::vector<size_t> Select(int id) override;
+    bool Insert(int id, const std::vector<size_t>&) override;
     bool Insert(Result a) override;
 
 private:
-    std::vector<int> data = std::vector<int>();
+    std::vector<size_t> data = std::vector<size_t>();
     int id = 0;
 };
 

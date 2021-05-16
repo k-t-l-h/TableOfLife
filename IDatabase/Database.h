@@ -3,6 +3,7 @@
 
 #include "IDatabase.h"
 #include "../Result/Result.h"
+#include <mutex>
 
 class sql;
 
@@ -12,12 +13,14 @@ public:
     Database(sql *connect);
     ~Database() override;
 
-    std::vector<int> Select(int id) override;
-    bool Insert(int id, const std::vector<int>&) override;
+    std::vector<size_t> Select(int id) override;
+    bool Insert(int id, const std::vector<size_t>&) override;
     bool Insert(Result a);
 
 private:
     sql *connection;
+
+    std::mutex safety;
 };
 
 
