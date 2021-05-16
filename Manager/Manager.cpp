@@ -32,6 +32,8 @@ void Manager::work( Request task ) {
 
     Result outResult;
     outResult.id = task.id;
+    outResult.students = task.students;
+    outResult.classes = task.classes;
 
     const size_t N = 32;
 
