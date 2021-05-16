@@ -1,7 +1,6 @@
 #include "Manager.h"
 #include <thread>
 #include <memory>
-#include <atomic>      // condition variables mb in pushing to queue
 #include <mutex>
 #include <chrono>
 
@@ -12,40 +11,65 @@
 
 
 
+Manager::Manager(std::shared_ptr<Queue<Request>> &tasq, std::shared_ptr<Queue<Result>> &resq ) : tque(tasq), rque(resq) {}
 
-Manager::Manager(std::shared_ptr<Queue<Request>> tasq, std::shared_ptr<Queue<Result>> resq ) : tque(tasq), rque(resq) {}
-
-std::mutex rque_mutex;
-
+//TODO проверку количества свободных потокв в системе
 void Manager::WorkCycle() {
     while(active){
-        if ( tque->Empty() )
+        if ( tque->Empty() ) {
             std::this_thread::sleep_for(std::chrono::milliseconds(300));
-
-        auto current_task = tque->Pop();
-        std::thread t(&Manager::work, this,std::move(current_task));
-        t.detach();
+        } else {
+            auto current_task = tque->Pop();
+            std::thread t(&Manager::work, this,std::move(current_task));
+            t.detach();
+        }
     }
 }
 
-/*
-void Manager::SetBuilder(const size_t N) {
-    builder = std::make_unique<Builder<N>>();
-}*/
 
 
-//use mutex or cond var
 void Manager::work( Request task ) {
-    Result result = {task.id, std::vector<int>()};
-    //TODO switch case
-    if(task.params.creator == "1"){
-        //......
+
+    Result outResult;
+    outResult.id = task.id;
+
+    const size_t N = 32;
+
+    Builder<N> builder;
+    builder.Reset( task.ClassesNumber, task.students.size() );  //TODO vr-? people-?
+
+    if( task.params.creator == "random" ){
+        builder.SetRandomCreator();
     } else{
-        //......
+        builder.SetCreator();
     }
-    if( result.result.data() ){
-        rque->Push( std::move(result) );
+
+    if( task.params.selector == "top" ){
+        builder.SetTopSelection();
+    } else{
+        builder.SetSelection();
+    }
+
+    if ( task.params.mutation == "reverse" ){
+        builder.SetReverseMutator(0.05);
+    } else{
+        builder.SetMutator(0.05);
+    }
+
+    if ( task.params.crossover == "2Point" ){
+        builder.Set2PointsMater(0.5);
     } else {
-        //throw smth fe badsolutionerror;
+        builder.SetMater(0.5);
     }
+
+    auto res = builder.GetResult();
+    res->Run();
+    std::vector<size_t> solution = res->GetBest();
+
+    outResult.result = solution;
+
+
+    rque->Push( std::move(outResult) );
+
 }
+

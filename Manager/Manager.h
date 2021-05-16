@@ -15,10 +15,9 @@ struct Request;
 class Manager {
 public:
 
-    Manager(std::shared_ptr<Queue<Request>> tasq, std::shared_ptr<Queue<Result>> resq);
+    Manager(std::shared_ptr<Queue<Request>> &tasq, std::shared_ptr<Queue<Result>> &resq);
     ~Manager() = default;
 
-    //void SetBuilder(const size_t N);
     void WorkCycle();
 
     void activate(){
@@ -34,9 +33,8 @@ private:
 
     bool active = true;
 
-    //std::unique_ptr<Builder> builder;
     std::shared_ptr<Queue<Request>> tque;                            //t - task
-    std::shared_ptr<Queue<Result>> rque;                            //r - result
+    std::shared_ptr<Queue<Result>> rque;                             //r - result
 };
 
 
