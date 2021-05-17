@@ -23,6 +23,11 @@ include_directories(PatternMaker)
 include_directories(Reporter)
 include_directories(Result)
 
+include_directories(Queue)
+include_directories(Request)
+include_directories(Server)
+include_directories(ParserToGA)
+
 file(
         GLOB Project_SRC
         "${PROJECT_SOURCE_DIR}/Gtests/*"
