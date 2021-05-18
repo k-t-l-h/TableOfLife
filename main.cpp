@@ -1,5 +1,6 @@
 #include <boost/asio/io_service.hpp>
 #include "Server/Server.h"
+#include <iostream>
 
 
 int main() {

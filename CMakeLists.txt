@@ -33,6 +33,13 @@ file(
         "${PROJECT_SOURCE_DIR}/Gtests/*"
 )
 
+# если вам нужно собрать динамическую либу (а вообще это только для меня!)
+#set(PQ_INCLUDE_DIR /usr/local/var/lib/libpqxx/7.5.2/include/libpq)
+#set(PQXX_INCLUDE_DIR /usr/local/var/lib/libpqxx/7.5.2/include/pqxx)
+#
+#set(PQXX_LIB /usr/local/var/lib/libpqxx/7.5.2/lib/libpqxx-7.5.dylib)
+#set(PQ_LIB /usr/local/var/lib/libpqxx/7.5.2/lib/libpqxx.dylib)
+
 find_library(PQXX_LIB pqxx REQUIRED)
 find_library(PQ_LIB pq REQUIRED)
 
