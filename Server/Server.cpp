@@ -3,21 +3,19 @@
 #include "../ParserToGA/ParserToGA.cpp"
 #include "../ParserToGA/ParserToGA.h"
 #include "../Request/Request.h"
-#include "../Queue/Queue.cpp"
-#include "../Manager/Manager.h"
+#include "../Queue/Queue.h"
+#include "../Manager/Manager.cpp"
 #include "../Result/Result.h"
 #include <memory>
 #include <iostream>
-#include <boost/uuid/uuid.hpp>            // uuid class
 #include <boost/uuid/uuid_generators.hpp> // generators
-#include <boost/uuid/uuid_io.hpp>
 
 namespace u = boost::uuids;
 
 int Server::SetUp() {
     ReqQueue = std::make_shared<Queue<Request>>();
     ResQueue = std::make_shared<Queue<Result>>();
-    Manager manager(ReqQueue, ResQueue);
+    (Manager(ReqQueue, ResQueue));
 
 
 //    Server::Run();
@@ -58,7 +56,7 @@ void Server::PackReqParser() {
         Request req = *parse.req;
         u::random_generator gen;
         req.id = gen();
-        ReQueue->Push(req);
+        ReqQueue->Push(req);
     }
 }
 

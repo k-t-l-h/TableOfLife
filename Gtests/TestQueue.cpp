@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include <vector>
-#include "../Queue/Queue.cpp"
+#include "../Queue/Queue.h"
 #include "../Request/Request.h"
 #include "../ParserToGA/ParserToGA.h"
 
