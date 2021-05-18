@@ -33,7 +33,11 @@ file(
         "${PROJECT_SOURCE_DIR}/Gtests/*"
 )
 
-add_library(reporter STATIC ./Reporter/Reporter.cpp ./Manager/Manager.cpp ./Adapter/Adapter.cpp ./IDatabase/TestDatabase/TestDatabase.cpp)
+find_library(PQXX_LIB pqxx REQUIRED)
+find_library(PQ_LIB pq REQUIRED)
+
+add_library(reporter STATIC ./Reporter/Reporter.cpp ./Manager/Manager.cpp ./Adapter/Adapter.cpp ./IDatabase/TestDatabase/TestDatabase.cpp ./IDatabase/Database.cpp)
+
 # Тут будет boost
 find_package(Boost)
 include_directories(${Boost_INCLUDE_DIRS})
@@ -42,13 +46,14 @@ target_link_libraries(test1  ${Boost_LIBRARIES})
 
 add_executable(TableOfLife ${Project_SRC})
 target_link_libraries(TableOfLife reporter)
+target_link_libraries(TableOfLife ${PQXX_LIB} ${PQ_LIB})
 
 enable_testing()
 find_package(GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIRS})
 
+
 target_link_libraries(TableOfLife ${GTEST_LIBRARIES})
 target_link_libraries(TableOfLife pthread)
-
 
 add_test(TableOfLife TableOfLife)
