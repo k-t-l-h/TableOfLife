@@ -1,6 +1,7 @@
 #include <vector>
 #include "../ParserToGA/ParserToGA.h"
 #include "../Request/Request.h"
+#include "../Result/Result.h"
 
 #ifndef TABLEOFLIFE_SERVER_H
 #define TABLEOFLIFE_SERVER_H
@@ -10,8 +11,8 @@ class Server {
 public:
     std::string returnBodyStr;
     std::string * DataJson;
-    std::shared_ptr<Queue<Request>> ReQueue;
-//    std::shared_ptr<Queue<Result>> ResQueue;
+    std::shared_ptr<Queue<Request>> ReqQueue;
+    std::shared_ptr<Queue<Result>> ResQueue;
 
     Server() : DataJson(nullptr), status(true), port(8080), address("127.0.0.1") {};
     Server(const Server&) = delete;

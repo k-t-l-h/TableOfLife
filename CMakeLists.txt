@@ -34,7 +34,11 @@ file(
 )
 
 add_library(reporter STATIC ./Reporter/Reporter.cpp ./Manager/Manager.cpp ./Adapter/Adapter.cpp ./IDatabase/TestDatabase/TestDatabase.cpp)
-
+# Тут будет boost
+find_package(Boost)
+include_directories(${Boost_INCLUDE_DIRS})
+add_executable(test1 main.cpp)
+target_link_libraries(test1  ${Boost_LIBRARIES})
 
 add_executable(TableOfLife ${Project_SRC})
 target_link_libraries(TableOfLife reporter)

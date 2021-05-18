@@ -4,6 +4,8 @@
 #include "../ParserToGA/ParserToGA.h"
 #include "../Request/Request.h"
 #include "../Queue/Queue.cpp"
+#include "../Manager/Manager.h"
+#include "../Result/Result.h"
 #include <memory>
 #include <iostream>
 #include <boost/uuid/uuid.hpp>            // uuid class
@@ -13,7 +15,10 @@
 namespace u = boost::uuids;
 
 int Server::SetUp() {
-    ReQueue = std::make_shared<Queue<Request>>();
+    ReqQueue = std::make_shared<Queue<Request>>();
+    ResQueue = std::make_shared<Queue<Result>>();
+    Manager manager(ReqQueue, ResQueue);
+
 
 //    Server::Run();
     return 0;
