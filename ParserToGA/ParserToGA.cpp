@@ -48,9 +48,6 @@ void ParserToGA<T>::ParserToRequest() {
             return classes;
         };
 
-        req->id = tree.get<int>("id");
-        if (req->id < 0)
-            status_validation = false;
         auto classes = tree.get_child("classes");
         int classesNumber = 0;
         for (auto &t : classes) {

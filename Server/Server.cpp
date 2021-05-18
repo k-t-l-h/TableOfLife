@@ -6,6 +6,11 @@
 #include "../Queue/Queue.cpp"
 #include <memory>
 #include <iostream>
+#include <boost/uuid/uuid.hpp>            // uuid class
+#include <boost/uuid/uuid_generators.hpp> // generators
+#include <boost/uuid/uuid_io.hpp>
+
+namespace u = boost::uuids;
 
 int Server::SetUp() {
     ReQueue = std::make_shared<Queue<Request>>();
@@ -36,13 +41,20 @@ void Server::TakeAdapter(int id) {
 
 void Server::PackReqParser() {
     // как-то будет вытягиваться строка из boost, а пока так
-    returnBodyStr = "{\"id\": 45,\"classes\":[{\"id_groups\": 1,\"name\": \"WEB\",\"teacher\": \"Dinar\",\"count_students\": 21},{\"id_groups\":"
+    returnBodyStr = "{\"classes\":[{\"id_groups\": 1,\"name\": \"WEB\",\"teacher\": \"Dinar\",\"count_students\": 21},{\"id_groups\":"
                                     " 2,\"name\": \"C++\",\"teacher\":\"Uliana\",\"count_students\": 21},{\"id_groups\": 1,\"name\": \"ALGORITHM\",\"teacher\": "
                                     "\"Krimov\",\"count_students\": 21}],\"classesNumber\": 0,\"students\": [ [1, 0, 1],[1, 0, 1],[1, 0, 1],[1, 0, 1]],\"iterations\": 5,"
                                     "\"params\": {\"crossover\": \"default\",\"mutation\": \"default\",\"selector\": \"default\",\"creator\": \"default\"}}";
     ParserToGA<Request> parse;
-    Request req = *parse.WorkCycle(&returnBodyStr);
-    ReQueue->Push(req);
+
+    if (parse.WorkCycle(&returnBodyStr) == nullptr) {
+        printf("Not valid"); // иначе возвращаем пользователю ошибку
+    } else {
+        Request req = *parse.req;
+        u::random_generator gen;
+        req.id = gen();
+        ReQueue->Push(req);
+    }
 }
 
 int Server::SendAnswer() {

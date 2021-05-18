@@ -23,8 +23,8 @@ public:
 
     bool SetStatus();
 
-private:
     Request * req;
+private:
     std::string requestStr;
     std::mutex status_work;
     bool status_validation;

@@ -10,13 +10,13 @@ public:
     Request request1;
     void SetUp() override {
         ParserToGA<Request> parse;
-        std::string str = "{\"id\": 34,\"classes\":[{\"id_groups\": 1,\"name\": \"WEB\",\"teacher\": \"Dinar\",\"count_students\": 21},{\"id_groups\":"
+        std::string str = "{\"classes\":[{\"id_groups\": 1,\"name\": \"WEB\",\"teacher\": \"Dinar\",\"count_students\": 21},{\"id_groups\":"
                               " 2,\"name\": \"C++\",\"teacher\":\"Uliana\",\"count_students\": 21},{\"id_groups\": 1,\"name\": \"ALGORITHM\",\"teacher\": "
                               "\"Krimov\",\"count_students\": 21}],\"classesNumber\": 0,\"students\": [ [1, 0, 1],[1, 0, 1],[1, 0, 1],[1, 0, 1]],\"iterations\": 5,"
                               "\"params\": {\"crossover\": \"default\",\"mutation\": \"default\",\"selector\": \"default\",\"creator\": \"default\"}}";
         request = *parse.WorkCycle(&str);
         ParserToGA<Request> parse1;
-        str = "{\"id\": 12,\"classes\":[{\"id_groups\": 67,\"name\": \"WEB_HI\",\"teacher\": \"Dinar\",\"count_students\": 21},{\"id_groups\":"
+        str = "{\"classes\":[{\"id_groups\": 67,\"name\": \"WEB_HI\",\"teacher\": \"Dinar\",\"count_students\": 21},{\"id_groups\":"
               " 2,\"name\": \"C++\",\"teacher\":\"Uliana\",\"count_students\": 21},{\"id_groups\": 1,\"name\": \"ALGORITHM\",\"teacher\": "
               "\"Krimov\",\"count_students\": 21}],\"classesNumber\": 0,\"students\": [ [0, 1, 0],[0, 1, 0],[0, 1, 0],[0, 1, 0]],\"iterations\": 5,"
               "\"params\": {\"crossover\": \"default\",\"mutation\": \"default\",\"selector\": \"default\",\"creator\": \"default\"}}";
@@ -65,7 +65,7 @@ TEST_F(TestQueue, pop) {
     ASSERT_EQ(queue.Empty(), true);
     auto newReq = queue.Pop();
     // все пустые
-    ASSERT_EQ(newReq.id, 0);
+    ASSERT_EQ(newReq.id.is_nil(), true);
     ASSERT_EQ(newReq.classes.size(), 0);
     ASSERT_EQ(newReq.Iterations, 0);
     ASSERT_EQ(newReq.students.size(), 0);
@@ -84,12 +84,7 @@ TEST_F(TestQueue, lilo) {
     queue.Push(request1);
     ASSERT_EQ(queue.Size(), 2);
     auto req_in_que = queue.Pop();
-    ASSERT_EQ(req_in_que.id, 34);
+    ASSERT_EQ(req_in_que.classes[0].id_groups, 1);
     req_in_que = queue.Pop();
-    ASSERT_EQ(req_in_que.id, 12); // последний вошел и последний вышел
+    ASSERT_EQ(req_in_que.classes[0].id_groups, 67); // последний вошел и последний вышел
 }
-//
-//int main(int argc, char** argv) {
-//    ::testing::InitGoogleTest(&argc, argv);
-//    return RUN_ALL_TESTS();
-//}

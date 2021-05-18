@@ -1,9 +1,12 @@
 #include <iostream>
 #include <vector>
+#include <boost/uuid/uuid.hpp>            // uuid class
+#include <boost/uuid/uuid_generators.hpp> // generators
 
 #ifndef TABLEOFLIFE_REQUEST_H
 #define TABLEOFLIFE_REQUEST_H
 
+namespace u = boost::uuids;
 // нужно подумать, возможно вообще убрать
 //struct Group {
 //    unsigned int id_group;
@@ -26,10 +29,13 @@ struct Classes {
 
 class Request {
 public:
-    Request(): ClassesNumber(0), id(0), Iterations(0), students(0), classes(0) { } ;
+    Request(): ClassesNumber(0), Iterations(0), students(0), classes(0) {
+        u::random_generator gen;
+        id = u::nil_uuid();
+    };
     ~Request() = default;
 
-    int id; // Генерируем на сервере uuid и отдаем пользователю
+    u::uuid id; // Генерируем на сервере uuid и отдаем пользователю
     std::vector<Classes> classes; // все занятия, а вних id группы
     std::vector<std::vector<int>> students; // все ученики и их параметры
     size_t ClassesNumber; // количество занятий
