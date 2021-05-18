@@ -4,41 +4,37 @@
 #include "../Result/Result.h"
 #include "../IDatabase/TestDatabase/TestDatabase.h"
 #include <vector>
+#include <boost/uuid/uuid.hpp>            // uuid class
+#include <boost/uuid/uuid_generators.hpp> // generators
+
+namespace u = boost::uuids;
 
 
 // данный id должен присутствовать
 TEST(TEST_RESULT, correct_id){
-    Result res = {3, std::vector<size_t>()};
+    u::uuid u1 = boost::uuids::random_generator()();
+    Result res = {u1, std::vector<size_t>()};
     auto test_db = std::make_shared<TestDatabase>();
     test_db->Insert(res.id, res.result);
     Adapter adapt(test_db);
-    EXPECT_EQ(0,adapt.GetResult(3).size());
+    EXPECT_EQ(res.result.data(),adapt.GetResult(u1).data());
 }
 
 
 // результатов по данному id пока нет
 TEST(TEST_RESULT, incorrect_id){
-Result res = {3, std::vector<size_t>()};
-auto test_db = std::make_shared<TestDatabase>();
-test_db->Insert(res.id, res.result);
+    u::uuid u1 = boost::uuids::random_generator()();
+    u::uuid u2 = boost::uuids::random_generator()();
 
-Adapter adapt(test_db);
+    Result res = {u1, std::vector<size_t>()};
+    auto test_db = std::make_shared<TestDatabase>();
+    test_db->Insert(res.id, res.result);
 
-EXPECT_EQ(0,adapt.GetResult(8).size());
+    Adapter adapt(test_db);
+
+EXPECT_NE(res.result.data(),adapt.GetResult(u2).data());
 }
 
-
-
-// переда id < 1
-TEST(TEST_RESULT, id_is_null){
-Result res = {3, std::vector<size_t>()};
-auto test_db = std::shared_ptr<IDatabase>(new TestDatabase);
-test_db->Insert(res.id, res.result);
-
-Adapter adapt(test_db);
-
-EXPECT_EQ(0,adapt.GetResult(0).size());
-}
 
 
 // возварщаем тот же вектор который полжили
@@ -46,14 +42,12 @@ TEST(TEST_RESULT, vector_check){
 
 // фиктивные данные
 std::vector<size_t> my_vec = {1,0,1};
-Result res = {3, my_vec};
 
-// mock-db
-auto test_db = std::shared_ptr<IDatabase>(new TestDatabase);
-test_db->Insert(res.id, res.result);
-
-// наш адаптер
-Adapter adapt(test_db);
-
-EXPECT_EQ(true,(my_vec == adapt.GetResult(3)));
+    u::uuid u1 = boost::uuids::random_generator()();
+    Result res = {u1, my_vec};
+    auto test_db = std::make_shared<TestDatabase>();
+    test_db->Insert(res.id, res.result);
+    // наш адаптер
+    Adapter adapt(test_db);
+    EXPECT_EQ(true,(my_vec == adapt.GetResult(u1)));
 }

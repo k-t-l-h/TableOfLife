@@ -1,8 +1,12 @@
 #include "TestDatabase.h"
 
+#include <boost/uuid/uuid.hpp>            // uuid class
+
+namespace u = boost::uuids;
+
 //int TestDatabase::TestDatabase() {}
 
-bool TestDatabase::Insert(int u_id, const std::vector<size_t>& t_vec) {
+bool TestDatabase::Insert(u::uuid u_id, const std::vector<size_t>& t_vec) {
 
     if ( this->id == u_id ) return false;
 
@@ -23,7 +27,7 @@ bool TestDatabase::Insert( Result a) {
 
 TestDatabase::~TestDatabase() {}
 
-std::vector<size_t> TestDatabase::Select(int u_id) {
+std::vector<size_t> TestDatabase::Select(u::uuid u_id) {
     if ( this->id != u_id ) return std::vector<size_t>();
 
     return this->data;

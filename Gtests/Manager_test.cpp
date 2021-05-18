@@ -7,6 +7,9 @@
 #include "../Request/Request.h"
 #include "../Queue/Queue.h"
 
+#include <boost/uuid/uuid.hpp>            // uuid class
+#include <boost/uuid/uuid_generators.hpp> // generators
+
 // обработать задачу из очереди, определить ее тип(стратегию)
 // black box strategy
 TEST(TEST_WORK, filled_queue){
@@ -14,7 +17,8 @@ TEST(TEST_WORK, filled_queue){
     auto rque = std::make_shared<Queue<Result>>();
 
     Request request;
-    request.id = 10;
+    request.id = boost::uuids::random_generator()();
+    u::uuid test_id = request.id;
     tque->Push(request);
 
     Manager manager(tque,rque);
@@ -25,6 +29,6 @@ TEST(TEST_WORK, filled_queue){
     t.join();
 
 
-    ASSERT_EQ(rque->Pop().id,10);
+    ASSERT_EQ(rque->Pop().id,test_id);
 }
 

@@ -4,24 +4,29 @@
 #include "IDatabase.h"
 #include "../Result/Result.h"
 #include <mutex>
+#include <pqxx/pqxx>
+#include <boost/uuid/uuid.hpp>
 
-class sql;
+namespace u = boost::uuids;
 
 class Database: public IDatabase {
 public:
     Database();
-    Database(sql *connect);
+    Database(pqxx::connection *connect);
     ~Database() override;
 
-    std::vector<size_t> Select(int id) override;
-    bool Insert(int id, const std::vector<size_t>&) override;
-    bool Insert(Result a);
+    bool connect();
+
+    std::vector<size_t> Select(u::uuid) override;
+    bool Insert(u::uuid id, const std::vector<size_t>&) override;
+    bool Insert(Result a) override;
 
 private:
-    sql *connection;
 
+    pqxx::connection *db_connection;
     std::mutex safety;
 };
+
 
 
 #endif //TABLEOFLIFE_DATABASE_H

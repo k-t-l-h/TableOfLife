@@ -9,6 +9,8 @@
 #include "../Queue/Queue.h"
 #include <thread>
 #include <chrono>
+#include <boost/uuid/uuid.hpp>            // uuid class
+#include <boost/uuid/uuid_generators.hpp> // generators
 
 
 
@@ -20,7 +22,8 @@ TEST(TEST_WORK_CYCLE, non_empty_result_queue){
 
     Reporter reporter(rque, test_db);
 
-    Result result = {3, std::vector<size_t>()};
+    u::uuid u1 = boost::uuids::random_generator()();
+    Result result = {u1, std::vector<size_t>()};
     rque->Push(result);
 
     std::thread t(&Reporter::WorkCycle, &reporter);

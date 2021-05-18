@@ -1,8 +1,11 @@
 #include "Adapter.h"
 #include "IDatabase.h"
+#include <boost/uuid/uuid.hpp>            // uuid class
 
-const std::vector<size_t> Adapter::GetResult(int id) const {
-    return db->Select(id);
+namespace u = boost::uuids;
+
+const std::vector<size_t> Adapter::GetResult(u::uuid u_id) const {
+    return db->Select(u_id);
 }
 
 Adapter::Adapter() {}

@@ -3,14 +3,15 @@
 #include <vector>
 
 #include "../Result/Result.h"
+#include <boost/uuid/uuid.hpp>
 
 class IDatabase {
 public:
 
     virtual ~IDatabase() {}
 
-    virtual std::vector<size_t> Select(int id) = 0;
-    virtual bool Insert(int id, const std::vector<size_t>&) = 0;
+    virtual std::vector<size_t> Select(u::uuid) = 0;
+    virtual bool Insert(u::uuid id, const std::vector<size_t>&) = 0;
     virtual bool Insert(Result a) = 0;
 };
 
