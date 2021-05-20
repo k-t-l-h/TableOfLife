@@ -27,6 +27,7 @@ include_directories(Queue)
 include_directories(Request)
 include_directories(Server)
 include_directories(ParserToGA)
+include_directories(General)
 
 file(
         GLOB Project_SRC

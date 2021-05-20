@@ -1,18 +1,21 @@
 #include <boost/asio/io_service.hpp>
-#include "Server/Server.h"
+#include "../General/General.h"
+#include "../Server/Server.h"
+
 #include <iostream>
 
 
 int main() {
-    Server ser = Server();
-    ser.SetUp();
+    General gen = General(2);
+    gen.turnOn();
     try {
         boost::asio::io_service io_service;
-        Server s;
+        Server s(io_service, 8080, &gen);
         io_service.run();
     }
-    catch (std::exception& e)
+    catch (std::exception& e) {
         std::cerr << "Exception: " << e.what() << "\n";
-    ser.ShutDown();
+    }
+    gen.turnOff();
     return 0;
 }

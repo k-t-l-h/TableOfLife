@@ -12,20 +12,6 @@
 
 namespace u = boost::uuids;
 
-int Server::SetUp() {
-    ReqQueue = std::make_shared<Queue<Request>>();
-    ResQueue = std::make_shared<Queue<Result>>();
-    (Manager(ReqQueue, ResQueue));
-
-
-//    Server::Run();
-    return 0;
-}
-
-int Server::ShutDown() {
-    return 0;
-}
-
 int Server::Run() {
     return 0;
 }
@@ -44,10 +30,7 @@ void Server::TakeAdapter(int id) {
 
 void Server::PackReqParser() {
     // как-то будет вытягиваться строка из boost, а пока так
-    returnBodyStr = "{\"classes\":[{\"id_groups\": 1,\"name\": \"WEB\",\"teacher\": \"Dinar\",\"count_students\": 21},{\"id_groups\":"
-                                    " 2,\"name\": \"C++\",\"teacher\":\"Uliana\",\"count_students\": 21},{\"id_groups\": 1,\"name\": \"ALGORITHM\",\"teacher\": "
-                                    "\"Krimov\",\"count_students\": 21}],\"classesNumber\": 0,\"students\": [ [1, 0, 1],[1, 0, 1],[1, 0, 1],[1, 0, 1]],\"iterations\": 5,"
-                                    "\"params\": {\"crossover\": \"default\",\"mutation\": \"default\",\"selector\": \"default\",\"creator\": \"default\"}}";
+    returnBodyStr = "{\"classes\":[{\"id_groups\": 1,\"name\": \"WEB\",\"teacher\": \"Dinar\",\"count_students\": 21},{\"id_groups\": 2,\"name\": \"C++\",\"teacher\":\"Uliana\",\"count_students\": 21},{\"id_groups\": 1,\"name\": \"ALGORITHM\",\"teacher\": \"Krimov\",\"count_students\": 21}],\"classesNumber\": 0,\"students\": [ [1, 0, 1],[1, 0, 1],[1, 0, 1],[1, 0, 1]],\"iterations\": 5, \"params\": {\"crossover\": \"default\",\"mutation\": \"default\",\"selector\": \"default\",\"creator\": \"default\"}}";
     ParserToGA<Request> parse;
 
     if (parse.WorkCycle(&returnBodyStr) == nullptr) {
