@@ -23,16 +23,6 @@ TEST(TEST_CREATOR, nullptr_check) {
   }
 }
 
-TEST(TEST_CREATOR, size_test_neg) {
-  //создает нулевое количество особей в случае чего
-  const std::size_t N = sizeof(int);
-  std::size_t check = -1;
-  SimpleCreator<N> sc;
-  auto v = sc.Create(check, check, check);
-  ASSERT_EQ(v.size(), 0);
-}
-
-
 TEST(TEST_CREATOR, diff_test) {
   //создает различных особей
   const std::size_t N = sizeof(int);
