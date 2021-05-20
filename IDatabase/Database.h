@@ -6,13 +6,14 @@
 #include <mutex>
 #include <pqxx/pqxx>
 #include <boost/uuid/uuid.hpp>
+#include <memory>
 
 namespace u = boost::uuids;
 
 class Database: public IDatabase {
 public:
     Database();
-    Database(pqxx::connection *connect);
+    Database(std::unique_ptr<pqxx::connection> &&db_connection);
     ~Database() override;
 
     bool connect();
@@ -23,7 +24,7 @@ public:
 
 private:
 
-    pqxx::connection *db_connection;
+    std::unique_ptr<pqxx::connection> db_connection;        //TODO unique_ptr
     std::mutex safety;
 };
 

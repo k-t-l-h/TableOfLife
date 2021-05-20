@@ -14,6 +14,7 @@
 Manager::Manager(std::shared_ptr<Queue<Request>> &tasq, std::shared_ptr<Queue<Result>> &resq ) : tque(tasq), rque(resq) {}
 
 //TODO проверку количества свободных потокв в системе
+//sysconf_(PROC_COUNT)
 void Manager::WorkCycle() {
     while(active){
         if ( tque->Empty() ) {
@@ -69,7 +70,6 @@ void Manager::work( Request task ) {
     std::vector<size_t> solution = res->GetBest();
 
     outResult.result = solution;
-
 
     rque->Push( std::move(outResult) );
 
