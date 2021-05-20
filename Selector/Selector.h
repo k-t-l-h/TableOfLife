@@ -13,6 +13,9 @@ public:
 
 template <std::size_t N>
 Genome<N>* Selector<N>::Select(std::vector<Genome<N>*> genomes) {
+    if (genomes.empty()) {
+        return nullptr;
+    }
     std::size_t value = rand() % genomes.size();
     return genomes.at(value);
 }

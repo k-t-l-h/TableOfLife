@@ -12,7 +12,10 @@ public:
 };
 
 template <std::size_t N>
-Genome<N>* TopSelector<N>::Select(std::vector<Genome<N>*> genomes) {
+Genome<N>* TopSelector<N>::Select(std::vector<Genome<N>*> genomes){
+    if (genomes.empty()) {
+        return nullptr;
+    }
     double total = 0;
     for (int i = 0; i < genomes.size(); ++i) {
         //по идее  мы не должны получить нулевого зверя
