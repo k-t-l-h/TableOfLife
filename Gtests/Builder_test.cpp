@@ -56,7 +56,7 @@ TEST(TEST_BUILDER, set_up_creator) {
 TEST(TEST_BUILDER, set_up_random_creator) {
     const std::size_t N = sizeof(int);
     Builder<N> builder;
-    builder.SetCreator();
+    builder.SetRandomCreator();
     RandomCreator<N> m;
     auto res = builder.GetResult();
     ASSERT_NE(res->Creator, nullptr);
