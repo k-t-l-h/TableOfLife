@@ -1,0 +1,73 @@
+#include <gtest/gtest.h>
+#include "../Mutator/SimpleMutator.h"
+#include "../Mutator/ReverseMutator.h"
+
+//что будет если передать null
+TEST(TEST_MUTATOR, zero) {
+  const std::size_t N = sizeof(int);
+  SimpleMutator<N> sm(0, 0);
+  //нет так нет
+  ASSERT_NO_THROW(sm.Mutate(nullptr));
+  auto answer = sm.Mutate(nullptr);
+  ASSERT_EQ(answer, nullptr);
+
+}
+
+TEST(TEST_MUTATOR, zero_random) {
+  const std::size_t N = sizeof(int);
+  ReverseMutator<N> m(0, 0);
+  //нет так нет
+  ASSERT_NO_THROW(m.Mutate(nullptr));
+  auto answer = m.Mutate(nullptr);
+  ASSERT_EQ(answer, nullptr);
+}
+
+
+TEST(TEST_MUTATOR, zero2) {
+  const std::size_t N = sizeof(int);
+  float probability = 0;
+  //при вероятности мутации в 0 мутации не должно быть
+  SimpleMutator<N> sm(probability, 5);
+
+  Genome<N> g(1);
+  auto answer = sm.Mutate(&g);
+  ASSERT_NE(answer, nullptr);
+  ASSERT_EQ(answer->GetGene(0), g.GetGene(0));
+}
+
+TEST(TEST_MUTATOR, zero2_random) {
+  const std::size_t N = sizeof(int);
+  float probability = 0;
+  //при вероятности мутации в 0 мутации не должно быть
+  ReverseMutator<N> m(probability, 5);
+
+  Genome<N> g(1);
+  auto answer = m.Mutate(&g);
+  ASSERT_NE(answer, nullptr);
+  ASSERT_EQ(answer->GetGene(0), g.GetGene(0));
+}
+
+
+TEST(TEST_MUTATOR, for_sure) {
+  const std::size_t N = sizeof(int);
+  float probability = 1;
+  //при вероятности мутации в 1 мутация обязана произойти
+  SimpleMutator<N> sm(probability, 5);
+  Genome<N> g(1);
+  //мутация возвращает копию или новый объект
+  auto answer = sm.Mutate(&g);
+  ASSERT_NE(answer->GetGene(0), g.GetGene(0));
+}
+
+TEST(TEST_MUTATOR, for_sure_random) {
+  const std::size_t N = sizeof(int);
+  float probability = 1;
+  int value = 5;
+  //при вероятности мутации в 1 мутация обязана произойти
+  ReverseMutator<N> m(probability, value);
+  Genome<N> g(1);
+  g.SetGene(0, value);
+  //мутация возвращает копию или новый объект
+  auto answer = m.Mutate(&g);
+  ASSERT_NE(answer->GetGene(0), value);
+}
