@@ -1,9 +1,11 @@
 #include "Database.h"
 #include <pqxx/pqxx>
 #include <boost/uuid/uuid.hpp>
+#include <memory>
+
 Database::Database() {}
 
-Database::Database( pqxx::connection *connect ) : db_connection(connect) {}
+Database::Database( std::unique_ptr<pqxx::connection> &&connect ) : db_connection(std::move(connect)) {}
 
 Database::~Database()  {}
 
@@ -12,9 +14,9 @@ namespace u = boost::uuids;
 bool Database::connect(){
     try
     {
-        pqxx::connection C;
-        std::cout << "Connected to " << C.dbname() << std::endl;
-        pqxx::work W{C};
+        db_connection = std::make_unique<pqxx::connection>();
+        std::cout << "Connected to " << db_connection->dbname() << std::endl;
+        pqxx::work W{*db_connection};
 
         pqxx::result R{W.exec("CREATE TABLE students")};
 
@@ -39,6 +41,12 @@ bool Database::Insert(u::uuid id, const std::vector<size_t> &res)  {
     return true;
 }
 bool Database::Insert(Result a)  {
+    pqxx::work W{*db_connection};
+
+    W.exec0("my insert query");
+
+    W.commit();
+
     return true;
 }
 
