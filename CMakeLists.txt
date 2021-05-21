@@ -28,6 +28,7 @@ include_directories(Request)
 include_directories(Server)
 include_directories(ParserToGA)
 include_directories(General)
+include_directories(Client)
 
 file(
         GLOB Project_SRC

@@ -10,7 +10,7 @@ int main() {
     gen.turnOn();
     try {
         boost::asio::io_service io_service;
-        Server s(io_service, 8080, &gen);
+        Server s(io_service, 8081, &gen);
         io_service.run();
     }
     catch (std::exception& e) {
