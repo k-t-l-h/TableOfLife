@@ -163,7 +163,7 @@ int main() {
         if (buffer.find("test") == 0 && !testFlag) {
             testFlag = true;
         }
-        if (buffer.find("get") == 0 && !getFlag) {
+        if (buffer.find("GET") == 0 && !getFlag) {
             getFlag = true;
         }
         if (buffer.find("exit") == 0 && !getFlag) {

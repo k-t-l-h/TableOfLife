@@ -18,6 +18,9 @@
 #include <memory>
 #include <string>
 
+#define OK 0
+#define ERROR -1
+
 class Session;
 
 class General {
@@ -52,48 +55,21 @@ public:
         std::for_each(threads.begin(), threads.end(), std::mem_fn(&std::thread::join));
     };
 
-    void getRequest(std::string request) {
+    int getRequest(std::string request, u::uuid uuid) {
         std::unique_lock<std::mutex> lock(m);
         ParserToGA<Request> parse;
 
-        if (parse.WorkCycle(&request) == nullptr) {
-            printf("Not valid"); // иначе возвращаем пользователю ошибку
-        } else {
-            Request req = *parse.req;
-            u::random_generator gen;
-            req.id = gen();
-            ReqQueue->Push(req);
-        }
-//        std::move
+        if (parse.WorkCycle(&request) == nullptr)
+            return ERROR; // иначе возвращаем ошибку
+
+        Request req = *parse.req;
+        req.id = uuid;
+        ReqQueue->Push(req);
+
         notified = true;
         condition.notify_one();
+        return OK;
     };
-
-    std::pair<bool, std::string> sendAnswer(int id) {
-//        std::string result;
-//        if (!db->select(id, result)) {
-//            return {false, ""};
-//        }
-        return {true, nullptr};
-    };
-
-//    void addSession(boost::shared_ptr<Session> session) {
-//        sessions.push_back(session);
-//    };
-//
-//    void removeSession(boost::shared_ptr<Session> session) {
-//        auto it = std::find(sessions.begin(), sessions.end(), session);
-//        if (it != sessions.end())
-//            sessions.erase(it);
-//    };
-//
-//    std::pair<bool, boost::shared_ptr<Session>> findSession(boost::shared_ptr<Session> session) {
-//        auto it = std::find(sessions.begin(), sessions.end(), session);
-//        if (it != sessions.end()) {
-//            return {true, *it};
-//        }
-//        return {false, nullptr};
-//    };
 
 private:
     std::mutex m;
