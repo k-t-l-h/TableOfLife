@@ -10,8 +10,7 @@ public:
 
     virtual ~IDatabase() {}
 
-    virtual std::vector<size_t> Select(u::uuid) = 0;
-    virtual bool Insert(u::uuid id, const std::vector<size_t>&) = 0;
+    virtual Result Select(u::uuid) = 0;
     virtual bool Insert(Result a) = 0;
 };
 

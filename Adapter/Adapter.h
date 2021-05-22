@@ -7,6 +7,8 @@
 #include <shared_mutex>
 #include <boost/uuid/uuid.hpp>            // uuid class
 
+#include "../Result/Result.h"
+
 namespace u = boost::uuids;
 
 class IDatabase;
@@ -17,7 +19,7 @@ public:
     explicit Adapter(std::shared_ptr<IDatabase> t_db);
     ~Adapter();
 
-    const std::vector<size_t> GetResult(u::uuid) const;
+    Result GetResult(u::uuid) const;
 
 private:
     Adapter(const Adapter &a) = delete;

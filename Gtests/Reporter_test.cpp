@@ -31,31 +31,9 @@ TEST(TEST_WORK_CYCLE, non_empty_result_queue){
     reporter.activate();
     t.join();
 
-    EXPECT_EQ(result.result, test_db->Select(result.id));
+    EXPECT_EQ(result.id, test_db->Select(result.id).id);
 
 }
-
-//рассмотреть кейс если база данных не отвечает и попробовать сложить данное решение обратно, после чего попробовать еще арз подконнектиться к бд
-TEST(STRESS_TEST_WORK_CYCLE, db_no_answer){
-
-    auto rque = std::make_shared<Queue<Result>>();
-    auto test_db = std::shared_ptr<IDatabase>(new TestDatabase);
-
-    Reporter reporter(rque, test_db);
-
-    u::uuid u1 = boost::uuids::random_generator()();
-    Result result = {u1, std::vector<size_t>()};
-    rque->Push(result);
-
-    std::thread t(&Reporter::WorkCycle, &reporter);
-    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-    reporter.activate();
-    t.join();
-
-    EXPECT_EQ(result.result, test_db->Select(result.id));
-
-}
-
 
 
 

@@ -18,12 +18,16 @@ public:
 
     bool connect();
 
-    std::vector<size_t> Select(u::uuid) override;
-    bool Insert(u::uuid id, const std::vector<size_t>&) override;
+    Result Select(u::uuid) override;
     bool Insert(Result a) override;
+    void create_tables(std::string table_name);
 
+    void drop_table(std::string name);
 private:
 
+    pqxx::result execute_stmt( std::string sql, std::string desc );
+
+    std::string m_table_name;
     std::unique_ptr<pqxx::connection> db_connection;        //TODO unique_ptr
     std::mutex safety;
 };

@@ -15,9 +15,9 @@ TEST(TEST_RESULT, correct_id){
     u::uuid u1 = boost::uuids::random_generator()();
     Result res = {u1, std::vector<size_t>()};
     auto test_db = std::make_shared<TestDatabase>();
-    test_db->Insert(res.id, res.result);
+    test_db->Insert(res);
     Adapter adapt(test_db);
-    EXPECT_EQ(res.result.data(),adapt.GetResult(u1).data());
+    EXPECT_EQ(res.result.data(),adapt.GetResult(u1).result.data());
 }
 
 
@@ -28,26 +28,10 @@ TEST(TEST_RESULT, incorrect_id){
 
     Result res = {u1, std::vector<size_t>()};
     auto test_db = std::make_shared<TestDatabase>();
-    test_db->Insert(res.id, res.result);
+    test_db->Insert(res);
 
     Adapter adapt(test_db);
 
-EXPECT_NE(res.result.data(),adapt.GetResult(u2).data());
+    EXPECT_NE(res.id,adapt.GetResult(u2).id);
 }
 
-
-
-// возварщаем тот же вектор который полжили
-TEST(TEST_RESULT, vector_check){
-
-// фиктивные данные
-std::vector<size_t> my_vec = {1,0,1};
-
-    u::uuid u1 = boost::uuids::random_generator()();
-    Result res = {u1, my_vec};
-    auto test_db = std::make_shared<TestDatabase>();
-    test_db->Insert(res.id, res.result);
-    // наш адаптер
-    Adapter adapt(test_db);
-    EXPECT_EQ(true,(my_vec == adapt.GetResult(u1)));
-}
