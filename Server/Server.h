@@ -90,8 +90,6 @@ private:
                 header += h;
             }
 
-
-
             // API
             if (header.find("POST") != -1) {
                 std::string line;
@@ -110,9 +108,15 @@ private:
                     SendRequest("{\"UUID\": \"" + std::string (boost::uuids::to_string(uuid)) + "\"}", "204 Created");
             } else if ((header.find("GET") != -1)) {
                 if (header.find("/status/") != -1) {
-                    u::uuid uuid = get_uuid(header.substr(12, 36));
+                    u::uuid uuid = get_uuid(header.substr(header.find(' ') + 9, 36)); // UUID 36 символов
                     if (uuid.is_nil()) {
-                        SendRequest("{\"error\": \"Invalid " + header.substr(12, 36) + "\"}", "400 Bad Request");
+                        std::string u_id;
+                        int pos = 12;
+                        while (header[pos] != ' ') {
+                            u_id += header[pos];
+                            pos++;
+                        }
+                        SendRequest("{\"error\": \"Invalid " + u_id + "\"}", "400 Bad Request");
                         return;
                     }
                     // потом адаптер

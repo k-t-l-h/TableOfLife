@@ -24,6 +24,20 @@
 class Session;
 
 class General {
+private:
+    std::mutex m;
+    std::shared_ptr<Queue<Request>> ReqQueue;
+    std::shared_ptr<Queue<Result>> ResQueue;
+    std::shared_ptr<IDatabase> db;
+    Manager * man;
+    Reporter * rep;
+    std::condition_variable condition;
+    bool notified = false;
+//    std::shared_ptr<Parser> parser;
+    std::vector<std::thread> threads;
+
+//    std::vector<boost::shared_ptr<Session>> sessions;
+
 public:
     explicit General(int) {};
 
@@ -70,20 +84,6 @@ public:
         condition.notify_one();
         return OK;
     };
-
-private:
-    std::mutex m;
-    std::shared_ptr<Queue<Request>> ReqQueue;
-    std::shared_ptr<Queue<Result>> ResQueue;
-    std::shared_ptr<IDatabase> db;
-    Manager * man;
-    Reporter * rep;
-    std::condition_variable condition;
-    bool notified = false;
-//    std::shared_ptr<Parser> parser;
-    std::vector<std::thread> threads;
-
-    std::vector<boost::shared_ptr<Session>> sessions;
 };
 
 #endif //TABLEOFLIFE_GENERAL_H
