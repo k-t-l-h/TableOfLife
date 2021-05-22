@@ -6,14 +6,6 @@ namespace u = boost::uuids;
 
 //int TestDatabase::TestDatabase() {}
 
-bool TestDatabase::Insert(u::uuid u_id, const std::vector<size_t>& t_vec) {
-
-    if ( this->id == u_id ) return false;
-
-    data = t_vec;
-    this->id = u_id;
-    return true;
-}
 
 bool TestDatabase::Insert( Result a) {
 
@@ -24,11 +16,13 @@ bool TestDatabase::Insert( Result a) {
     return true;
 }
 
-
 TestDatabase::~TestDatabase() {}
 
-std::vector<size_t> TestDatabase::Select(u::uuid u_id) {
-    if ( this->id != u_id ) return std::vector<size_t>();
+Result TestDatabase::Select(u::uuid u_id) {
 
-    return this->data;
+    Result res;
+    res.id = u_id;
+    res.result = std::vector<size_t>();
+    return res;
+
 }

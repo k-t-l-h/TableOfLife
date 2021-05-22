@@ -13,8 +13,7 @@ public:
     TestDatabase() = default;
     ~TestDatabase() override;
 
-    std::vector<size_t> Select(u::uuid u_id) override;
-    bool Insert(u::uuid id, const std::vector<size_t>&) override;
+    Result Select(u::uuid u_id) override;
     bool Insert(Result a) override;
 
 private:

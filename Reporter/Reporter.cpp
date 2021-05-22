@@ -20,7 +20,9 @@ void Reporter::WorkCycle() {
 
         if ( !rque->Empty() ){
             Result res = rque->Pop();
-            db->Insert(res);
+            if ( !db->Insert(res) ){
+                rque->Push(res);
+            }
         } else {
             std::this_thread::sleep_for(std::chrono::milliseconds(300));
         }

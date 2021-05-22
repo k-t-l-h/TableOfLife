@@ -4,7 +4,7 @@
 
 namespace u = boost::uuids;
 
-const std::vector<size_t> Adapter::GetResult(u::uuid u_id) const {
+Result Adapter::GetResult(u::uuid u_id) const {
     return db->Select(u_id);
 }
 
