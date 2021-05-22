@@ -14,9 +14,12 @@
 Manager::Manager(std::shared_ptr<Queue<Request>> &tasq, std::shared_ptr<Queue<Result>> &resq ) : tque(tasq), rque(resq) {}
 
 //TODO проверку количества свободных потокв в системе
-//sysconf_(PROC_COUNT)
+//size_t threads = sysconf(_SC_NPROCESSORS_ONLN);
+
 void Manager::WorkCycle() {
     while(active){
+
+
         if ( tque->Empty() ) {
             std::this_thread::sleep_for(std::chrono::milliseconds(300));
         } else {
@@ -33,7 +36,7 @@ void Manager::work( Request task ) {
 
     Result outResult;
     outResult.id = task.id;
-    outResult.students = task.students;
+    outResult.ClassesNumber = task.ClassesNumber;
     outResult.classes = task.classes;
 
     const size_t N = 32;

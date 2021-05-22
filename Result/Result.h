@@ -11,7 +11,7 @@ struct Result {
     u::uuid id;
     std::vector<size_t> result;
     std::vector<Classes> classes; // все занятия, а вних id группы
-    std::vector<std::vector<int>> students; // все ученики и их параметры
+    size_t ClassesNumber;
 };
 
 

@@ -20,10 +20,12 @@ public:
 
     Result Select(u::uuid) override;
     bool Insert(Result a) override;
-    void create_tables(std::string table_name);
 
+    void create_tables(std::string table_name);
     void drop_table(std::string name);
 private:
+
+    std::string get_classes(std::vector<Classes> &classes);
 
     pqxx::result execute_stmt( std::string sql, std::string desc );
 
