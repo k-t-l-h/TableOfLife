@@ -17,26 +17,23 @@
 #ifndef TABLEOFLIFE_SERVER_H
 #define TABLEOFLIFE_SERVER_H
 
-
 namespace u = boost::uuids;
 
-class Session{
+class Session {
 private:
     boost::asio::ip::tcp::socket socket_;
     General *gen_;
     boost::asio::deadline_timer timer_;
     bool started_;
     boost::posix_time::ptime last_ping;
-    int id_ = -1;
 
 public:
     boost::asio::streambuf response_;
     std::string body;
-    Session(boost::asio::io_service& io_service, General *gen) : socket_(io_service), gen_(gen),timer_(io_service) {}
+    Session(boost::asio::io_service &io_service, General *gen)
+        : socket_(io_service), gen_(gen), timer_(io_service) {}
 
-    boost::asio::ip::tcp::socket& socket() {
-        return socket_;
-    }
+    boost::asio::ip::tcp::socket &socket() { return socket_; }
     bool started() const { return started_; }
 
     void start() {
@@ -46,10 +43,11 @@ public:
     }
 
     void stop() {
-        if ( !started_) return;
+        if (!started_) return;
         started_ = false;
         socket_.close();
     }
+
 private:
     void do_read() {
         // увеличим буфер
@@ -58,23 +56,23 @@ private:
         size_t n = socket_.receive(bufs);
         response_.commit(n);
 
-        async_read_until(socket_, response_,"\0",
-                   boost::bind(&Session::handle_read_body, this,
-                               boost::asio::placeholders::error));
+        async_read_until(socket_, response_, "\0",
+                         boost::bind(&Session::handle_read_body, this,
+                                     boost::asio::placeholders::error));
         life_timer();
     }
 
-    u::uuid get_uuid(std::string header){
+    u::uuid get_uuid(std::string header) {
         try {
             u::string_generator string_gen;
             return string_gen(header);
-        } catch (std::exception& e) {
+        } catch (std::exception &e) {
             u::nil_generator nil_gen;
             return nil_gen();
         }
     }
 
-    void handle_read_body(const boost::system::error_code& err) {
+    void handle_read_body(const boost::system::error_code &err) {
         if (!err) {
             if (!started()) return;
             std::istream response_stream(&response_);
@@ -84,7 +82,8 @@ private:
 
             while (std::getline(response_stream, h) && h != "\r") {
                 if (header.find("Content-Length:") != -1) {
-                    length = atoi((h.substr(h.find(" "), h.find(" ") - h.find("\r"))).c_str());
+                    length =
+                        atoi((h.substr(h.find(" "), h.find(" ") - h.find("\r"))).c_str());
                     break;
                 }
                 header += h;
@@ -102,13 +101,16 @@ private:
                 u::random_generator gen;
                 u::uuid uuid = gen();
 
-                if (gen_->getRequest(body, uuid) == -1)
+                if (gen_->getRequest(body, uuid) == -1) {
                     SendRequest("{\"error\": \"Parser error\"}", "400 Bad Request");
-                else
-                    SendRequest("{\"UUID\": \"" + std::string (boost::uuids::to_string(uuid)) + "\"}", "204 Created");
+                } else {
+                    SendRequest("{\"UUID\": \"" +
+                                    std::string(boost::uuids::to_string(uuid)) + "\"}", "204 Created");
+                }
             } else if ((header.find("GET") != -1)) {
                 if (header.find("/status/") != -1) {
-                    u::uuid uuid = get_uuid(header.substr(header.find(' ') + 9, 36)); // UUID 36 символов
+                    u::uuid uuid = get_uuid(
+                        header.substr(header.find(' ') + 9, 36));  // UUID 36 symbol
                     if (uuid.is_nil()) {
                         std::string u_id;
                         int pos = 12;
@@ -120,14 +122,14 @@ private:
                         return;
                     }
                     // потом адаптер
-//                    do_write("id str_id \r\n\r\n");
+                    //                    do_write("id str_id \r\n\r\n");
 
-//                    Adapter adpter;
-//                    adpter.GetResult(uuid); // возвращет структуру
-//                    if (структура пуста то) {
-//                        on_error();
-//                        return;
-//                    }
+                    //                    Adapter adpter;
+                    //                    adpter.GetResult(uuid); // возвращет структуру
+                    //                    if (структура пуста то) {
+                    //                        on_error();
+                    //                        return;
+                    //                    }
                 } else {
                     SendRequest("{\"error\": \"Incorrect API\"}", "404 Not Found");
                 }
@@ -138,10 +140,10 @@ private:
             SendRequest("{\"error\": \"Broke server\"}", "500 Internal Server Error");
     }
 
-    void SendRequest(std::string str, std::string status_code){
+    void SendRequest(std::string str, std::string status_code) {
         boost::asio::streambuf request;
         std::ostream request_stream(&request);
-        request_stream << "HTTP/1.1 " << status_code  << "\r\n";
+        request_stream << "HTTP/1.1 " << status_code << "\r\n";
         request_stream << "Connection: close\r\n";
         request_stream << "Content-Type: application/json\r\n";
         request_stream << "Content-Length: " << str.size();
@@ -152,27 +154,33 @@ private:
     }
 
     void on_check_life() {
-        boost::posix_time::ptime now = boost::posix_time::microsec_clock::local_time();
-        if ( (now - last_ping).total_milliseconds() > 50000) stop();
+        boost::posix_time::ptime now =
+            boost::posix_time::microsec_clock::local_time();
+        if ((now - last_ping).total_milliseconds() > 50000) stop();
         last_ping = boost::posix_time::microsec_clock::local_time();
     }
 
     void life_timer() {
         timer_.expires_from_now(boost::posix_time::millisec(50000));
-        timer_.async_wait( boost::bind(&Session::on_check_life, this));
+        timer_.async_wait(boost::bind(&Session::on_check_life, this));
     }
 };
 
 class Server {
 public:
-    Server(boost::asio::io_service &io_service, short port, General *gen) : io_service_(io_service),
-    acceptor_(io_service, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port)), gen_(gen)
-    {
+    Server(boost::asio::io_service &io_service, short port, General *gen)
+        : io_service_(io_service),
+          acceptor_(io_service, boost::asio::ip::tcp::endpoint(
+              boost::asio::ip::tcp::v4(), port)),
+          gen_(gen) {
         Session *new_session = new Session(io_service_, gen_);
-        acceptor_.async_accept(new_session->socket(), boost::bind(&Server::handle_accept, this, new_session, boost::asio::placeholders::error));
+        acceptor_.async_accept(
+            new_session->socket(),
+            boost::bind(&Server::handle_accept, this, new_session,
+                        boost::asio::placeholders::error));
     };
 
-    Server(const Server&) = delete;
+    Server(const Server &) = delete;
     ~Server() = default;
 
     void handle_accept(Session *new_session,
@@ -181,9 +189,10 @@ public:
             new_session->start();
             sessions.push_back(new_session);
             new_session = new Session(io_service_, gen_);
-            acceptor_.async_accept(new_session->socket(),
-                                   boost::bind(&Server::handle_accept, this, new_session,
-                                               boost::asio::placeholders::error));
+            acceptor_.async_accept(
+                new_session->socket(),
+                boost::bind(&Server::handle_accept, this, new_session,
+                            boost::asio::placeholders::error));
         } else {
             std::cout << "error\n";
             delete new_session;
@@ -191,12 +200,10 @@ public:
     }
 
 private:
-
     boost::asio::io_service &io_service_;
     boost::asio::ip::tcp::acceptor acceptor_;
     General *gen_;
     std::vector<Session *> sessions;
-
 };
 
-#endif //TABLEOFLIFE_SERVER_H
+#endif  // TABLEOFLIFE_SERVER_H
