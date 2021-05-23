@@ -47,14 +47,13 @@ public:
         std::thread ma(&Manager::WorkCycle, &manager);
         ma.detach();
         db = std::make_shared<Database>();
+        db->connect();
 
         Reporter reporter(ResQueue, db);
-        db->connect();
         rep = &reporter;
+
         std::thread r(&Reporter::WorkCycle, &reporter);
         r.detach();
-        // Потом будет что-то еще
-
     };
 
     void turnOff() {
