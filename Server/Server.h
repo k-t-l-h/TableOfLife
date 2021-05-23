@@ -4,7 +4,7 @@
 #include "../Result/Result.h"
 //#include "../Manager/Manager.h"
 //#include "../Reporter/Reporter.h"
-//#include "../Adapter/Adapter.h"
+#include "../Adapter/Adapter.h"
 #include "../General/General.h"
 //#include "../IDatabase/Database.h"
 #include <memory>
@@ -127,7 +127,7 @@ private:
                         return;
                     }
 
-//                    Adapter adpter(db);
+                    Adapter adpter(gen_->ptr_db());
 // для тестов
                     u::uuid u1 = boost::uuids::random_generator()();
                     std::vector<size_t> vec = {0,0,1,1,1,0};
