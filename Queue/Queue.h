@@ -8,6 +8,7 @@ template <typename T>
 class Queue {
 public:
     Queue(){
+        container.resize(0);
     };
     Queue(const Queue&) = default;
     T Pop() {
@@ -28,7 +29,7 @@ public:
     };
 
     bool Empty() {
-        std::lock_guard<std::mutex> guard(state);
+//        std::lock_guard<std::mutex> guard(state);
         return container.empty();
     };
     int Size() { // ф созданная для тестов в основном
@@ -39,7 +40,7 @@ public:
     ~Queue() = default;
 
 private:
-    std::vector <T> container {};
+    std::vector <T> container;
     std::mutex state;
 };
 

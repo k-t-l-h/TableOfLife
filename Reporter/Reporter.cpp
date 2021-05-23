@@ -10,8 +10,10 @@
 #include "../Queue/Queue.h"
 
 Reporter::Reporter(std::shared_ptr<Queue<Result>> &results, std::shared_ptr<IDatabase> &datab)
-        : rque(results),db(datab)
-{}
+        : db(datab)
+{
+    rque = results;
+}
 
 Reporter::~Reporter() {}
 
