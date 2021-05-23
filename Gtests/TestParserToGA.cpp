@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "../ParserToGA/ParserToGA.cpp"
+#include "../ParserToGA/ParserToGA.h"
 #include "../Queue/Queue.h"
 #include "../Request/Request.h"
 #include <string>
