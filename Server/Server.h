@@ -1,20 +1,13 @@
-#include "../ParserToGA/ParserToGA.h"
+#include "../ParserToHuman/ParserToHuman.h"
 #include "../Request/Request.h"
 #include "../Result/Result.h"
-<<<<<<< HEAD
 #include "../Manager/Manager.h"
-#include "../Reporter/Reporter.h"
-=======
-//#include "../Manager/Manager.h"
-//#include "../Reporter/Reporter.h"
->>>>>>> e460dc90a46731c2be57f07dd850e48a1e48ce4f
 #include "../Adapter/Adapter.h"
 #include "../General/General.h"
 
 #include <boost/bind.hpp>
 #include <boost/asio.hpp>
 #include <boost/uuid/uuid_generators.hpp>
-//#include <boost/asio/error.hpp>
 #include <boost/uuid/uuid_io.hpp>
 #include <boost/uuid/uuid.hpp>
 #include <vector>
@@ -52,7 +45,6 @@ public:
         if (!started_) return;
         started_ = false;
         socket_.close();
-        socket_.release();
     }
 
 private:
@@ -175,7 +167,7 @@ private:
     void on_check_life() {
         boost::posix_time::ptime now =
             boost::posix_time::microsec_clock::local_time();
-        if ((now - last_ping).total_milliseconds() > 5) stop();
+        if ((now - last_ping).total_milliseconds() > 50000) stop();
         last_ping = boost::posix_time::microsec_clock::local_time();
     }
 
