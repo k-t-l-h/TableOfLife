@@ -127,14 +127,13 @@ private:
                         return;
                     }
 
-//                    auto db = std::make_shared<Database>();
-//                    db->connect();
 //                    Adapter adpter(db);
+// для тестов
                     u::uuid u1 = boost::uuids::random_generator()();
                     std::vector<size_t> vec = {0,0,1,1,1,0};
                     std::vector<Classes> cls= {{"Algo","Krimov", 2},{"OS","Linus", 3}};
                     Result res = {u1, vec, cls, cls.size()};
-
+// тесты закончились
 
 
 //                    Result res = adpter.GetResult(uuid); // возвращет

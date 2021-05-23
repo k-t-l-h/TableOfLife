@@ -6,10 +6,10 @@
 #include "../Queue/Queue.h"
 #include "../Request/Request.h"
 #include "../Result/Result.h"
-//#include "../Manager/Manager.cpp"
-//#include "../Reporter/Reporter.cpp"
+#include "../Manager/Manager.cpp"
+#include "../Reporter/Reporter.cpp"
 #include "../ParserToGA/ParserToGA.h"
-//#include <../IDatabase/Database.h>
+#include <../IDatabase/Database.h>
 #include <algorithm>
 #include <functional>
 #include <mutex>
@@ -28,15 +28,11 @@ private:
 //    std::mutex m;
     std::shared_ptr<Queue<Request>> ReqQueue;
     std::shared_ptr<Queue<Result>> ResQueue;
-//    std::shared_ptr<IDatabase> db;
-//    Manager * man;
-//    Reporter * rep;
+    Manager * man;
+    Reporter * rep;
     std::condition_variable condition;
     bool notified = false;
 //    std::shared_ptr<Parser> parser;
-    std::vector<std::thread> threads;
-
-//    std::vector<boost::shared_ptr<Session>> sessions;
 
 public:
     explicit General(int) {};
@@ -46,20 +42,13 @@ public:
         ReqQueue = std::make_shared<Queue<Request>>();
         ResQueue = std::make_shared<Queue<Result>>();
 
-//        Manager manager(ReqQueue,ResQueue);
-//        man = &manager;
-//        std::thread m(&Manager::WorkCycle, &manager);
-//        m.detach();
-//        ParserToGA<Request> parse;
-//        u::uuid u1 = boost::uuids::random_generator()();
-//        std::vector<size_t> vec = {0,0,1,1,1,0};
-//        std::vector<Classes> cls= {{"Algo","Krimov", 2},{"OS","Linus", 3}};
-//        Result res = {u1, vec, cls, cls.size()};
+        Manager manager(ReqQueue,ResQueue);
+        man = &manager;
+        std::thread m(&Manager::WorkCycle, &manager);
+        m.detach();
+        std::shared_ptr<Database> db = std::make_shared<Database>();
 
-//        auto DB = std::make_shared<Database>();
-//        DB->connect();
-
-//        Reporter reporter(ResQueue, DB);
+        Reporter reporter(ResQueue, db);
 //        rep = &reporter;
 //        std::thread r(&Reporter::WorkCycle, &reporter);
 //        r.detach();
@@ -68,14 +57,9 @@ public:
     };
 
     void turnOff() {
-//        man->activate();
-//        rep->activate();
-//        DB.  будет закрываться БД
+        man->activate();
+        rep->activate();
 
-//        parser->setStatus(false);
-//        manager->setWorkingState(false);
-//        reporter->setWorkingState(false);
-        std::for_each(threads.begin(), threads.end(), std::mem_fn(&std::thread::join));
     };
 
     int getRequest(std::string request, u::uuid uuid) {
