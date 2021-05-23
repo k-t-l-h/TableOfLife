@@ -41,10 +41,12 @@ public:
         ReqQueue = std::make_shared<Queue<Request>>();
         ResQueue = std::make_shared<Queue<Result>>();
 
+
         Manager manager(ReqQueue,ResQueue);
         man = &manager;
         std::thread ma(&Manager::WorkCycle, &manager);
         ma.detach();
+
         db = std::make_shared<Database>();
         db->connect();
 

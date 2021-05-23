@@ -1,13 +1,12 @@
-#include "../ParserToGA/ParserToGA.h"
 #include "../Request/Request.h"
 #include "../Result/Result.h"
-<<<<<<< HEAD
 #include "../Manager/Manager.h"
 #include "../Reporter/Reporter.h"
-=======
+#include "../ParserToHuman/ParserToHuman.h"
+
 //#include "../Manager/Manager.h"
 //#include "../Reporter/Reporter.h"
->>>>>>> e460dc90a46731c2be57f07dd850e48a1e48ce4f
+
 #include "../Adapter/Adapter.h"
 #include "../General/General.h"
 
@@ -129,8 +128,7 @@ private:
                         return;
                     }
 
-
-                    Adapter adpter(gen_->ptr_db());
+                    Adapter adapter(gen_->ptr_db());
 // для тестов
 //                    u::uuid u1 = boost::uuids::random_generator()();
 //                    std::vector<size_t> vec = {0,0,1,1,1,0};
@@ -139,7 +137,7 @@ private:
 // тесты закончились
 
 
-                    Result res = adpter.GetResult(uuid); // возвращет
+                    Result res = adapter.GetResult(uuid); // возвращет
 
                     if (!res.result.size()){
                         SendRequest("{\"error\": \"Does not exists\"}", "404 Not Found");
