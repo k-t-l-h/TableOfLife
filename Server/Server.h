@@ -1,4 +1,4 @@
-#include "../ParserToGA/ParserToGA.cpp"
+#include "../ParserToGA/ParserToGA.h"
 #include "../Request/Request.h"
 #include "../Result/Result.h"
 #include "../Manager/Manager.h"
@@ -9,6 +9,7 @@
 #include <boost/bind.hpp>
 #include <boost/asio.hpp>
 #include <boost/uuid/uuid_generators.hpp>
+//#include <boost/asio/error.hpp>
 #include <boost/uuid/uuid_io.hpp>
 #include <boost/uuid/uuid.hpp>
 #include <vector>
@@ -46,6 +47,7 @@ public:
         if (!started_) return;
         started_ = false;
         socket_.close();
+        socket_.release();
     }
 
 private:
@@ -156,7 +158,7 @@ private:
     void on_check_life() {
         boost::posix_time::ptime now =
             boost::posix_time::microsec_clock::local_time();
-        if ((now - last_ping).total_milliseconds() > 50000) stop();
+        if ((now - last_ping).total_milliseconds() > 5) stop();
         last_ping = boost::posix_time::microsec_clock::local_time();
     }
 
@@ -168,12 +170,13 @@ private:
 
 class Server {
 public:
+    Session *new_session;
     Server(boost::asio::io_service &io_service, short port, General *gen)
         : io_service_(io_service),
           acceptor_(io_service, boost::asio::ip::tcp::endpoint(
               boost::asio::ip::tcp::v4(), port)),
           gen_(gen) {
-        Session *new_session = new Session(io_service_, gen_);
+        new_session = new Session(io_service_, gen_);
         acceptor_.async_accept(
             new_session->socket(),
             boost::bind(&Server::handle_accept, this, new_session,
