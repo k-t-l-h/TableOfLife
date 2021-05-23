@@ -80,12 +80,12 @@ Result Database::Select(u::uuid u_id) {
 
 
 void Database::drop_table(std::string name){
-    std::string create_table = std::string("DROP TABLE IF EXISTS ")+ name + std::string(";");
+    std::string create_table = std::string("DROP TABLE IF EXISTS ") + name + std::string(";");
     execute_stmt(create_table, "drop table solution");
 }
 
 void Database::create_tables(std::string table_name){
-    std::string create_table = std::string("CREATE TABLE ")+ table_name + std::string(" (") + std::string("user_id TEXT ,solution_array INTEGER[], classes_number INTEGER, classes TEXT);");
+    std::string create_table = std::string("CREATE TABLE ") + table_name + std::string(" (") + std::string("user_id TEXT ,solution_array INTEGER[], classes_number INTEGER, classes TEXT);");
     m_table_name = table_name;
     execute_stmt(create_table, "create table solution");
 }

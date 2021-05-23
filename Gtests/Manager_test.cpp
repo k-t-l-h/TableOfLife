@@ -40,7 +40,6 @@ TEST(TEST_WORK, multifilled_queue){
     u::uuid test_id = request.id;
     tque->Push(request);
 
-
     Manager manager(tque,rque);
 
     std::thread t(&Manager::WorkCycle, &manager);
