@@ -3,7 +3,7 @@
 #include "../Result/Result.h"
 #include "../Manager/Manager.h"
 #include "../Reporter/Reporter.h"
-#include "../Adapter/Adapter.cpp"
+#include "../Adapter/Adapter.h"
 #include "../General/General.h"
 
 #include <boost/bind.hpp>
@@ -123,15 +123,13 @@ private:
                         SendRequest("{\"error\": \"Invalid " + u_id + "\"}", "400 Bad Request");
                         return;
                     }
-                    // потом адаптер
-                    //                    do_write("id str_id \r\n\r\n");
 
-                    //                    Adapter adpter;
-                    //                    adpter.GetResult(uuid); // возвращет структуру
-                    //                    if (структура пуста то) {
-                    //                        on_error();
-                    //                        return;
-                    //                    }
+                    Adapter adpter;
+                    Result res = adpter.GetResult(uuid); // возвращет
+                    if (res. == nul) {
+                        on_error();
+                        return;
+                    }
                 } else {
                     SendRequest("{\"error\": \"Incorrect API\"}", "404 Not Found");
                 }
