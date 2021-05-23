@@ -1,8 +1,13 @@
 #include "../ParserToGA/ParserToGA.h"
 #include "../Request/Request.h"
 #include "../Result/Result.h"
+<<<<<<< HEAD
 #include "../Manager/Manager.h"
 #include "../Reporter/Reporter.h"
+=======
+//#include "../Manager/Manager.h"
+//#include "../Reporter/Reporter.h"
+>>>>>>> e460dc90a46731c2be57f07dd850e48a1e48ce4f
 #include "../Adapter/Adapter.h"
 #include "../General/General.h"
 
@@ -124,12 +129,26 @@ private:
                         return;
                     }
 
-                    Adapter adpter;
+
+                    Adapter adpter(gen_->ptr_db());
+// для тестов
+//                    u::uuid u1 = boost::uuids::random_generator()();
+//                    std::vector<size_t> vec = {0,0,1,1,1,0};
+//                    std::vector<Classes> cls= {{"Algo","Krimov", 2},{"OS","Linus", 3}};
+//                    Result res = {u1, vec, cls, cls.size()};
+// тесты закончились
+
+
                     Result res = adpter.GetResult(uuid); // возвращет
-                    if (res. == nul) {
-                        on_error();
+
+                    if (!res.result.size()){
+                        SendRequest("{\"error\": \"Does not exists\"}", "404 Not Found");
                         return;
                     }
+                    ParserToHuman parse;
+                    std::string jsonR = parse.GetReadable(res);
+                    SendRequest(jsonR, "200 OK");
+
                 } else {
                     SendRequest("{\"error\": \"Incorrect API\"}", "404 Not Found");
                 }

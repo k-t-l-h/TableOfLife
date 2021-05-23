@@ -25,9 +25,10 @@ class Session;
 
 class General {
 private:
-//    std::mutex m;
+    std::mutex m;
     std::shared_ptr<Queue<Request>> ReqQueue;
     std::shared_ptr<Queue<Result>> ResQueue;
+    std::shared_ptr<IDatabase> db;
     Manager * man;
     Reporter * rep;
     std::condition_variable condition;
@@ -43,9 +44,9 @@ public:
 
         Manager manager(ReqQueue,ResQueue);
         man = &manager;
-        std::thread m(&Manager::WorkCycle, &manager);
-        m.detach();
-        std::shared_ptr<IDatabase> db = std::make_shared<Database>();
+        std::thread ma(&Manager::WorkCycle, &manager);
+        ma.detach();
+        db = std::make_shared<Database>();
 
         Reporter reporter(ResQueue, db);
         db->connect();
@@ -59,11 +60,14 @@ public:
     void turnOff() {
         man->activate();
         rep->activate();
-
     };
 
+    std::shared_ptr<IDatabase> ptr_db() {
+        return db;
+    }
+
     int getRequest(std::string request, u::uuid uuid) {
-//        std::unique_lock<std::mutex> lock(m);
+        std::unique_lock<std::mutex> lock(m);
         ParserToGA<Request> parse;
 
         if (parse.WorkCycle(&request) == nullptr)
