@@ -73,3 +73,19 @@ TEST(TEST_INSERT, select_ok){
     }
 }
 
+
+TEST(TEST_INSERT, select_not_ok){
+    Database db;
+    if (db.connect()){
+        db.create_tables("testSolution");
+        u::uuid u1 = boost::uuids::random_generator()();
+
+        Result res_cmp = db.Select(u1);
+
+        EXPECT_EQ(res_cmp.result.size(), 0);
+        db.drop_table("testSolution");
+    } else {
+        ASSERT_EQ(true, false);
+    }
+}
+

@@ -47,11 +47,15 @@ bool Database::Insert(Result a)  {
 Result Database::Select(u::uuid u_id) {
     std::string select_str = std::string("SELECT solution_array,classes_number,classes FROM ") + m_table_name + std::string(" WHERE ") + m_table_name + std::string(".user_id ='") + std::string(boost::uuids::to_string(u_id)) + std::string("';");
     pqxx::result r = execute_stmt(select_str, "select query");
+
+    if(r.size() == 0){
+        return {};
+    }
+
     Result res;
-
     std::string translator;
-
     std::string temp;
+
     for (pqxx::result::const_iterator c = r.begin(); c != r.end(); ++c) {
         std::cout << "Solution = " << c[0].as<std::string>() << std::endl;
         std::cout << "Classes info = " << c[2].as<std::string>() << std::endl;

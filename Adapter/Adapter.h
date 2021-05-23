@@ -19,7 +19,7 @@ public:
     explicit Adapter(std::shared_ptr<IDatabase> t_db);
     ~Adapter();
 
-    Result GetResult(u::uuid) const;
+    Result GetResult(u::uuid);
 
 private:
     Adapter(const Adapter &a) = delete;

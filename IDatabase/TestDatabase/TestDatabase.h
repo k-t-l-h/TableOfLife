@@ -13,6 +13,8 @@ public:
     TestDatabase() = default;
     ~TestDatabase() override;
 
+    bool connect() override;
+
     Result Select(u::uuid u_id) override;
     bool Insert(Result a) override;
 

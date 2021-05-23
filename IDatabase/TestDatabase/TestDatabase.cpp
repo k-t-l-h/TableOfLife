@@ -16,6 +16,10 @@ bool TestDatabase::Insert( Result a) {
     return true;
 }
 
+bool TestDatabase::connect(){
+    return true;
+}
+
 TestDatabase::~TestDatabase() {}
 
 Result TestDatabase::Select(u::uuid u_id) {

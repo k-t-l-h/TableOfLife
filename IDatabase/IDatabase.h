@@ -9,7 +9,7 @@ class IDatabase {
 public:
 
     virtual ~IDatabase() {}
-
+    virtual bool connect() = 0;
     virtual Result Select(u::uuid) = 0;
     virtual bool Insert(Result a) = 0;
 };

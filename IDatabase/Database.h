@@ -16,7 +16,7 @@ public:
     Database(std::unique_ptr<pqxx::connection> &&db_connection);
     ~Database() override;
 
-    bool connect();
+    bool connect() override;
 
     Result Select(u::uuid) override;
     bool Insert(Result a) override;
