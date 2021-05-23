@@ -38,7 +38,6 @@ public:
     explicit General(int) {};
 
     void turnOn() {
-//        auto DB = std::shared_ptr<IDatabase>(new TestDatabase);
         ReqQueue = std::make_shared<Queue<Request>>();
         ResQueue = std::make_shared<Queue<Result>>();
 
@@ -46,12 +45,13 @@ public:
         man = &manager;
         std::thread m(&Manager::WorkCycle, &manager);
         m.detach();
-        std::shared_ptr<Database> db = std::make_shared<Database>();
+        std::shared_ptr<IDatabase> db = std::make_shared<Database>();
 
         Reporter reporter(ResQueue, db);
-//        rep = &reporter;
-//        std::thread r(&Reporter::WorkCycle, &reporter);
-//        r.detach();
+        db->connect();
+        rep = &reporter;
+        std::thread r(&Reporter::WorkCycle, &reporter);
+        r.detach();
         // Потом будет что-то еще
 
     };
