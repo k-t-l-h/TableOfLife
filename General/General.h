@@ -33,7 +33,6 @@ private:
     Reporter * rep;
     std::condition_variable condition;
     bool notified = false;
-//    std::shared_ptr<Parser> parser;
 
 public:
     explicit General(int) {};
