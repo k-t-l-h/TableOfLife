@@ -44,8 +44,8 @@ public:
 
         Manager manager(ReqQueue,ResQueue);
         man = &manager;
-        std::thread m(&Manager::WorkCycle, &manager);
-        m.detach();
+        std::thread ma(&Manager::WorkCycle, &manager);
+        ma.detach();
         db = std::make_shared<Database>();
 
         Reporter reporter(ResQueue, db);
@@ -62,7 +62,7 @@ public:
         rep->activate();
     };
 
-    std::shared_ptr<IDatabase> ptr_db(){
+    std::shared_ptr<IDatabase> ptr_db() {
         return db;
     }
 

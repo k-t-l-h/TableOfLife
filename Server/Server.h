@@ -138,11 +138,11 @@ private:
 
 //                    Result res = adpter.GetResult(uuid); // возвращет
                     ParserToHuman parse;
-                    std::string jsonR = parse.GetReadable(res);
                     if (!res.result.size()){
                         SendRequest("{\"error\": \"Does not exists\"}", "404 Not Found");
                         return;
                     }
+                    std::string jsonR = parse.GetReadable(res);
                     SendRequest(jsonR, "200 OK");
                 } else {
                     SendRequest("{\"error\": \"Incorrect API\"}", "404 Not Found");
