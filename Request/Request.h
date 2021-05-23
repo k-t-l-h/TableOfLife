@@ -29,7 +29,7 @@ struct Classes {
 
 class Request {
 public:
-    Request(): ClassesNumber(0), Iterations(0), students(0), classes(0), id(u::nil_uuid()) {};
+    Request(): ClassesNumber(0), Iterations(0), students(0), id(u::nil_uuid()) {};
     ~Request() = default;
 
     u::uuid id; // Генерируем на сервере uuid и отдаем пользователю

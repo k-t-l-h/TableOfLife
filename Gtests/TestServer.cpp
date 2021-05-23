@@ -1,18 +1,14 @@
 #include <gtest/gtest.h>
+#include "../General/General.h"
 #include "../Server/Server.h"
 #include "../ParserToGA/ParserToGA.h"
 #include <boost/asio/io_service.hpp>
-#include <boost/asio.hpp>
-#include <boost/asio.hpp>
-#include <boost/asio/write.hpp>
-#include "../General/General.h"
 #include <../Client/Client.h>
-#include <iostream>
 #include <thread>
 #include <string>
 
 // ошибка в UUID
-TEST(TEST_SERVER, take_body_send_parser) {
+TEST(TEST_SERVER, error_uuid) {
     General gen = General(2);
     gen.turnOn();
     boost::asio::io_service io_service;
@@ -26,6 +22,7 @@ TEST(TEST_SERVER, take_body_send_parser) {
     std::string buffer("GET /status/b5fc218e-dd2hvhbjhberwhbrehbjrehjbrecfcfg HTTP/1.1\\rContent-Type: application/text\\rHost: 127.0.0.1:8081\\rContent-Length: 0\r");
     client.send(buffer);
     std::string str = client.read();
+    client.close();
     int res = std::stoi(str.substr(9, 3));
     ASSERT_EQ(400, res);
     gen.turnOff();
@@ -33,11 +30,11 @@ TEST(TEST_SERVER, take_body_send_parser) {
     tr.join();
 }
 
-
-TEST(TEST_SERVER, test_shut_down) {
+// кладет в очередь и проходит все проверки
+TEST(TEST_SERVER, all_done_push) {
     General gen = General(2);
-    boost::asio::io_service io_service;
     gen.turnOn();
+    boost::asio::io_service io_service;
     Server s(io_service, 8081, &gen);
     std::thread tr([&] { io_service.run(); });
 
@@ -53,6 +50,7 @@ TEST(TEST_SERVER, test_shut_down) {
                        "\"default\", \"selector\": \"default\", \"creator\": \"default\"}}");
     client.send(buffer);
     std::string str = client.read();
+    client.close();
     int res = std::stoi(str.substr(9, 3));
     ASSERT_EQ(204, res);
 
@@ -60,8 +58,9 @@ TEST(TEST_SERVER, test_shut_down) {
     io_service.stop();
     tr.join();
 }
+
 // не может распарсить json
-TEST(TEST_SERVER, test_run) {
+TEST(TEST_SERVER, error_parse_json) {
     General gen = General(2);
     boost::asio::io_service io_service;
     gen.turnOn();
@@ -80,6 +79,7 @@ TEST(TEST_SERVER, test_run) {
                        "\"default\", \"selector\": \"default\", \"creator\": \"default\"}}");
     client.send(buffer);
     std::string str = client.read();
+    client.close();
     int res = std::stoi(str.substr(9, 3));
     ASSERT_EQ(400, res);
 
@@ -89,7 +89,7 @@ TEST(TEST_SERVER, test_run) {
 }
 
 // метод не разрешен
-TEST(TEST_SERVER, response_reporter) {
+TEST(TEST_SERVER, error_methood) {
     General gen = General(2);
     gen.turnOn();
     boost::asio::io_service io_service;
@@ -103,14 +103,16 @@ TEST(TEST_SERVER, response_reporter) {
     std::string buffer("PATCH /status/b5fc218e-dd2hvhbjhberwhbrehbjrehjbrecfcfg HTTP/1.1\\rContent-Type: application/text\\rHost: 127.0.0.1:8081\\rContent-Length: 0\r");
     client.send(buffer);
     std::string str = client.read();
+//    client.close();
     int res = std::stoi(str.substr(9, 3));
     ASSERT_EQ(405, res);
     gen.turnOff();
     io_service.stop();
     tr.join();
 }
+
 // страница не найдена не верное API
-TEST(TEST_SERVER, test_send_answer) {
+TEST(TEST_SERVER, invalid_url) {
     General gen = General(2);
     gen.turnOn();
     boost::asio::io_service io_service;
@@ -121,9 +123,10 @@ TEST(TEST_SERVER, test_send_answer) {
     Client client(context, "127.0.0.1", 8081);
     client.start();
 
-    std::string buffer("GET /what??/b5fc218e-dd2hvhbjhberwhbrehbjrehjbrecfcfg HTTP/1.1\\rContent-Type: application/text\\rHost: 127.0.0.1:8081\\rContent-Length: 0\r");
+    std::string buffer("GET /what/b5fc218e-dd2hvhbjhberwhbrehbjrehjbrecfcfg HTTP/1.1\\rContent-Type: application/text\\rHost: 127.0.0.1:8081\\rContent-Length: 0\r");
     client.send(buffer);
     std::string str = client.read();
+    client.close();
     int res = std::stoi(str.substr(9, 3));
     ASSERT_EQ(404, res);
     gen.turnOff();

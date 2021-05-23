@@ -47,8 +47,6 @@ public:
         }
     }
 
-    bool getStatus() { return status; }
-
     void send(const std::string& message) {
         boost::asio::streambuf request;
         try {
@@ -67,7 +65,7 @@ public:
         std::string tmp;
         try {
             bytes = boost::asio::read(
-                socket, boost::asio::buffer(buffer, 1200),
+                socket, boost::asio::buffer(buffer, 1024),
                 [this](const boost::system::error_code& err, size_t byte) {
                     if (err) return false;
                     std::string tmp(this->buffer, this->buffer + byte);
