@@ -10,22 +10,22 @@
 #include "../Queue/Queue.h"
 
 Reporter::Reporter(std::shared_ptr<Queue<Result>> &results, std::shared_ptr<IDatabase> &datab)
-        : rque(results),db(datab)
-{}
+        : db(datab)
+{
+    rque = results;
+}
 
 Reporter::~Reporter() {}
 
 void Reporter::WorkCycle() {
     while(active){
-
-        if ( !rque->Empty() ){
-            Result res = rque->Pop();
+        if ( rque != nullptr && !(rque->Empty()) ){ //а какой должен быть результат?
+            auto res = rque->Pop(); //так, а что за результаты внутри? непонятно откуда , будто мусор
             if ( !db->Insert(res) ){
                 rque->Push(res);
             }
         } else {
             std::this_thread::sleep_for(std::chrono::milliseconds(300));
         }
-
     }
 }
