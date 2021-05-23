@@ -1,13 +1,10 @@
 #include "../ParserToGA/ParserToGA.h"
-#include "../ParserToHuman/ParserToHuman.h"
 #include "../Request/Request.h"
 #include "../Result/Result.h"
-//#include "../Manager/Manager.h"
-//#include "../Reporter/Reporter.h"
-//#include "../Adapter/Adapter.h"
+#include "../Manager/Manager.h"
+#include "../Reporter/Reporter.h"
+#include "../Adapter/Adapter.h"
 #include "../General/General.h"
-//#include "../IDatabase/Database.h"
-#include <memory>
 
 #include <boost/bind.hpp>
 #include <boost/asio.hpp>
@@ -127,23 +124,12 @@ private:
                         return;
                     }
 
-//                    Adapter adpter(db);
-// для тестов
-                    u::uuid u1 = boost::uuids::random_generator()();
-                    std::vector<size_t> vec = {0,0,1,1,1,0};
-                    std::vector<Classes> cls= {{"Algo","Krimov", 2},{"OS","Linus", 3}};
-                    Result res = {u1, vec, cls, cls.size()};
-// тесты закончились
-
-
-//                    Result res = adpter.GetResult(uuid); // возвращет
-                    ParserToHuman parse;
-                    std::string jsonR = parse.GetReadable(res);
-                    if (!res.result.size()){
-                        SendRequest("{\"error\": \"Does not exists\"}", "404 Not Found");
+                    Adapter adpter;
+                    Result res = adpter.GetResult(uuid); // возвращет
+                    if (res. == nul) {
+                        on_error();
                         return;
                     }
-                    SendRequest(jsonR, "200 OK");
                 } else {
                     SendRequest("{\"error\": \"Incorrect API\"}", "404 Not Found");
                 }
@@ -170,7 +156,7 @@ private:
     void on_check_life() {
         boost::posix_time::ptime now =
             boost::posix_time::microsec_clock::local_time();
-        if ((now - last_ping).total_milliseconds() > 50000) stop();
+        if ((now - last_ping).total_milliseconds() > 5) stop();
         last_ping = boost::posix_time::microsec_clock::local_time();
     }
 

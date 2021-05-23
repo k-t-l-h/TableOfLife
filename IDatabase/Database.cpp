@@ -21,6 +21,9 @@ bool Database::connect(){
         db_connection = std::make_unique<pqxx::connection>("postgresql://postgres@localhost/solution");
         std::cout << "Connected to " << db_connection->dbname() << std::endl;
         std::cout << "OK.\n";
+        //TODO (((
+        drop_table("testSolution");
+        create_tables("testSolution");
         return true;
     }
     catch (std::exception const &e)

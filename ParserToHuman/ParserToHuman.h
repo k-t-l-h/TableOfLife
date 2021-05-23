@@ -41,6 +41,7 @@ std::string ParserToHuman::GetReadable( Result res ) {
     root.add_child("classes", classes);
 
     std::stringstream arr;
+
     size_t students_count = res.result.size()/res.ClassesNumber;
 
     pt::ptree matrix_node;
