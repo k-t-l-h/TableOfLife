@@ -5,7 +5,6 @@
 namespace u = boost::uuids;
 
 Result Adapter::GetResult(u::uuid u_id) {
-    int i = 0;
     return db->Select(u_id);
 }
 

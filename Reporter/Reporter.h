@@ -4,22 +4,19 @@
 #include <memory>
 
 #include "../Queue/Queue.h"
+#include "../GABuilder/Builder.h"
+#include "../IDatabase/IDatabase.h"
+#include "../Result/Result.h"
 
-class GABuilder;
-class IDatabase;
-class ParserGAtoHuman;
-
-struct Result;
 
 class Reporter {
 public:
 
-    Reporter(std::shared_ptr<Queue<Result>> &results, std::shared_ptr<IDatabase> &);
+    Reporter(std::shared_ptr<Queue<Result>> &, std::shared_ptr<IDatabase> &);
     ~Reporter();
 
     void WorkCycle();
 
-    //void work(std::unique_ptr<Result> res);
 
     void activate(){
         active = !active;

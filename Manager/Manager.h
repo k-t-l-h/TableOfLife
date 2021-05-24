@@ -7,10 +7,7 @@
 #include "../GABuilder/Builder.h"
 #include "../Request/Request.h"
 #include "../Queue/Queue.h"
-
-struct Result;
-struct Request;
-
+#include "../Result/Result.h"
 
 class Manager {
 public:

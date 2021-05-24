@@ -19,9 +19,13 @@ bool Database::connect(){
     try
     {
         db_connection = std::make_unique<pqxx::connection>("postgresql://postgres@localhost/solution");
+
+        if( !db_connection )
+            throw std::string("some trouble with connection to db");
+
         std::cout << "Connected to " << db_connection->dbname() << std::endl;
         std::cout << "OK.\n";
-        //TODO (((
+        //TODO :(
         drop_table("testSolution");
         create_tables("testSolution");
         return true;
@@ -29,6 +33,10 @@ bool Database::connect(){
     catch (std::exception const &e)
     {
         std::cerr << e.what() << '\n';
+        return false;
+    }
+    catch (std::string trouble) {
+        std::cerr << trouble << std::endl;
         return false;
     }
 }
@@ -51,7 +59,7 @@ Result Database::Select(u::uuid u_id) {
     std::string select_str = std::string("SELECT solution_array,classes_number,classes FROM ") + m_table_name + std::string(" WHERE ") + m_table_name + std::string(".user_id ='") + std::string(boost::uuids::to_string(u_id)) + std::string("';");
     pqxx::result r = execute_stmt(select_str, "select query");
 
-    if(r.size() == 0){
+    if( r.size() == 0 ){
         return {};
     }
 

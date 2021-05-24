@@ -17,9 +17,7 @@ Manager::Manager(std::shared_ptr<Queue<Request>> &tasq, std::shared_ptr<Queue<Re
 //size_t threads = sysconf(_SC_NPROCESSORS_ONLN);
 
 void Manager::WorkCycle() {
-    while(active){
-
-
+    while( active ){
         if ( tque->Empty() ) {
             std::this_thread::sleep_for(std::chrono::milliseconds(300));
         } else {
