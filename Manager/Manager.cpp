@@ -40,7 +40,7 @@ void Manager::work( Request task ) {
     const size_t N = 32;
 
     Builder<N> builder;
-    builder.Reset( task.ClassesNumber, task.students.size(), 10 );  //iterations?
+    builder.Reset( task.ClassesNumber, task.students.size(), task.Iterations );  //iterations?
 
     if( task.params.creator == "random" ){
         builder.SetRandomCreator();
