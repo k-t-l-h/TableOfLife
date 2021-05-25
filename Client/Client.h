@@ -17,7 +17,7 @@ class Client : public std::enable_shared_from_this<Client> {
     boost::asio::ip::address address;
     int port;
     bool status = false;
-    char buffer[1024];
+    char buffer[2048];
 
 public:
     Client(boost::asio::io_context& io, const std::string& address, int port)
@@ -65,7 +65,7 @@ public:
         std::string tmp;
         try {
             bytes = boost::asio::read(
-                socket, boost::asio::buffer(buffer, 1024),
+                socket, boost::asio::buffer(buffer, 2048),
                 [this](const boost::system::error_code& err, size_t byte) {
                     if (err) return false;
                     std::string tmp(this->buffer, this->buffer + byte);

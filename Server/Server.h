@@ -23,27 +23,22 @@ private:
     boost::asio::ip::tcp::socket socket_;
     General *gen_;
     boost::asio::deadline_timer timer_;
-    bool started_;
     boost::posix_time::ptime last_ping;
 
 public:
     boost::asio::streambuf response_;
     std::string body;
-    Session(boost::asio::io_service &io_service, General *gen)
+    Session(boost::asio::io_service& io_service, General *gen)
         : socket_(io_service), gen_(gen), timer_(io_service) {}
 
-    boost::asio::ip::tcp::socket &socket() { return socket_; }
-    bool started() const { return started_; }
+    boost::asio::ip::tcp::socket& socket() { return socket_; }
 
     void start() {
-        started_ = true;
         last_ping = boost::posix_time::microsec_clock::local_time();
         do_read();
     }
 
     void stop() {
-        if (!started_) return;
-        started_ = false;
         socket_.close();
     }
 
@@ -61,7 +56,7 @@ private:
         life_timer();
     }
 
-    u::uuid get_uuid(std::string header) {
+    static u::uuid get_uuid(const std::string& header) {
         try {
             u::string_generator string_gen;
             return string_gen(header);
@@ -73,16 +68,14 @@ private:
 
     void handle_read_body(const boost::system::error_code &err) {
         if (!err) {
-            if (!started()) return;
             std::istream response_stream(&response_);
             std::string header;
             std::string h;
             int length;
 
             while (std::getline(response_stream, h) && h != "\r") {
-                if (header.find("Content-Length:") != -1) {
-                    length =
-                        atoi((h.substr(h.find(" "), h.find(" ") - h.find("\r"))).c_str());
+                if (h.find("Content-Length:") != -1) {
+                    length = std::stoi(h.substr(h.find(' '), h.find(' ') - h.find('\r')));
                     break;
                 }
                 header += h;
@@ -90,21 +83,26 @@ private:
 
             // API
             if (header.find("POST") != -1) {
-                std::string line;
-                int counter = 0;
-                while (std::getline(response_stream, line) && counter != length) {
-                    body += line;
-                    counter++;
-                }
+                if (header.find("/create/ ") != -1) {
+                    std::string line;
+                    int counter = 0;
+                    while (std::getline(response_stream, line) && counter != length) {
+                        body += line;
+                        counter++;
+                    }
 
-                u::random_generator gen;
-                u::uuid uuid = gen();
+                    u::random_generator gen;
+                    u::uuid uuid = gen();
 
-                if (gen_->getRequest(body, uuid) == -1) {
-                    SendRequest("{\"error\": \"Parser error\"}", "400 Bad Request");
+                    if (gen_->getRequest(body, uuid) == -1) {
+                        SendRequest(R"({"error": "Parser error"})", "400 Bad Request");
+                    }
+                    else {
+                        SendRequest(R"({"UUID": ")" +
+                            std::string(boost::uuids::to_string(uuid)) + "\"}", "201 Created");
+                    }
                 } else {
-                    SendRequest("{\"UUID\": \"" +
-                                    std::string(boost::uuids::to_string(uuid)) + "\"}", "204 Created");
+                    SendRequest(R"({"error": "Incorrect API"})", "404 Not Found");
                 }
             } else if ((header.find("GET") != -1)) {
                 if (header.find("/status/") != -1) {
@@ -117,24 +115,16 @@ private:
                             u_id += header[pos];
                             pos++;
                         }
-                        SendRequest("{\"error\": \"Invalid " + u_id + "\"}", "400 Bad Request");
+                        SendRequest(R"({"error": "Invalid )" + u_id + "\"}", "400 Bad Request");
                         return;
                     }
 
+                    Adapter adapter(gen_->ptr_db());
 
-                    Adapter adpter(gen_->ptr_db());
-// для тестов
-//                    u::uuid u1 = boost::uuids::random_generator()();
-//                    std::vector<size_t> vec = {0,0,1,1,1,0};
-//                    std::vector<Classes> cls= {{"Algo","Krimov", 2},{"OS","Linus", 3}};
-//                    Result res = {u1, vec, cls, cls.size()};
-// тесты закончились
+                    Result res = adapter.GetResult(uuid); // возвращет
 
-
-                    Result res = adpter.GetResult(uuid); // возвращет
-
-                    if (!res.result.size()){
-                        SendRequest("{\"error\": \"Does not exists\"}", "404 Not Found");
+                    if (res.result.empty()) {
+                        SendRequest(R"({"error": "Does not exists"})", "404 Not Found");
                         return;
                     }
                     ParserToHuman parse;
@@ -142,16 +132,16 @@ private:
                     SendRequest(jsonR, "200 OK");
 
                 } else {
-                    SendRequest("{\"error\": \"Incorrect API\"}", "404 Not Found");
+                    SendRequest(R"({"error": "Incorrect API"})", "404 Not Found");
                 }
             } else {
-                SendRequest("{\"error\": \"Method Not Allowed\"}", "405 Method Not Allowed");
+                SendRequest(R"({"error": "Method Not Allowed"})", "405 Method Not Allowed");
             }
         } else
-            SendRequest("{\"error\": \"Broke server\"}", "500 Internal Server Error");
+            SendRequest(R"({"error": "Broke server"})", "500 Internal Server Error");
     }
 
-    void SendRequest(std::string str, std::string status_code) {
+    void SendRequest(const std::string& str, const std::string& status_code) {
         boost::asio::streambuf request;
         std::ostream request_stream(&request);
         request_stream << "HTTP/1.1 " << status_code << "\r\n";
@@ -160,7 +150,6 @@ private:
         request_stream << "Content-Length: " << str.size();
         request_stream << "\r\n\r\n";
         request_stream << str;
-        if (!started()) return;
         boost::asio::write(socket_, request);
     }
 
@@ -179,24 +168,23 @@ private:
 
 class Server {
 public:
-    Session *new_session;
-    Server(boost::asio::io_service &io_service, short port, General *gen)
+    Server(boost::asio::io_service& io_service, short port, General *gen)
         : io_service_(io_service),
           acceptor_(io_service, boost::asio::ip::tcp::endpoint(
               boost::asio::ip::tcp::v4(), port)),
           gen_(gen) {
-        new_session = new Session(io_service_, gen_);
+        Session* new_session = new Session(io_service_, gen_);
         acceptor_.async_accept(
             new_session->socket(),
             boost::bind(&Server::handle_accept, this, new_session,
                         boost::asio::placeholders::error));
     };
 
-    Server(const Server &) = delete;
+    Server(const Server&) = delete;
     ~Server() = default;
 
     void handle_accept(Session *new_session,
-                       const boost::system::error_code &error) {
+                       const boost::system::error_code& error) {
         if (!error) {
             new_session->start();
             sessions.push_back(new_session);
@@ -212,7 +200,7 @@ public:
     }
 
 private:
-    boost::asio::io_service &io_service_;
+    boost::asio::io_service& io_service_;
     boost::asio::ip::tcp::acceptor acceptor_;
     General *gen_;
     std::vector<Session *> sessions;
