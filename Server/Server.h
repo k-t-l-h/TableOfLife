@@ -1,19 +1,13 @@
+#include "../ParserToHuman/ParserToHuman.h"
 #include "../Request/Request.h"
 #include "../Result/Result.h"
 #include "../Manager/Manager.h"
-#include "../Reporter/Reporter.h"
-#include "../ParserToHuman/ParserToHuman.h"
-
-//#include "../Manager/Manager.h"
-//#include "../Reporter/Reporter.h"
-
 #include "../Adapter/Adapter.h"
 #include "../General/General.h"
 
 #include <boost/bind.hpp>
 #include <boost/asio.hpp>
 #include <boost/uuid/uuid_generators.hpp>
-//#include <boost/asio/error.hpp>
 #include <boost/uuid/uuid_io.hpp>
 #include <boost/uuid/uuid.hpp>
 #include <vector>
@@ -51,7 +45,6 @@ public:
         if (!started_) return;
         started_ = false;
         socket_.close();
-        socket_.release();
     }
 
 private:
@@ -128,7 +121,8 @@ private:
                         return;
                     }
 
-                    Adapter adapter(gen_->ptr_db());
+
+                    Adapter adpter(gen_->ptr_db());
 // для тестов
 //                    u::uuid u1 = boost::uuids::random_generator()();
 //                    std::vector<size_t> vec = {0,0,1,1,1,0};
@@ -137,7 +131,7 @@ private:
 // тесты закончились
 
 
-                    Result res = adapter.GetResult(uuid); // возвращет
+                    Result res = adpter.GetResult(uuid); // возвращет
 
                     if (!res.result.size()){
                         SendRequest("{\"error\": \"Does not exists\"}", "404 Not Found");
@@ -173,7 +167,7 @@ private:
     void on_check_life() {
         boost::posix_time::ptime now =
             boost::posix_time::microsec_clock::local_time();
-        if ((now - last_ping).total_milliseconds() > 5) stop();
+        if ((now - last_ping).total_milliseconds() > 50000) stop();
         last_ping = boost::posix_time::microsec_clock::local_time();
     }
 

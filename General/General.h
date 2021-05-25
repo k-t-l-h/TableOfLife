@@ -29,8 +29,10 @@ private:
     std::shared_ptr<Queue<Request>> ReqQueue;
     std::shared_ptr<Queue<Result>> ResQueue;
     std::shared_ptr<IDatabase> db;
-    Manager * man;
-    Reporter * rep;
+
+    std::unique_ptr<Manager> man;
+    std::unique_ptr<Reporter> rep;
+
     std::condition_variable condition;
     bool notified = false;
 
@@ -42,18 +44,16 @@ public:
         ResQueue = std::make_shared<Queue<Result>>();
 
 
-//        Manager manager(ReqQueue,ResQueue);
-//        man = &manager;
-//        std::thread ma(&Manager::WorkCycle, &manager);
-//        ma.detach();
-//
+        man = std::make_unique<Manager>(ReqQueue,ResQueue);
+        std::thread ma(&Manager::WorkCycle, man.get());
+        ma.detach();
+
         db = std::make_shared<Database>();
         db->connect();
 
-        Reporter reporter(ResQueue, db);
-        rep = &reporter;
+        rep = std::make_unique<Reporter>(ResQueue, db);
 
-        std::thread r(&Reporter::WorkCycle, &reporter);
+        std::thread r(&Reporter::WorkCycle, rep.get());
         r.detach();
     };
 
