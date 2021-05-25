@@ -30,6 +30,7 @@ include_directories(Request)
 
 file(
     GLOB Project_SRC
+#        main.cpp
     "${PROJECT_SOURCE_DIR}/Gtests/main.cpp"
 )
 
