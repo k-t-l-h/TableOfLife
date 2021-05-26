@@ -12,19 +12,14 @@ TEST(TEST_CONNECTION, connection_on){
     ASSERT_EQ(db.connect(),true);
 }
 
-
 //db create table works
 TEST(TEST_INSERT, create_table_ok){
     Database db;
-    auto table_name = "testSolution";
     if (db.connect()){
-        db.drop_table(table_name);
-        db.create_tables(table_name);
-        db.drop_table(table_name);
+        ASSERT_EQ( db.init("solution", "testsolution"), true );
     } else {
         ASSERT_EQ(true, false);
     }
-
 }
 
 
@@ -32,13 +27,11 @@ TEST(TEST_INSERT, create_table_ok){
 TEST(TEST_INSERT, insert_ok){
      Database db;
      if (db.connect()){
-         db.create_tables("testSolution");
          u::uuid u1 = boost::uuids::random_generator()();
          std::vector<size_t> vec = {0,0,1,1,1,0};
          std::vector<Classes> cls= {{"Algo","Krimov", 2},{"C++","Juliana", 3}};
          Result res = {u1, vec, cls, cls.size()};
          ASSERT_EQ(db.Insert(res), true);
-         db.drop_table("testSolution");
      } else {
          ASSERT_EQ(true, false);
      }
@@ -50,7 +43,6 @@ TEST(TEST_INSERT, insert_ok){
 TEST(TEST_INSERT, select_ok){
     Database db;
     if (db.connect()){
-        db.create_tables("testSolution");
         u::uuid u1 = boost::uuids::random_generator()();
         std::vector<size_t> vec = {0,0,1,1,1,0};
         std::vector<Classes> cls= {{"Algo","Krimov", 2},{"OS","Linus", 3}};
@@ -67,7 +59,6 @@ TEST(TEST_INSERT, select_ok){
         EXPECT_EQ(true, res_cmp.classes[0].teacher == "Krimov");
 
 
-        db.drop_table("testSolution");
     } else {
         ASSERT_EQ(true, false);
     }
@@ -77,15 +68,18 @@ TEST(TEST_INSERT, select_ok){
 TEST(TEST_INSERT, select_not_ok){
     Database db;
     if (db.connect()){
-        db.create_tables("testSolution");
         u::uuid u1 = boost::uuids::random_generator()();
 
         Result res_cmp = db.Select(u1);
 
         EXPECT_EQ(res_cmp.result.size(), 0);
-        db.drop_table("testSolution");
     } else {
         ASSERT_EQ(true, false);
     }
 }
 
+
+TEST( TEST_CREATE_DROP, must_work ){
+    auto test_name = "db_name";
+    Database db;
+}

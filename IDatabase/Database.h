@@ -18,20 +18,26 @@ public:
 
     bool connect() override;
 
+    bool init( std::string, std::string );
+
     Result Select(u::uuid) override;
     bool Insert(Result a) override;
 
-    void create_tables(std::string table_name);
-    void drop_table(std::string name);
+
 private:
+
+    void create_db(std::string name);
+    void create_table(std::string table_name);
+    void drop_table(std::string name);
 
     std::string get_classes(std::vector<Classes> &classes);
 
     pqxx::result execute_stmt( std::string sql, std::string desc );
 
     std::string m_table_name;
-    std::unique_ptr<pqxx::connection> db_connection;        //TODO unique_ptr
-    std::mutex safety;
+    std::string db_name;
+    std::unique_ptr<pqxx::connection> db_connection;
+
 };
 
 
