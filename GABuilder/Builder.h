@@ -22,7 +22,7 @@
 #include "../Selector/TopSelector.h"
 
 #include "../Simulator/ISimulator.h"
-#include "../Simulator/Simulator.h"
+#include "../Simulator/TimeTableSimulator.h"
 
 template <std::size_t N>
 class Builder {
@@ -46,7 +46,8 @@ public:
     void SetSelection();  //как происходит селекция
     void SetTopSelection();
 
-    void SetSimulator();  //как происходит симуляция
+    void SetSimulator(std::vector<std::vector<int>> students,
+                      std::vector<int> fullness, int lessons);  //как происходит симуляция
 
     void SetCreator();  //как создаются поколения
     void SetRandomCreator();
@@ -115,8 +116,9 @@ void Builder<N>::SetTopSelection() {
 }
 
 template <std::size_t N>
-void Builder<N>::SetSimulator() {
-    auto* sm = new Simulator<N>();
+void Builder<N>::SetSimulator(std::vector<std::vector<int>> students,
+        std::vector<int> fullness, int lessons) {
+    auto* sm = new TableSimulator<N>( students,fullness,lessons);
     // delete GA->Simulator;
     GA->Simulator = sm;
 }

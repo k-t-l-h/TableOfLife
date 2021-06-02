@@ -6,8 +6,8 @@
 template <std::size_t N>
 class TableSimulator final: public ISimulator<N> {
 public:
-    explicit TableSimulator(std::vector<std::vector<int> students,
-            std::vector<int> fullness, int lessons)
+    explicit TableSimulator(std::vector<std::vector<int>> students,
+                            std::vector<int> fullness, int lessons)
         :lesson(lessons), goal(0.95), students(students), fullness(fullness){};
     ~TableSimulator() = default;
     bool Exit(Genome<N> *) override;
@@ -28,9 +28,6 @@ template <std::size_t N>
 bool TableSimulator<N>::Exit(Genome<N> *g) {
     if (g == nullptr) {
         return false;
-    }
-    if (ExitF == nullptr) {
-        return true;
     }
     return g->GetFitness() >= goal;
 }
@@ -67,7 +64,7 @@ void TableSimulator<N>::Simulate(Genome<N> *g) {
     for (int i = 0; i < fullness.size(); ++i) {
         tmp[i] = -tmp[i] + fullness[i];
         if (tmp[i] < 0) {
-            result -= (-tmp[i])/fullness[i]
+            result -= (-tmp[i])/fullness[i];
         }
     }
 
