@@ -3,6 +3,7 @@
 #include <memory>
 #include <mutex>
 #include <chrono>
+#include <algorithm>
 
 #include "../Request/Request.h"
 #include "../GABuilder/Builder.h"
@@ -22,7 +23,7 @@ void Manager::WorkCycle() {
             std::this_thread::sleep_for(std::chrono::milliseconds(300));
         } else {
             auto current_task = tque->Pop();
-            std::thread t(&Manager::work, this,std::move(current_task));
+            std::thread t(&Manager::work, this,std::move(current_task), current_task.students);
             t.detach();
         }
     }
@@ -30,7 +31,7 @@ void Manager::WorkCycle() {
 
 
 
-void Manager::work( Request task ) {
+void Manager::work( Request task, std::vector<std::vector<int>> students ) {
 
     Result outResult;
     outResult.id = task.id;
@@ -66,7 +67,11 @@ void Manager::work( Request task ) {
         builder.SetMater(0.5);
     }
 
-    builder.SetSimulator();
+    std::vector<int> fullness;
+    for( size_t i = 0; i < task.ClassesNumber; ++i ){
+        fullness.push_back( task.students.size()/task.ClassesNumber );
+    }
+    builder.SetSimulator( students, fullness, task.ClassesNumber );
 
     auto res = builder.GetResult();
     res->Run();
