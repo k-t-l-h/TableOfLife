@@ -82,8 +82,8 @@ std::vector<std::size_t> GenAlgo<N>::GetBest() {
     }
 
     std::vector<std::size_t> result;
-
-    for (int i = 0; i < people; ++i) {
+    auto res = best->GetGenes();
+    for (int i = 0; i <res.size(); ++i) {
         result.push_back(best->GetGene(i));
     }
     return result;
@@ -130,7 +130,8 @@ void GenAlgo<N>::Run() {
 
     //запускаем эволюцию
     size_t iteration = 0;
-    while (!Simulator->Exit(best) && iteration++ < maxIterations) {
+    while (!Simulator->Exit(best) && iteration < maxIterations) {
+        iteration++;
         std::vector<Genome<N>*> new_population;
         //скрещиваем всех особей
 
@@ -181,7 +182,8 @@ void GenAlgo<N>::Run() {
             //не забываем сохранить лучшую копию
             population.push_back(std::move(best));
             //освобождаем старое поколение
-            FreePopulation(population);
+            //FreePopulation(population);
+            population.clear();
             for (int i = 0; i < populationSize - 1; ++i) {
                 population.push_back(Selector->Select(new_population));
             }
@@ -243,8 +245,9 @@ void GenAlgo<N>::MutateParallel(std::vector<Genome<N>*>& pp, size_t count) {
 template <std::size_t N>
 void GenAlgo<N>::FreePopulation(std::vector<Genome<N>*> generation) {
     for (auto& g : generation) {
-        delete g;
-    }
+        if (g != nullptr)
+{       delete g;
+}  }
 }
 
 #endif  // TABLEOFLIFE_GA_H

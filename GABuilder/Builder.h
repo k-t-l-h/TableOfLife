@@ -65,10 +65,9 @@ void Builder<N>::Reset(std::size_t vr, std::size_t people, std::size_t max) {
     //чтобы каждый ген встретился хотя бы один раз
     variants = vr;
 
-    // TODO: просчитать вероятность
-    std::size_t population = variants * 100;
+    std::size_t population = variants * 1000;
 
-    auto* tmp = new GenAlgo<N>(population, variants, INT_MAX, people, max);
+    auto* tmp = new GenAlgo<N>(population, variants, 1000, people, max);
     delete GA;
     GA = tmp;
 }

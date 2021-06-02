@@ -48,7 +48,7 @@ std::vector<Genome<N> *> SimpleCreator<N>::Create(std::size_t all,
                       parts * i);
         threads.push_back(std::move(t));
     }
-
+    //RAII
     for (std::thread &th : threads) {
         if (th.joinable()) th.join();
     }
