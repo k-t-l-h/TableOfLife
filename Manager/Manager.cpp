@@ -66,6 +66,8 @@ void Manager::work( Request task ) {
         builder.SetMater(0.5);
     }
 
+    builder.SetSimulator();
+
     auto res = builder.GetResult();
     res->Run();
     std::vector<size_t> solution = res->GetBest();
