@@ -30,8 +30,8 @@ include_directories(Request)
 
 file(
     GLOB Project_SRC
-#        main.cpp
-    "${PROJECT_SOURCE_DIR}/Gtests/main.cpp"
+        main.cpp
+#    "${PROJECT_SOURCE_DIR}/Gtests/main.cpp"
 )
 
 find_library(PQXX_LIB pqxx REQUIRED)
