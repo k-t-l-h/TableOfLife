@@ -16,7 +16,15 @@ def create(request):
 @api_view(['GET'])
 def status(request, task_uid):
     try:
-        a = request
-        return JsonResponse({'detail': '{}'.format('d0415ca1-dfaa-40ae-adad-f242197d490b')}, status=200)
+        resp = requests.get('http://127.0.0.1:8081/status/{}'.format(task_uid)).json()
+        return JsonResponse(resp, status=200)
     except Exception as e:
         return JsonResponse({'message': '{}'.format(e)}, status=400)
+
+
+def index(request):
+    return render(request, 'app/index.html')
+
+
+def ask(request):
+    return render(request, 'app/ask.html')
