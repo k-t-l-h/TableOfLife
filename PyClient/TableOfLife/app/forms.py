@@ -12,3 +12,8 @@ class AskForm(forms.Form):
         attrs={'class': 'form-control', 'rows': 5, 'placeholder': 'Матрица оценок'}))
     settings = forms.CharField(label='Настройка (только для продвинутых): crossover, mutation, selector, creator', widget=forms.TextInput(
         attrs={'class': 'form-control', 'placeholder': 'Указывайте через запятую'}))
+
+
+class PostForm(forms.Form):
+    uuid = forms.CharField(label='Ваш UUID:', widget=forms.TextInput(
+        attrs={'class': 'form-control', 'rows': 5, 'placeholder': 'UUID'}))

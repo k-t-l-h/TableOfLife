@@ -1,5 +1,5 @@
 from rest_framework.decorators import api_view
-from .forms import AskForm
+from .forms import AskForm, PostForm
 from django.shortcuts import render
 from django.http import JsonResponse
 from rest_framework import status
@@ -15,11 +15,15 @@ def create(request):
         return JsonResponse({'message': '{}'.format(e)}, status=400)
 
 
-@api_view(['GET'])
-def status(request, task_uid):
+def status(request):
     try:
-        resp = requests.get('http://127.0.0.1:8081/status/{}'.format(task_uid)).json()
-        return JsonResponse(resp, status=200)
+        if request.method == "POST":
+            form = PostForm(request.POST)
+            resp = requests.get('http://127.0.0.1:8081/status/{}'.format(request.POST['uuid'])).json()
+
+            return render(request, 'app/post.html', {'form': form, 'UUID': uuid})
+        form = PostForm({'settings': "default, default, default, random"})
+        return render(request, 'app/post.html', {'form': form})
     except Exception as e:
         return JsonResponse({'message': '{}'.format(e)}, status=400)
 
