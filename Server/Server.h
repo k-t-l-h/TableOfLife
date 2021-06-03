@@ -73,7 +73,7 @@ private:
             std::string h;
             int length;
 
-            while (std::getline(response_stream, h) && h != "\r") {
+            while (std::getline(response_stream, h) && h != "\r\n\r\n") {
                 if (h.find("Content-Length:") != -1) {
                     length = std::stoi(h.substr(h.find(' '), h.find(' ') - h.find('\r')));
                     break;
@@ -94,7 +94,7 @@ private:
                     u::random_generator gen;
                     u::uuid uuid = gen();
 
-                    if (gen_->getRequest(body, uuid) == -1) {
+                    if (gen_->getRequest(line, uuid) == -1) { // если что поменять на body
                         SendRequest(R"({"error": "Parser error"})", "400 Bad Request");
                     }
                     else {
