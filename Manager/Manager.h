@@ -26,7 +26,7 @@ private:
     Manager() = delete;
     Manager(Manager &a) = delete;
 
-    void work( Request task);
+    void work( Request task, std::vector<std::vector<int>> students );
 
     bool active = true;
 
