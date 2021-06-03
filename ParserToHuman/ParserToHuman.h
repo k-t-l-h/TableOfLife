@@ -45,10 +45,10 @@ std::string ParserToHuman::GetReadable( Result res ) {
     size_t students_count = res.result.size()/res.ClassesNumber;
 
     pt::ptree matrix_node;
-    for (int i = 0; i < res.ClassesNumber; i++)
+    for (int i = 0; i < students_count ; i++)
     {
         pt::ptree row;
-        for (int j = 0; j < students_count; j++)
+        for (int j = 0; j < res.ClassesNumber; j++)
         {
             // Create an unnamed value
             pt::ptree cell;
