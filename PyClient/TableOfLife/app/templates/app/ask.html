@@ -10,17 +10,14 @@
         <thead>
         <tr>
             <th style="width: 200px; border-color: white;" colspan="3">
-                <h3 style="text-align: center">Новый вопрос:</h3>
+                <h3 style="text-align: center">Новая задача:</h3>
             </th>
         </tr>
         </thead>
-        <tbody style="background-color: white; padding: 20px;">
+        <tbody>
         <tr>
             <td>
-                <div style="margin: 10px;">
-                    {% if form.errors %}
-                        <div class="alert alert-danger">{{ form.non_field_errors.as_text|slice:"2:" }}</div>
-                    {% endif %}
+                <div>
                     <form class="form-horizontal" method="post">
                         {% csrf_token %}
                         <fieldset>
@@ -34,7 +31,7 @@
                         </fieldset>
                         <div class="form-actions"><br/>
                             <button type="submit" class="btn btn-primary">
-                                Задать вопрос
+                                Отправить
                             </button>
                         </div>
                     </form>
@@ -43,4 +40,7 @@
         </tr>
         </tbody>
     </table>
+{% if UUID%}
+<div style="color: green">Ваш UUID: {{UUID}}</div>
+{% endif %}
 {% endblock %}

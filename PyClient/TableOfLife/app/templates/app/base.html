@@ -17,13 +17,16 @@
 <body>
 <header>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container col-md-7">
+        <div class="container col-md-4">
             <a class="navbar-brand" title="Все вопросы" href="{% url 'index' %}">
                 <img class="py-2 px-2" src="https://www.google.com/s2/favicons?domain=teweb.ru" alt="Аватар"> Table Of Life
             </a>
         </div>
 
-        <div class="nav-item" style="margin-left: -290px; margin-top: 5px;">
+        <div class="nav-item" style="margin-left: -10px;">
+            <a class="nav-link" href="{% url 'ask' %}"><h5>Post task</h5></a>
+        </div>
+        <div class="nav-item" style="margin-left: -10px;">
             <a class="nav-link" href="{% url 'ask' %}"><h5>Get task</h5></a>
         </div>
 
@@ -43,7 +46,7 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-8 mt-3">
+        <div class="col-8">
 
             {% block content %}
             {% endblock %}
@@ -54,8 +57,8 @@
 
 <footer>
     <div class="container text-center">
-        <p class="top-cover">
-            &copy; Copyright Ivan Chernov
+        <p class="top-cover"style="margin: 10px">
+            &copy; Copyright Slava Rianov, Lelya Kochkarova, Ivan Chernov
         </p>
     </div>
 </footer>
