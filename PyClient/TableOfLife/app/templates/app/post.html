@@ -40,7 +40,10 @@
         </tr>
         </tbody>
     </table>
-{% if UUID%}
-<div style="color: green">Ваш UUID: {{UUID}}</div>
+{% if resp%}
+<div style="color: green">Ваше решение: {{UUID}}</div>
+{% for r in resp%}
+    <p>{{ r }}</p>
+{% endfor %}
 {% endif %}
 {% endblock %}

@@ -18,10 +18,20 @@ def create(request):
 def status(request):
     try:
         if request.method == "POST":
+
             form = PostForm(request.POST)
             resp = requests.get('http://127.0.0.1:8081/status/{}'.format(request.POST['uuid'])).json()
 
-            return render(request, 'app/post.html', {'form': form, 'UUID': uuid})
+            answer = list()
+            i = 1
+            for re in resp['solution']:
+                st = ""
+                for n in re:
+                    st += str(n) + " "
+                answer.append("Ученик " + str(i) + ") " + st)
+                i += 1
+
+            return render(request, 'app/post.html', {'form': form, 'resp': answer})
         form = PostForm({'settings': "default, default, default, random"})
         return render(request, 'app/post.html', {'form': form})
     except Exception as e:
